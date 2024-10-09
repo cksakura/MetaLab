@@ -1,0 +1,11 @@
+Pen;Pentose;5,8,4,0;132.04226;132.11462;[abox]-[dlx]xyl-PEN-[0-9x]:[0-9x];17
+dHex;Deoxyhexose;6,10,4,0;146.057909;146.1412;[abox]-[dlx]gal-HEX-[0-9x]:[0-9x]\|[0-9x]:d$;18
+Hex;Hexose;6,10,5,0;162.052825;162.1406;[abox]-[dlx](gal|man|glu)-HEX-[0-9x]:[0-9x]$;6
+HexNAc;N-Acetylhexosamine;8,13,5,1;203.079373;203.1925;[abox]-[dlx](gal|man|glu)-HEX-[0-9x]:[0-9x]\|\|\(-?[0-9x]d:-?[0-9x]\)n-acetyl$;1
+NeuAc;N-Acetyl neuraminic Acid;11,17,8,1;291.09541596;291.25458;[abox]-[dlx]gro-[dlx]gal-NON-[0-9x]:[0-9x]\|[0-9x]:a\|[0-9x]:keto\|[0-9x]:d\|\|\(-?[0-9x]d:-?[0-9x]\)n-acetyl$;12
+NeuGc;N-glycoyl neuraminic acid;11,17,9,1;307.09033058;307.25402;[abox]-[dlx]gro-[dlx]gal-NON-[0-9x]:[0-9x]\|[0-9x]:a\|[0-9x]:keto\|[0-9x]:d\|\|\(-?[0-9x]d:-?[0-9x]\)n-glycolyl$;10
+HexA;Hexuronic acid;6,8,6,0;176.03209;176.12412;[abox]-[dlx]gal-HEX-[0-9x]:[0-9x]\|[0-9x]:a$;15
+KDN;KDN;9,14,8,0;250.068867425;250.20265999999998;[abox]-[dlx]gro-[dlx]gal-NON-[0-9x]:[0-9x]\|[0-9x]:a\|[0-9x]:keto\|[0-9x]:d$;11
+Pse;Pseudaminic acid;13,20,7,2,0,0;316.127053;316.30717999999996;;-1
+Hex_P;Hex_Phosphate;6,11,8,0,1,0;242.01915699799997;242.120501998;;-1
+Neu;Neuraminic acid;9,15,7,1,0,0;249.08485399999998;249.21794000000003;;-1

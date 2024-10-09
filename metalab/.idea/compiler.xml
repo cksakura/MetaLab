@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/DenovoGSMViewFrame.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/DenovoParaPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/GlycoMicroNovoMainFrame.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/GlycoMicroNovoTaskPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/GlycoMicroNovoViewPanel.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/GlycoMicroNovoMDialog.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/GUI/GlycosylViewDialog.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/glycan/deNovo/microbiota/IO/GlycoMicroNovoDrawer.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/task/gui/MetaLabAdvSsdbDialog.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/task/gui/MetaLabAdvTaxonomyDialog.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/task/MetaReportCopyTask.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/task/par/MetaDataIO.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/uk/ac/ebi/pride/spectracluster/similarity/FisherExactTest.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/uk/ac/ebi/pride/spectracluster/similarity/HypergeometricScore.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/uk/ac/ebi/pride/spectracluster/similarity/IntensityRankCorrelation.java" />
+      <file url="file://$PROJECT_DIR$/src/main/java/bmi/med/uOttawa/metalab/dbSearch/open/task/OpenExportTask.java" />
+    </excludeFromCompile>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="metalab" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="metalab" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

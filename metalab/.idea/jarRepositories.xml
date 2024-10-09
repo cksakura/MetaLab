@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="Spring Plugins Repository" />
+      <option name="name" value="Spring Plugins Repository" />
+      <option name="url" value="https://repo.spring.io/plugins-release/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Clojars Repository" />
+      <option name="name" value="Clojars Repository" />
+      <option name="url" value="https://clojars.org/repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jitpack.io" />
+      <option name="name" value="jitpack.io" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Typesafe Repository" />
+      <option name="name" value="Typesafe Repository" />
+      <option name="url" value="https://repo.typesafe.com/typesafe/maven-releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Central Repository" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo1.maven.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Expasy MzJava" />
+      <option name="name" value="Expasy MzJava" />
+      <option name="url" value="http://mzjava.expasy.org/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="EBI Repository" />
+      <option name="name" value="EBI Repository" />
+      <option name="url" value="https://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Freehep Repository" />
+      <option name="name" value="Freehep Repository" />
+      <option name="url" value="http://java.freehep.org/maven2/" />
+    </remote-repository>
+  </component>
+</project>

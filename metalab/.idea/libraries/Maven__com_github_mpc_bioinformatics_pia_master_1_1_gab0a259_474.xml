@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.mpc-bioinformatics:pia:master-1.1-gab0a259-474">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/mpc-bioinformatics/pia/master-1.1-gab0a259-474/pia-master-1.1-gab0a259-474.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/mpc-bioinformatics/pia/master-1.1-gab0a259-474/pia-master-1.1-gab0a259-474-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/mpc-bioinformatics/pia/master-1.1-gab0a259-474/pia-master-1.1-gab0a259-474-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,8 @@
+AbstractTextEditor.Color.Background=199,237,204
+AbstractTextEditor.Color.Background.SystemDefault=false
+AbstractTextEditor.Color.FindScope=105,105,105
+currentLineColor=215,228,242
+eclipse.preferences.version=1
+hyperlinkColor=0,120,215
+lineNumberColor=105,105,105
+printMarginColor=160,160,160

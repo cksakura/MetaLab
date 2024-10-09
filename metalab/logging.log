@@ -1,0 +1,991 @@
+2024-10-08 13:16:47,496 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:16:47,816 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:16:54,345 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:16:54,635 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:16:54,652 INFO bmi.med.uOttawa.metalab.task.pfind.MetaIdenPFindTask [AWT-EventQueue-0] Realtime DIA data analysis: the number of max memory is 31 GB, the max number of tasks is set as 1
+2024-10-08 13:16:54,653 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide and protein identification started
+2024-10-08 13:16:56,205 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: find the shuffled database file in Z:\Kai\realtime_test\combine\combined\shuffled.fasta, go to the next step
+2024-10-08 13:16:56,231 INFO bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNTask [SwingWorker-pool-3-thread-2] Z:\Kai\realtime_test\combine\combined\shuffled.speclib.bat
+2024-10-08 13:18:27,149 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference started
+2024-10-08 13:21:54,528 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: matching peptides finished, 112080 peptides from 4744 genomes were matched
+2024-10-08 13:22:03,468 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference finished
+2024-10-08 13:22:03,468 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting peptide report started
+2024-10-08 13:22:03,645 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome before filtering: 293
+2024-10-08 13:22:03,833 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: razor genome before filtering: 293
+2024-10-08 13:22:04,037 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome count: 4
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome used for scoring: 6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002284: 5.627341129901669E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001338: 6.5549947750508365E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002492: 8.401610124988702E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000251: 9.165619898334368E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000133: 9.543419309355097E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000262: 9.883704930714403E-6
+2024-10-08 13:22:04,067 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002478: 9.929159568372648E-6
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000142: 1.046131433533381E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000200: 1.0585936288339182E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002670: 1.0818534849022676E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000263: 1.1042824859272888E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000031: 1.1580138055294316E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004623: 1.174095408367223E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004744: 1.2240584400335214E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002528: 1.2585727595346193E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000216: 1.2591804016200042E-5
+2024-10-08 13:22:04,068 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000184: 1.3343408356598797E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000213: 1.3375177038371318E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002312: 1.3427395029013358E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001186: 1.42433385027597E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003694: 1.4326834552223922E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000002: 1.532184033457474E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000212: 1.5367076936907864E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002966: 1.5422623935158695E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004797: 1.579698907939166E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002545: 1.719036265484349E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001021: 1.7226966222573472E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000065: 1.7349711524870858E-5
+2024-10-08 13:22:04,069 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000160: 1.7975059308834573E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001374: 1.7986457824201757E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000990: 1.8194747153478832E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002298: 1.8316655280077015E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000171: 1.897634854293009E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000242: 1.9077057864242674E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000201: 1.9260180137162137E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003937: 2.1112950318153987E-5
+2024-10-08 13:22:04,070 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004733: 2.1155826915349606E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002448: 2.2170757156547095E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001346: 2.2926470348479373E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000050: 2.3174809306862725E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000136: 2.3886796921631693E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000038: 2.3978301918099736E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000243: 2.496292365994648E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000229: 2.5507079680150016E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001704: 2.5836329575262743E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000084: 2.7190154688113273E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000022: 2.73752513974368E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001756: 2.7487377893005072E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001359: 2.7591519963968495E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000774: 2.764011571012707E-5
+2024-10-08 13:22:04,071 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002560: 2.7773900109092696E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001292: 2.788547420462987E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000078: 2.8518658083480027E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002040: 2.8945356203823986E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003695: 2.895462095964735E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000044: 2.935155996755136E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002395: 2.971008421723932E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000045: 2.9917685611554897E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001300: 2.9997517730665574E-5
+2024-10-08 13:22:04,072 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002279: 3.070872829037382E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001380: 3.1092577056610415E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003681: 3.1438016681058695E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001758: 3.223135805218208E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000076: 3.231884639015275E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002619: 3.273540683525953E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001315: 3.297983661087183E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002469: 3.317544860274524E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003899: 3.3406989058990583E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004296: 3.3815457653488335E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000362: 3.3841624158347324E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003166: 3.394702459513936E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002470: 3.414832110568713E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001637: 3.4460663775131416E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000245: 3.453906867179236E-5
+2024-10-08 13:22:04,073 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000195: 3.4539845165182654E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001747: 3.4558567577685E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002445: 3.4561652686289574E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002274: 3.498228156711107E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003683: 3.5558264707415534E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002272: 3.565806487298517E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003452: 3.655049290223372E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000146: 3.7354786522014545E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000070: 3.7688752300576675E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004252: 3.785729079188931E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002271: 3.7954052670341805E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000562: 3.892143059679074E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000193: 3.900172728748692E-5
+2024-10-08 13:22:04,074 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002517: 3.915622144815912E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000249: 4.0190823672798735E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003921: 4.0986657516110505E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000119: 4.178615806585995E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001322: 4.181561969567444E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000231: 4.206722929388518E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000489: 4.239814341647721E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001490: 4.260970285063244E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003383: 4.2859651598548044E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000923: 4.2912345348827116E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004003: 4.316652132683866E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000271: 4.3270675991277844E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000268: 4.3308747726878935E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003335: 4.3590898065150526E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001689: 4.523348310058543E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004558: 4.596060762721898E-5
+2024-10-08 13:22:04,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001353: 4.6145557691809724E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000041: 4.6562623919712314E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001310: 4.665254082832659E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002539: 4.6969181332205386E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000217: 4.745330779990295E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002393: 4.749363869687214E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004651: 4.765058899388034E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000159: 4.7731463323483374E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000137: 4.874298892788648E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004806: 4.904802410041866E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002163: 4.933384020615613E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002376: 4.9498070062966265E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000099: 4.9758078847236E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000140: 5.005300976857386E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000205: 5.009736418098265E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002290: 5.105486065691893E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004747: 5.149071488639909E-5
+2024-10-08 13:22:04,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001977: 5.165753403563401E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000052: 5.307569620628775E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001386: 5.317114443101814E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001303: 5.33091523573517E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000154: 5.3509233801052085E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000185: 5.4901239381536296E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002772: 5.5447312202381304E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003656: 5.553262175642665E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000033: 5.6637466458746256E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000730: 5.686748166847807E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002224: 5.706335280836439E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000278: 5.743705388093043E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001531: 5.748642456889811E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001379: 5.769441020316595E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002304: 5.785565736620965E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000211: 5.8768707950982766E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001456.1: 5.8848935594784876E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000206: 5.891849024444706E-5
+2024-10-08 13:22:04,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000057: 5.934055530860572E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001313: 5.951990253180479E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000233: 6.0650473240407016E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001409: 6.138430733869748E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003702: 6.144340516690605E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003065: 6.159172357490006E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000060: 6.22158644336294E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000259: 6.261586665966929E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003684: 6.271329543459333E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000194: 6.441095972072172E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001364: 6.451234077480087E-5
+2024-10-08 13:22:04,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000190: 6.508477349243417E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002439: 6.596105844532128E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002845: 6.632199442424686E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002396: 6.66173358055472E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000198: 6.784642968152732E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002438: 6.822026484829699E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001367: 6.915460113522447E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000141: 6.926646959533122E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002300: 6.940766464815418E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002278: 6.944922892767573E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000032: 6.945864208862344E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000250: 6.971482870795136E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002455: 6.98360136668598E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000148: 7.068727851282245E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001831: 7.09593750250713E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003828: 7.198849592675739E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002563: 7.312021074016199E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002549: 7.31247357566627E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000196: 7.360749996044108E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004679: 7.400664036648945E-5
+2024-10-08 13:22:04,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001489: 7.448091039532102E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004163: 7.58955598138014E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002480: 7.694246906648587E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000404: 7.71360303414128E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004341: 7.778458563001518E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000150: 7.909085602768686E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002483: 7.917211337689693E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001690: 7.993658953627417E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001595: 8.224276555436681E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002033: 8.385445290711688E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002530: 8.388679744493325E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001789: 8.391724190973579E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001714: 8.489549072232911E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002287: 8.626617395490787E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000087: 8.707487033202273E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004309: 8.859229910987277E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002292: 8.968115268677126E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004769: 9.102180883922632E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003949: 9.360178634491845E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002540: 9.436231290243313E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002974: 9.549437380643857E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000062: 9.686534582609622E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001199: 9.763587599528329E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000209: 9.77093246511772E-5
+2024-10-08 13:22:04,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004581: 9.910189103792956E-5
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001410: 9.958266060871939E-5
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000013: 1.0154004491467614E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000208: 1.0154279670794803E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002993: 1.0402813685787062E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001337: 1.0514065585461454E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003875: 1.0593795378550745E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000574: 1.0709767338124003E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000651: 1.0931059032177934E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001319: 1.0933138081766957E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001433: 1.1041220894379603E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003363: 1.1925687518089691E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004345: 1.2269976642623027E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000530: 1.2736046693082221E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002720: 1.279316171217378E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004789: 1.2808737542126592E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000174: 1.2927309929794753E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001539: 1.3048176256220116E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002303: 1.325021442937082E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001400: 1.3566774121140816E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002544: 1.382422677248634E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002710: 1.4324008895640403E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001076: 1.45480600869724E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001210: 1.4572459875181954E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000743: 1.4613676841162553E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002570: 1.476823397855666E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000370: 1.5779936759501167E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000258: 1.6124054771938107E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002487: 1.6177853596141404E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001356: 1.6600199143578136E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004171: 1.6722558401198042E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003366: 1.692680033162426E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002327: 1.7166907859272022E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003697: 1.7545926689616664E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002689: 1.835387531576795E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001500: 1.8575978126805318E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004016: 1.8578017708466198E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001029: 1.9684123751984083E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003087: 1.9721910112423734E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003214: 2.0038435884743564E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003224: 2.095520127360906E-4
+2024-10-08 13:22:04,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000178: 2.1864095709288867E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000144: 2.1964460037123597E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002715: 2.205491436247931E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001502: 2.260288279912764E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000069: 2.326141519400071E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004557: 2.434061083410637E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002060: 2.462950938470467E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001008: 2.489304157082848E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004158: 2.491477030170386E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000004: 2.536564049161689E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003854: 2.6168941019099235E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004083: 2.664577014167332E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003686: 2.713255332112985E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004196: 2.748691066630736E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000723: 2.766116168703923E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004099: 2.889241990389342E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004644: 3.0471673199668507E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002882: 3.142543690190451E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000254: 3.210017296392003E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000036: 3.2545800124335404E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000369: 3.367941890771185E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000149: 3.385615334798837E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002379: 3.40590758316691E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004071: 3.4632331426297214E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000667: 3.522341000254924E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000246: 3.540644794204578E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000938: 3.574022995969688E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002872: 3.6311928048950187E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001932: 3.7528555460778916E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002296: 3.8024598488163293E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004245: 3.8758721496857007E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002190: 3.896477855662918E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000003: 4.156075832406174E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001396: 4.397824932136126E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002135: 4.5482949024206365E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002151: 4.843848895806365E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000244: 4.915162182857738E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000037: 5.233404848673407E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000420: 5.320147243513976E-4
+2024-10-08 13:22:04,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001302.1: 5.64829519518596E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004642: 5.705376953572807E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000177: 6.309128203317395E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002699: 6.338626881892003E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001497: 7.235146852312505E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000040: 7.443827470803876E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002726: 8.123964198689499E-4
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003022: 0.001317876472555228
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000226: 0.0013301556403925259
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002191: 0.0014698723285978025
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001361: 0.0017167362401728679
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002371: 0.0019374971933784242
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001441: 0.0022312713409641154
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002388: 0.0023553120935489585
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002351: 0.0027830318161752203
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002453: 0.0028043076313521167
+2024-10-08 13:22:04,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome after filtering: 289
+2024-10-08 13:22:07,808 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide report has been exported to Z:\Kai\realtime_test\combine\final_peptides.tsv
+2024-10-08 13:22:07,809 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting protein report started
+2024-10-08 13:22:08,430 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein report has been exported to final_proteins.tsv
+2024-10-08 13:22:08,430 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: functional annotation started
+2024-10-08 13:23:50,534 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: proteins with functional annotations have been exported to functions.xml
+2024-10-08 13:23:51,011 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis started
+2024-10-08 13:23:52,310 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis finished
+2024-10-08 13:23:52,311 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting report started
+2024-10-08 13:23:52,313 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report started
+2024-10-08 13:23:53,307 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report finished
+2024-10-08 13:27:24,938 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:27:25,266 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:27:28,315 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:27:28,595 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:27:28,609 INFO bmi.med.uOttawa.metalab.task.pfind.MetaIdenPFindTask [AWT-EventQueue-0] Realtime DIA data analysis: the number of max memory is 31 GB, the max number of tasks is set as 1
+2024-10-08 13:27:28,610 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide and protein identification started
+2024-10-08 13:27:30,147 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: find the shuffled database file in Z:\Kai\realtime_test\combine\combined\shuffled.fasta, go to the next step
+2024-10-08 13:27:30,156 INFO bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNTask [SwingWorker-pool-3-thread-2] Z:\Kai\realtime_test\combine\combined\shuffled.speclib.bat
+2024-10-08 13:29:10,297 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference started
+2024-10-08 13:32:37,504 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: matching peptides finished, 112080 peptides from 4744 genomes were matched
+2024-10-08 13:32:45,671 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference finished
+2024-10-08 13:32:45,672 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting peptide report started
+2024-10-08 13:32:45,878 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome before filtering: 293
+2024-10-08 13:32:46,062 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: razor genome before filtering: 293
+2024-10-08 13:32:46,291 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome count: 4
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome used for scoring: 6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002284: 5.627341129901669E-6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001338: 6.5549947750508365E-6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002492: 8.401610124988702E-6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000251: 9.165619898334368E-6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000133: 9.543419309355097E-6
+2024-10-08 13:32:46,314 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000262: 9.883704930714403E-6
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002478: 9.929159568372648E-6
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000142: 1.046131433533381E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000200: 1.0585936288339182E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002670: 1.0818534849022676E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000263: 1.1042824859272888E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000031: 1.1580138055294316E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004623: 1.174095408367223E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004744: 1.2240584400335214E-5
+2024-10-08 13:32:46,315 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002528: 1.2585727595346193E-5
+2024-10-08 13:32:46,316 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000216: 1.2591804016200042E-5
+2024-10-08 13:32:46,316 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000184: 1.3343408356598797E-5
+2024-10-08 13:32:46,316 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000213: 1.3375177038371318E-5
+2024-10-08 13:32:46,316 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002312: 1.3427395029013358E-5
+2024-10-08 13:32:46,316 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001186: 1.42433385027597E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003694: 1.4326834552223922E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000002: 1.532184033457474E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000212: 1.5367076936907864E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002966: 1.5422623935158695E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004797: 1.579698907939166E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002545: 1.719036265484349E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001021: 1.7226966222573472E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000065: 1.7349711524870858E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000160: 1.7975059308834573E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001374: 1.7986457824201757E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000990: 1.8194747153478832E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002298: 1.8316655280077015E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000171: 1.897634854293009E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000242: 1.9077057864242674E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000201: 1.9260180137162137E-5
+2024-10-08 13:32:46,317 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003937: 2.1112950318153987E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004733: 2.1155826915349606E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002448: 2.2170757156547095E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001346: 2.2926470348479373E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000050: 2.3174809306862725E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000136: 2.3886796921631693E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000038: 2.3978301918099736E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000243: 2.496292365994648E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000229: 2.5507079680150016E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001704: 2.5836329575262743E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000084: 2.7190154688113273E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000022: 2.73752513974368E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001756: 2.7487377893005072E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001359: 2.7591519963968495E-5
+2024-10-08 13:32:46,318 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000774: 2.764011571012707E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002560: 2.7773900109092696E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001292: 2.788547420462987E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000078: 2.8518658083480027E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002040: 2.8945356203823986E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003695: 2.895462095964735E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000044: 2.935155996755136E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002395: 2.971008421723932E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000045: 2.9917685611554897E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001300: 2.9997517730665574E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002279: 3.070872829037382E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001380: 3.1092577056610415E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003681: 3.1438016681058695E-5
+2024-10-08 13:32:46,319 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001758: 3.223135805218208E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000076: 3.231884639015275E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002619: 3.273540683525953E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001315: 3.297983661087183E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002469: 3.317544860274524E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003899: 3.3406989058990583E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004296: 3.3815457653488335E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000362: 3.3841624158347324E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003166: 3.394702459513936E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002470: 3.414832110568713E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001637: 3.4460663775131416E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000245: 3.453906867179236E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000195: 3.4539845165182654E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001747: 3.4558567577685E-5
+2024-10-08 13:32:46,320 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002445: 3.4561652686289574E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002274: 3.498228156711107E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003683: 3.5558264707415534E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002272: 3.565806487298517E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003452: 3.655049290223372E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000146: 3.7354786522014545E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000070: 3.7688752300576675E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004252: 3.785729079188931E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002271: 3.7954052670341805E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000562: 3.892143059679074E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000193: 3.900172728748692E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002517: 3.915622144815912E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000249: 4.0190823672798735E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003921: 4.0986657516110505E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000119: 4.178615806585995E-5
+2024-10-08 13:32:46,321 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001322: 4.181561969567444E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000231: 4.206722929388518E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000489: 4.239814341647721E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001490: 4.260970285063244E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003383: 4.2859651598548044E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000923: 4.2912345348827116E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004003: 4.316652132683866E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000271: 4.3270675991277844E-5
+2024-10-08 13:32:46,322 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000268: 4.3308747726878935E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003335: 4.3590898065150526E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001689: 4.523348310058543E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004558: 4.596060762721898E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001353: 4.6145557691809724E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000041: 4.6562623919712314E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001310: 4.665254082832659E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002539: 4.6969181332205386E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000217: 4.745330779990295E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002393: 4.749363869687214E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004651: 4.765058899388034E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000159: 4.7731463323483374E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000137: 4.874298892788648E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004806: 4.904802410041866E-5
+2024-10-08 13:32:46,323 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002163: 4.933384020615613E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002376: 4.9498070062966265E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000099: 4.9758078847236E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000140: 5.005300976857386E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000205: 5.009736418098265E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002290: 5.105486065691893E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004747: 5.149071488639909E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001977: 5.165753403563401E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000052: 5.307569620628775E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001386: 5.317114443101814E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001303: 5.33091523573517E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000154: 5.3509233801052085E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000185: 5.4901239381536296E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002772: 5.5447312202381304E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003656: 5.553262175642665E-5
+2024-10-08 13:32:46,324 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000033: 5.6637466458746256E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000730: 5.686748166847807E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002224: 5.706335280836439E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000278: 5.743705388093043E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001531: 5.748642456889811E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001379: 5.769441020316595E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002304: 5.785565736620965E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000211: 5.8768707950982766E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001456.1: 5.8848935594784876E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000206: 5.891849024444706E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000057: 5.934055530860572E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001313: 5.951990253180479E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000233: 6.0650473240407016E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001409: 6.138430733869748E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003702: 6.144340516690605E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003065: 6.159172357490006E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000060: 6.22158644336294E-5
+2024-10-08 13:32:46,325 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000259: 6.261586665966929E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003684: 6.271329543459333E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000194: 6.441095972072172E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001364: 6.451234077480087E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000190: 6.508477349243417E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002439: 6.596105844532128E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002845: 6.632199442424686E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002396: 6.66173358055472E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000198: 6.784642968152732E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002438: 6.822026484829699E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001367: 6.915460113522447E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000141: 6.926646959533122E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002300: 6.940766464815418E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002278: 6.944922892767573E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000032: 6.945864208862344E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000250: 6.971482870795136E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002455: 6.98360136668598E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000148: 7.068727851282245E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001831: 7.09593750250713E-5
+2024-10-08 13:32:46,326 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003828: 7.198849592675739E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002563: 7.312021074016199E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002549: 7.31247357566627E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000196: 7.360749996044108E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004679: 7.400664036648945E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001489: 7.448091039532102E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004163: 7.58955598138014E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002480: 7.694246906648587E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000404: 7.71360303414128E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004341: 7.778458563001518E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000150: 7.909085602768686E-5
+2024-10-08 13:32:46,327 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002483: 7.917211337689693E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001690: 7.993658953627417E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001595: 8.224276555436681E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002033: 8.385445290711688E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002530: 8.388679744493325E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001789: 8.391724190973579E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001714: 8.489549072232911E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002287: 8.626617395490787E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000087: 8.707487033202273E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004309: 8.859229910987277E-5
+2024-10-08 13:32:46,328 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002292: 8.968115268677126E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004769: 9.102180883922632E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003949: 9.360178634491845E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002540: 9.436231290243313E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002974: 9.549437380643857E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000062: 9.686534582609622E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001199: 9.763587599528329E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000209: 9.77093246511772E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004581: 9.910189103792956E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001410: 9.958266060871939E-5
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000013: 1.0154004491467614E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000208: 1.0154279670794803E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002993: 1.0402813685787062E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001337: 1.0514065585461454E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003875: 1.0593795378550745E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000574: 1.0709767338124003E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000651: 1.0931059032177934E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001319: 1.0933138081766957E-4
+2024-10-08 13:32:46,329 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001433: 1.1041220894379603E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003363: 1.1925687518089691E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004345: 1.2269976642623027E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000530: 1.2736046693082221E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002720: 1.279316171217378E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004789: 1.2808737542126592E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000174: 1.2927309929794753E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001539: 1.3048176256220116E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002303: 1.325021442937082E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001400: 1.3566774121140816E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002544: 1.382422677248634E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002710: 1.4324008895640403E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001076: 1.45480600869724E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001210: 1.4572459875181954E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000743: 1.4613676841162553E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002570: 1.476823397855666E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000370: 1.5779936759501167E-4
+2024-10-08 13:32:46,330 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000258: 1.6124054771938107E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002487: 1.6177853596141404E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001356: 1.6600199143578136E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004171: 1.6722558401198042E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003366: 1.692680033162426E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002327: 1.7166907859272022E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003697: 1.7545926689616664E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002689: 1.835387531576795E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001500: 1.8575978126805318E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004016: 1.8578017708466198E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001029: 1.9684123751984083E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003087: 1.9721910112423734E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003214: 2.0038435884743564E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003224: 2.095520127360906E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000178: 2.1864095709288867E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000144: 2.1964460037123597E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002715: 2.205491436247931E-4
+2024-10-08 13:32:46,331 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001502: 2.260288279912764E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000069: 2.326141519400071E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004557: 2.434061083410637E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002060: 2.462950938470467E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001008: 2.489304157082848E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004158: 2.491477030170386E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000004: 2.536564049161689E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003854: 2.6168941019099235E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004083: 2.664577014167332E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003686: 2.713255332112985E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004196: 2.748691066630736E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000723: 2.766116168703923E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004099: 2.889241990389342E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004644: 3.0471673199668507E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002882: 3.142543690190451E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000254: 3.210017296392003E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000036: 3.2545800124335404E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000369: 3.367941890771185E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000149: 3.385615334798837E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002379: 3.40590758316691E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004071: 3.4632331426297214E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000667: 3.522341000254924E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000246: 3.540644794204578E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000938: 3.574022995969688E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002872: 3.6311928048950187E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001932: 3.7528555460778916E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002296: 3.8024598488163293E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004245: 3.8758721496857007E-4
+2024-10-08 13:32:46,332 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002190: 3.896477855662918E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000003: 4.156075832406174E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001396: 4.397824932136126E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002135: 4.5482949024206365E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002151: 4.843848895806365E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000244: 4.915162182857738E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000037: 5.233404848673407E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000420: 5.320147243513976E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001302.1: 5.64829519518596E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004642: 5.705376953572807E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000177: 6.309128203317395E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002699: 6.338626881892003E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001497: 7.235146852312505E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000040: 7.443827470803876E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002726: 8.123964198689499E-4
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003022: 0.001317876472555228
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000226: 0.0013301556403925259
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002191: 0.0014698723285978025
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001361: 0.0017167362401728679
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002371: 0.0019374971933784242
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001441: 0.0022312713409641154
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002388: 0.0023553120935489585
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002351: 0.0027830318161752203
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002453: 0.0028043076313521167
+2024-10-08 13:32:46,333 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome after filtering: 289
+2024-10-08 13:32:50,073 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide report has been exported to Z:\Kai\realtime_test\combine\final_peptides.tsv
+2024-10-08 13:32:50,074 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting protein report started
+2024-10-08 13:32:50,673 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein report has been exported to final_proteins.tsv
+2024-10-08 13:32:50,673 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: functional annotation started
+2024-10-08 13:34:32,352 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: proteins with functional annotations have been exported to functions.xml
+2024-10-08 13:34:32,825 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis started
+2024-10-08 13:34:34,067 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis finished
+2024-10-08 13:34:34,067 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting report started
+2024-10-08 13:34:34,069 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report started
+2024-10-08 13:34:35,068 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report finished
+2024-10-08 13:41:53,425 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:41:53,738 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:41:59,423 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:41:59,703 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:41:59,718 INFO bmi.med.uOttawa.metalab.task.pfind.MetaIdenPFindTask [AWT-EventQueue-0] Realtime DIA data analysis: the number of max memory is 31 GB, the max number of tasks is set as 1
+2024-10-08 13:41:59,719 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide and protein identification started
+2024-10-08 13:42:01,279 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: find the shuffled database file in Z:\Kai\realtime_test\combine\combined\shuffled.fasta, go to the next step
+2024-10-08 13:42:01,281 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference started
+2024-10-08 13:45:24,443 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:45:24,763 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:45:26,372 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:45:26,656 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:49:36,499 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:49:36,830 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:49:42,956 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:49:43,248 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:49:45,054 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:49:45,341 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:50:35,518 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:50:35,805 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:50:43,302 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification started
+2024-10-08 13:50:43,587 INFO bmi.med.uOttawa.metalab.license.LicenseVerifier [AWT-EventQueue-0] Verification succeeded
+2024-10-08 13:50:43,600 INFO bmi.med.uOttawa.metalab.task.pfind.MetaIdenPFindTask [AWT-EventQueue-0] Realtime DIA data analysis: the number of max memory is 31 GB, the max number of tasks is set as 1
+2024-10-08 13:50:43,601 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide and protein identification started
+2024-10-08 13:50:45,158 INFO bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: find the shuffled database file in Z:\Kai\realtime_test\combine\combined\shuffled.fasta, go to the next step
+2024-10-08 13:50:45,160 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference started
+2024-10-08 13:54:23,834 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: matching peptides finished, 112080 peptides from 4744 genomes were matched
+2024-10-08 13:54:30,633 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein inference finished
+2024-10-08 13:54:30,633 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting peptide report started
+2024-10-08 13:54:30,780 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome before filtering: 293
+2024-10-08 13:54:30,898 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: razor genome before filtering: 293
+2024-10-08 13:54:31,057 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome count: 4
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: decoy genome used for scoring: 6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002284: 5.627341129901669E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001338: 6.5549947750508365E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002492: 8.401610124988702E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000251: 9.165619898334368E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000133: 9.543419309355097E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000262: 9.883704930714403E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002478: 9.929159568372648E-6
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000142: 1.046131433533381E-5
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000200: 1.0585936288339182E-5
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002670: 1.0818534849022676E-5
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000263: 1.1042824859272888E-5
+2024-10-08 13:54:31,075 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000031: 1.1580138055294316E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004623: 1.174095408367223E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004744: 1.2240584400335214E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002528: 1.2585727595346193E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000216: 1.2591804016200042E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000184: 1.3343408356598797E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000213: 1.3375177038371318E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002312: 1.3427395029013358E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001186: 1.42433385027597E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003694: 1.4326834552223922E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000002: 1.532184033457474E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000212: 1.5367076936907864E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002966: 1.5422623935158695E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004797: 1.579698907939166E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002545: 1.719036265484349E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001021: 1.7226966222573472E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000065: 1.7349711524870858E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000160: 1.7975059308834573E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001374: 1.7986457824201757E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000990: 1.8194747153478832E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002298: 1.8316655280077015E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000171: 1.897634854293009E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000242: 1.9077057864242674E-5
+2024-10-08 13:54:31,076 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000201: 1.9260180137162137E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003937: 2.1112950318153987E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004733: 2.1155826915349606E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002448: 2.2170757156547095E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001346: 2.2926470348479373E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000050: 2.3174809306862725E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000136: 2.3886796921631693E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000038: 2.3978301918099736E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000243: 2.496292365994648E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000229: 2.5507079680150016E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001704: 2.5836329575262743E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000084: 2.7190154688113273E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000022: 2.73752513974368E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001756: 2.7487377893005072E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001359: 2.7591519963968495E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000774: 2.764011571012707E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002560: 2.7773900109092696E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001292: 2.788547420462987E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000078: 2.8518658083480027E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002040: 2.8945356203823986E-5
+2024-10-08 13:54:31,077 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003695: 2.895462095964735E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000044: 2.935155996755136E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002395: 2.971008421723932E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000045: 2.9917685611554897E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001300: 2.9997517730665574E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002279: 3.070872829037382E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001380: 3.1092577056610415E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003681: 3.1438016681058695E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001758: 3.223135805218208E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000076: 3.231884639015275E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002619: 3.273540683525953E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001315: 3.297983661087183E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002469: 3.317544860274524E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003899: 3.3406989058990583E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004296: 3.3815457653488335E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000362: 3.3841624158347324E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003166: 3.394702459513936E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002470: 3.414832110568713E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001637: 3.4460663775131416E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000245: 3.453906867179236E-5
+2024-10-08 13:54:31,078 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000195: 3.4539845165182654E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001747: 3.4558567577685E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002445: 3.4561652686289574E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002274: 3.498228156711107E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003683: 3.5558264707415534E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002272: 3.565806487298517E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003452: 3.655049290223372E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000146: 3.7354786522014545E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000070: 3.7688752300576675E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004252: 3.785729079188931E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002271: 3.7954052670341805E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000562: 3.892143059679074E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000193: 3.900172728748692E-5
+2024-10-08 13:54:31,079 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002517: 3.915622144815912E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000249: 4.0190823672798735E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003921: 4.0986657516110505E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000119: 4.178615806585995E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001322: 4.181561969567444E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000231: 4.206722929388518E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000489: 4.239814341647721E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001490: 4.260970285063244E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003383: 4.2859651598548044E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000923: 4.2912345348827116E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004003: 4.316652132683866E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000271: 4.3270675991277844E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000268: 4.3308747726878935E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003335: 4.3590898065150526E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001689: 4.523348310058543E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004558: 4.596060762721898E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001353: 4.6145557691809724E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000041: 4.6562623919712314E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001310: 4.665254082832659E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002539: 4.6969181332205386E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000217: 4.745330779990295E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002393: 4.749363869687214E-5
+2024-10-08 13:54:31,080 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004651: 4.765058899388034E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000159: 4.7731463323483374E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000137: 4.874298892788648E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004806: 4.904802410041866E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002163: 4.933384020615613E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002376: 4.9498070062966265E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000099: 4.9758078847236E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000140: 5.005300976857386E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000205: 5.009736418098265E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002290: 5.105486065691893E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004747: 5.149071488639909E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001977: 5.165753403563401E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000052: 5.307569620628775E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001386: 5.317114443101814E-5
+2024-10-08 13:54:31,081 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001303: 5.33091523573517E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000154: 5.3509233801052085E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000185: 5.4901239381536296E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002772: 5.5447312202381304E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003656: 5.553262175642665E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000033: 5.6637466458746256E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000730: 5.686748166847807E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002224: 5.706335280836439E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000278: 5.743705388093043E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001531: 5.748642456889811E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001379: 5.769441020316595E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002304: 5.785565736620965E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000211: 5.8768707950982766E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001456.1: 5.8848935594784876E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000206: 5.891849024444706E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000057: 5.934055530860572E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001313: 5.951990253180479E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000233: 6.0650473240407016E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001409: 6.138430733869748E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003702: 6.144340516690605E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003065: 6.159172357490006E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000060: 6.22158644336294E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000259: 6.261586665966929E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003684: 6.271329543459333E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000194: 6.441095972072172E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001364: 6.451234077480087E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000190: 6.508477349243417E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002439: 6.596105844532128E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002845: 6.632199442424686E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002396: 6.66173358055472E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000198: 6.784642968152732E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002438: 6.822026484829699E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001367: 6.915460113522447E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000141: 6.926646959533122E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002300: 6.940766464815418E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002278: 6.944922892767573E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000032: 6.945864208862344E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000250: 6.971482870795136E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002455: 6.98360136668598E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000148: 7.068727851282245E-5
+2024-10-08 13:54:31,082 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001831: 7.09593750250713E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003828: 7.198849592675739E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002563: 7.312021074016199E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002549: 7.31247357566627E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000196: 7.360749996044108E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004679: 7.400664036648945E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001489: 7.448091039532102E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004163: 7.58955598138014E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002480: 7.694246906648587E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000404: 7.71360303414128E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004341: 7.778458563001518E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000150: 7.909085602768686E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002483: 7.917211337689693E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001690: 7.993658953627417E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001595: 8.224276555436681E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002033: 8.385445290711688E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002530: 8.388679744493325E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001789: 8.391724190973579E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001714: 8.489549072232911E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002287: 8.626617395490787E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000087: 8.707487033202273E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004309: 8.859229910987277E-5
+2024-10-08 13:54:31,083 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002292: 8.968115268677126E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004769: 9.102180883922632E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003949: 9.360178634491845E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002540: 9.436231290243313E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002974: 9.549437380643857E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000062: 9.686534582609622E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001199: 9.763587599528329E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000209: 9.77093246511772E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004581: 9.910189103792956E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001410: 9.958266060871939E-5
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000013: 1.0154004491467614E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000208: 1.0154279670794803E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002993: 1.0402813685787062E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001337: 1.0514065585461454E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003875: 1.0593795378550745E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000574: 1.0709767338124003E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000651: 1.0931059032177934E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001319: 1.0933138081766957E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001433: 1.1041220894379603E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003363: 1.1925687518089691E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004345: 1.2269976642623027E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000530: 1.2736046693082221E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002720: 1.279316171217378E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004789: 1.2808737542126592E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000174: 1.2927309929794753E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001539: 1.3048176256220116E-4
+2024-10-08 13:54:31,084 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002303: 1.325021442937082E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001400: 1.3566774121140816E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002544: 1.382422677248634E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002710: 1.4324008895640403E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001076: 1.45480600869724E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001210: 1.4572459875181954E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000743: 1.4613676841162553E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002570: 1.476823397855666E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000370: 1.5779936759501167E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000258: 1.6124054771938107E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002487: 1.6177853596141404E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001356: 1.6600199143578136E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004171: 1.6722558401198042E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003366: 1.692680033162426E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002327: 1.7166907859272022E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003697: 1.7545926689616664E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002689: 1.835387531576795E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001500: 1.8575978126805318E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004016: 1.8578017708466198E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001029: 1.9684123751984083E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003087: 1.9721910112423734E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003214: 2.0038435884743564E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003224: 2.095520127360906E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000178: 2.1864095709288867E-4
+2024-10-08 13:54:31,085 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000144: 2.1964460037123597E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002715: 2.205491436247931E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001502: 2.260288279912764E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000069: 2.326141519400071E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004557: 2.434061083410637E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002060: 2.462950938470467E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001008: 2.489304157082848E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004158: 2.491477030170386E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000004: 2.536564049161689E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003854: 2.6168941019099235E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004083: 2.664577014167332E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003686: 2.713255332112985E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004196: 2.748691066630736E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000723: 2.766116168703923E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004099: 2.889241990389342E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004644: 3.0471673199668507E-4
+2024-10-08 13:54:31,098 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002882: 3.142543690190451E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000254: 3.210017296392003E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000036: 3.2545800124335404E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000369: 3.367941890771185E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000149: 3.385615334798837E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002379: 3.40590758316691E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004071: 3.4632331426297214E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000667: 3.522341000254924E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000246: 3.540644794204578E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000938: 3.574022995969688E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002872: 3.6311928048950187E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001932: 3.7528555460778916E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002296: 3.8024598488163293E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004245: 3.8758721496857007E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002190: 3.896477855662918E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000003: 4.156075832406174E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001396: 4.397824932136126E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002135: 4.5482949024206365E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002151: 4.843848895806365E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000244: 4.915162182857738E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000037: 5.233404848673407E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000420: 5.320147243513976E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001302.1: 5.64829519518596E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000004642: 5.705376953572807E-4
+2024-10-08 13:54:31,099 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000177: 6.309128203317395E-4
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002699: 6.338626881892003E-4
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001497: 7.235146852312505E-4
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000040: 7.443827470803876E-4
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002726: 8.123964198689499E-4
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000003022: 0.001317876472555228
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000000226: 0.0013301556403925259
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002191: 0.0014698723285978025
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001361: 0.0017167362401728679
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002371: 0.0019374971933784242
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000001441: 0.0022312713409641154
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002388: 0.0023553120935489585
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002351: 0.0027830318161752203
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: pvalue for genome MGYG000002453: 0.0028043076313521167
+2024-10-08 13:54:31,100 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: genome after filtering: 289
+2024-10-08 13:54:34,210 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: peptide report has been exported to Z:\Kai\realtime_test\combine\final_peptides.tsv
+2024-10-08 13:54:34,210 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting protein report started
+2024-10-08 13:54:34,787 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: protein report has been exported to final_proteins.tsv
+2024-10-08 13:54:34,787 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: functional annotation started
+2024-10-08 13:56:15,173 INFO bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: proteins with functional annotations have been exported to functions.xml
+2024-10-08 13:56:15,663 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis started
+2024-10-08 13:56:16,967 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: taxonomy analysis finished
+2024-10-08 13:56:16,967 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: exporting report started
+2024-10-08 13:56:16,969 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report started
+2024-10-08 13:56:18,084 INFO bmi.med.uOttawa.metalab.task.MetaReportCopyTask [SwingWorker-pool-3-thread-2] Report file copy task: copying report folder from file:/C:/Users/kchen2/metalab/metalab/target/classes/bmi/med/uOttawa/metalab/report finished
+2024-10-08 13:56:19,639 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R.exe was not found
+2024-10-08 13:56:19,639 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R library was not found
+2024-10-08 13:56:20,238 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: connected to server 1
+2024-10-08 13:56:20,239 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting summary report
+2024-10-08 13:56:28,611 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting report to report_ID_summary.html finished
+2024-10-08 13:56:28,614 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R.exe was not found
+2024-10-08 13:56:28,614 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R library was not found
+2024-10-08 13:56:28,770 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: connected to server 1
+2024-10-08 13:56:28,770 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting peptide report
+2024-10-08 13:56:49,720 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting report to report_peptides_summary.html finished
+2024-10-08 13:56:49,722 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R.exe was not found
+2024-10-08 13:56:49,723 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R library was not found
+2024-10-08 13:56:50,162 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: connected to server 1
+2024-10-08 13:56:50,164 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting protein report
+2024-10-08 13:56:57,557 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting report to report_proteinGroups_summary.html finished
+2024-10-08 13:56:57,559 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R.exe was not found
+2024-10-08 13:56:57,559 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R library was not found
+2024-10-08 13:56:57,711 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: connected to server 1
+2024-10-08 13:56:57,712 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting taxon report
+2024-10-08 13:57:01,381 ERROR bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: error in exporting taxon report, error code: 400
+2024-10-08 13:57:01,383 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R.exe was not found
+2024-10-08 13:57:01,384 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: local R library was not found
+2024-10-08 13:57:01,537 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: connected to server 1
+2024-10-08 13:57:01,538 INFO bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: exporting function report
+2024-10-08 13:57:22,919 ERROR bmi.med.uOttawa.metalab.task.MetaReportTask [SwingWorker-pool-3-thread-2] Report generation task: error in exporting function report, error code: 400
+2024-10-08 13:57:22,919 INFO bmi.med.uOttawa.metalab.task.dia.MetaDiaTask [SwingWorker-pool-3-thread-2] Realtime DIA data analysis: report generation successes

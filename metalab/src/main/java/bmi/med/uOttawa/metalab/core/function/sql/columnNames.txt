@@ -1,0 +1,14 @@
+1. query_name
+7. Gene_Ontology
+8. EC
+9. KEGG_ko
+10. KEGG_Pathway
+11. KEGG_Module
+12. KEGG_Reaction
+13. KEGG_rclass
+14. BRITE
+15. KEGG_TC
+16. CAZy 
+17. BiGG_Reaction
+21. COG_Functional_Category
+22. eggNOG_description

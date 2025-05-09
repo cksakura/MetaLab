@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-import bmi.med.uOttawa.metalab.core.function.sql.IGCFuncSqliteSearcher;
 import bmi.med.uOttawa.metalab.core.function.v2.ECReader;
 import bmi.med.uOttawa.metalab.core.function.v2.EnzymeCommission;
 import bmi.med.uOttawa.metalab.core.function.v2.GoObo;
@@ -35,10 +34,7 @@ public class EggNogAddDb {
 
 	private void initial() {
 		this.cogNameMap = new HashMap<String, String>();
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(ResourceLoader.load(cogName)));
-
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(ResourceLoader.load(cogName)))) {
 			String line = reader.readLine();
 			while ((line = reader.readLine()) != null) {
 				String[] cStrings = line.split("\t");
@@ -52,10 +48,7 @@ public class EggNogAddDb {
 		}
 
 		this.nogNameMap = new HashMap<String, String[]>();
-		BufferedReader nogReader = null;
-
-		try {
-			nogReader = new BufferedReader(new InputStreamReader(ResourceLoader.load(nogName)));
+		try (BufferedReader nogReader = new BufferedReader(new InputStreamReader(ResourceLoader.load(nogName)))) {
 			String line = nogReader.readLine();
 			while ((line = nogReader.readLine()) != null) {
 				String[] cStrings = line.split("\t");
@@ -73,10 +66,8 @@ public class EggNogAddDb {
 		}
 
 		this.keggMap = new HashMap<String, String>();
-		BufferedReader keggReader = null;
-
-		try {
-			keggReader = new BufferedReader(new InputStreamReader(ResourceLoader.load(keggMapNameString)));
+		try (BufferedReader keggReader = new BufferedReader(
+				new InputStreamReader(ResourceLoader.load(keggMapNameString)))) {
 			String line = keggReader.readLine();
 			while ((line = keggReader.readLine()) != null) {
 				String[] cStrings = line.split("\t");

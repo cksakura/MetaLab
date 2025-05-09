@@ -7,17 +7,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 
 import bmi.med.uOttawa.metalab.core.taxonomy.Taxon;
 import bmi.med.uOttawa.metalab.core.taxonomy.TaxonomyDatabase;
 import bmi.med.uOttawa.metalab.core.taxonomy.TaxonomyRanks;
-import bmi.med.uOttawa.metalab.dbSearch.MaxQuant.MaxquantPep4Meta;
-import bmi.med.uOttawa.metalab.dbSearch.MaxQuant.MaxquantPepReader;
 
 /**
  * @author Kai Cheng
@@ -25,14 +19,15 @@ import bmi.med.uOttawa.metalab.dbSearch.MaxQuant.MaxquantPepReader;
  */
 public class UnipCsvReader {
 
-	private static final String[] ranks = { "superkingdom", "kingdom", "phylum", "class_", "order", "family", "genus", "species" };
+	private static final String[] ranks = { "superkingdom", "kingdom", "phylum", "class_", "order", "family", "genus",
+			"species" };
 	private static final int[] rankIds = TaxonomyRanks.getMainRankIds();
 	private static int[] rankColumnIds = new int[8];
 
 	private File input;
 	private TaxonomyDatabase taxDb;
 	private HashMap<String, Integer> taxNameMap;
-	
+
 	private HashMap<String, Taxon> pepTaxonMap;
 
 	public UnipCsvReader(String in) throws IOException {
@@ -45,7 +40,7 @@ public class UnipCsvReader {
 		this.taxNameMap = TaxonomyDatabase.parseFullNameMap();
 		this.read();
 	}
-	
+
 	public UnipCsvReader(String in, TaxonomyDatabase taxDb, HashMap<String, Integer> taxNameMap) throws IOException {
 		this(new File(in), taxDb, taxNameMap);
 	}
@@ -106,7 +101,7 @@ public class UnipCsvReader {
 					taxon = this.taxDb.getTaxonFromId(taxonId);
 					if (taxon != null) {
 						pepTaxonMap.put(cs[0], taxon);
-					} 
+					}
 				} else {
 					System.err.println(taxName + " is not found in taxonomy-all.tab; sequence=" + cs[0]);
 				}
@@ -116,7 +111,7 @@ public class UnipCsvReader {
 			pepTaxonMap.put(cs[0], Taxon.root);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param output
@@ -125,7 +120,7 @@ public class UnipCsvReader {
 	public void exportTree(String output) throws IOException {
 
 	}
-	
+
 	public HashMap<String, Taxon> getPepTaxonMap() throws IOException {
 		return pepTaxonMap;
 	}

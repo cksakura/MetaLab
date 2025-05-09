@@ -18,7 +18,7 @@ public class ProteinInferenceTask {
 
 	private static String parameter = "Resources\\pia\\parameter.xml";
 
-	private static String piaJar = "Resources\\pia\\pia-1.3.10.jar";
+//	private static String piaJar = "Resources\\pia\\pia-1.3.10.jar";
 
 	private static String jar2 = "D:\\software\\Bio\\pia-1.3.6\\pia.jar";
 

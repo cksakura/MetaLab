@@ -228,17 +228,17 @@ public class MetaLabModPanel extends JPanel {
 		return variMods;
 	}
 
-	private JList<String> pfindModlist;
-	private JList<String> pfindFixlist;
-	private JList<String> pfindVarilist;
+	private JList<MaxquantModification> pfindModlist;
+	private JList<MaxquantModification> pfindFixlist;
+	private JList<MaxquantModification> pfindVarilist;
 
-	private HashSet<String> pfindVmUsed;
-	private HashSet<String> pfindFmUsed;
+	private HashSet<MaxquantModification> pfindVmUsed;
+	private HashSet<MaxquantModification> pfindFmUsed;
 
 	/**
 	 * Create the panel.
 	 */
-	public MetaLabModPanel(MetaParameterPFind par, String[] pfindMods) {
+	public MetaLabModPanel(MetaParameterPFind par, MaxquantModification[] pfindMods) {
 
 		setLayout(new MigLayout("", "[125:275:455,grow][50][125:275:455,grow]",
 				"[25:60:90,grow][50][50][25:60:90,grow][25:60:90,grow][50][50][25:60:90,grow]"));
@@ -246,25 +246,35 @@ public class MetaLabModPanel extends JPanel {
 		String[] fixMods = par.getFixMods();
 		String[] variMods = par.getVariMods();
 
-		this.pfindFmUsed = new HashSet<String>();
-		this.pfindVmUsed = new HashSet<String>();
+		this.pfindFmUsed = new HashSet<MaxquantModification>();
+		this.pfindVmUsed = new HashSet<MaxquantModification>();
 
 		for (int i = 0; i < fixMods.length; i++) {
-			this.pfindFmUsed.add(fixMods[i]);
+			for (int j = 0; j < pfindMods.length; j++) {
+				if (fixMods[i].equals(pfindMods[j].getTitle())) {
+					this.pfindFmUsed.add(pfindMods[j]);
+					break;
+				}
+			}
 		}
 
 		for (int i = 0; i < variMods.length; i++) {
-			this.pfindVmUsed.add(variMods[i]);
+			for (int j = 0; j < pfindMods.length; j++) {
+				if (variMods[i].equals(pfindMods[j].getTitle())) {
+					this.pfindVmUsed.add(pfindMods[j]);
+					break;
+				}
+			}
 		}
 
 		JButton buttonFixAdd = new JButton(">");
 		buttonFixAdd.setEnabled(false);
 		add(buttonFixAdd, "cell 1 1,alignx center");
 		buttonFixAdd.addActionListener(l -> {
-			String value = pfindModlist.getSelectedValue();
+			MaxquantModification value = pfindModlist.getSelectedValue();
 			pfindFmUsed.add(value);
-			DefaultListModel<String> model = new DefaultListModel<String>();
-			for (String vm : pfindFmUsed) {
+			DefaultListModel<MaxquantModification> model = new DefaultListModel<MaxquantModification>();
+			for (MaxquantModification vm : pfindFmUsed) {
 				model.addElement(vm);
 			}
 			pfindFixlist.setModel(model);
@@ -276,10 +286,10 @@ public class MetaLabModPanel extends JPanel {
 		buttonFixRemove.setEnabled(false);
 		add(buttonFixRemove, "cell 1 2,alignx center");
 		buttonFixRemove.addActionListener(l -> {
-			String value = pfindFixlist.getSelectedValue();
+			MaxquantModification value = pfindFixlist.getSelectedValue();
 			pfindFmUsed.remove(value);
-			DefaultListModel<String> model = new DefaultListModel<String>();
-			for (String vm : pfindFmUsed) {
+			DefaultListModel<MaxquantModification> model = new DefaultListModel<MaxquantModification>();
+			for (MaxquantModification vm : pfindFmUsed) {
 				model.addElement(vm);
 			}
 			pfindFixlist.setModel(model);
@@ -291,10 +301,10 @@ public class MetaLabModPanel extends JPanel {
 		buttonVariAdd.setEnabled(false);
 		add(buttonVariAdd, "cell 1 5,alignx center");
 		buttonVariAdd.addActionListener(l -> {
-			String value = pfindModlist.getSelectedValue();
+			MaxquantModification value = pfindModlist.getSelectedValue();
 			pfindVmUsed.add(value);
-			DefaultListModel<String> model = new DefaultListModel<String>();
-			for (String vm : pfindVmUsed) {
+			DefaultListModel<MaxquantModification> model = new DefaultListModel<MaxquantModification>();
+			for (MaxquantModification vm : pfindVmUsed) {
 				model.addElement(vm);
 			}
 			pfindVarilist.setModel(model);
@@ -306,10 +316,10 @@ public class MetaLabModPanel extends JPanel {
 		buttonVariRemove.setEnabled(false);
 		add(buttonVariRemove, "cell 1 6,alignx center");
 		buttonVariRemove.addActionListener(l -> {
-			String value = pfindVarilist.getSelectedValue();
+			MaxquantModification value = pfindVarilist.getSelectedValue();
 			pfindVmUsed.remove(value);
-			DefaultListModel<String> model = new DefaultListModel<String>();
-			for (String vm : pfindVmUsed) {
+			DefaultListModel<MaxquantModification> model = new DefaultListModel<MaxquantModification>();
+			for (MaxquantModification vm : pfindVmUsed) {
 				model.addElement(vm);
 			}
 			pfindVarilist.setModel(model);
@@ -325,9 +335,9 @@ public class MetaLabModPanel extends JPanel {
 		add(scrollPane, "cell 0 0 1 8,grow");
 
 		if (pfindMods != null) {
-			pfindModlist = new JList<String>(pfindMods);
+			pfindModlist = new JList<MaxquantModification>(pfindMods);
 		} else {
-			pfindModlist = new JList<String>();
+			pfindModlist = new JList<MaxquantModification>();
 		}
 
 		pfindModlist.setBackground(new Color(255, 208, 199));
@@ -355,7 +365,7 @@ public class MetaLabModPanel extends JPanel {
 		scrollPaneFix.setToolTipText("Fixed modifications");
 		add(scrollPaneFix, "cell 2 0 1 4,grow");
 
-		pfindFixlist = new JList<String>();
+		pfindFixlist = new JList<MaxquantModification>();
 		pfindFixlist.setBackground(new Color(255, 181, 166));
 		scrollPaneFix.setViewportView(pfindFixlist);
 		pfindFixlist.addListSelectionListener(new ListSelectionListener() {
@@ -372,8 +382,8 @@ public class MetaLabModPanel extends JPanel {
 			}
 		});
 
-		DefaultListModel<String> fixModel = new DefaultListModel<String>();
-		for (String fm : pfindFmUsed) {
+		DefaultListModel<MaxquantModification> fixModel = new DefaultListModel<MaxquantModification>();
+		for (MaxquantModification fm : pfindFmUsed) {
 			fixModel.addElement(fm);
 		}
 		pfindFixlist.setModel(fixModel);
@@ -385,7 +395,7 @@ public class MetaLabModPanel extends JPanel {
 		scrollPaneVari.setToolTipText("Variable modifications");
 		add(scrollPaneVari, "cell 2 4 1 4,grow");
 
-		pfindVarilist = new JList<String>();
+		pfindVarilist = new JList<MaxquantModification>();
 		pfindVarilist.setBackground(new Color(255, 181, 166));
 		scrollPaneVari.setViewportView(pfindVarilist);
 		pfindVarilist.addListSelectionListener(new ListSelectionListener() {
@@ -402,23 +412,41 @@ public class MetaLabModPanel extends JPanel {
 			}
 		});
 
-		DefaultListModel<String> variModel = new DefaultListModel<String>();
-		for (String vm : pfindVmUsed) {
+		DefaultListModel<MaxquantModification> variModel = new DefaultListModel<MaxquantModification>();
+		for (MaxquantModification vm : pfindVmUsed) {
 			variModel.addElement(vm);
 		}
 		pfindVarilist.setModel(variModel);
 	}
 
 	public String[] getPFindFixMods() {
-		String[] fixMods = this.pfindFmUsed.toArray(new String[pfindFmUsed.size()]);
-		return fixMods;
+		MaxquantModification[] fixMods = this.pfindFmUsed.toArray(new MaxquantModification[pfindFmUsed.size()]);
+		String[] fixModNames = new String[fixMods.length];
+		for (int i = 0; i < fixModNames.length; i++) {
+			fixModNames[i] = fixMods[i].getTitle();
+		}
+		return fixModNames;
 	}
 
 	public String[] getPFindVariMods() {
-		String[] variMods = this.pfindVmUsed.toArray(new String[pfindVmUsed.size()]);
+		MaxquantModification[] variMods = this.pfindVmUsed.toArray(new MaxquantModification[pfindVmUsed.size()]);
+		String[] variModNames = new String[variMods.length];
+		for (int i = 0; i < variModNames.length; i++) {
+			variModNames[i] = variMods[i].getTitle();
+		}
+		return variModNames;
+	}
+
+	public MaxquantModification[] getPFindFullFixMods() {
+		MaxquantModification[] fixMods = this.pfindFmUsed.toArray(new MaxquantModification[pfindFmUsed.size()]);
+		return fixMods;
+	}
+
+	public MaxquantModification[] getPFindFullVariMods() {
+		MaxquantModification[] variMods = this.pfindVmUsed.toArray(new MaxquantModification[pfindVmUsed.size()]);
 		return variMods;
 	}
-	
+
 	public void setEnabledAll(boolean enable) {
 		Component[] components = getComponents();
 		for (Component component : components) {

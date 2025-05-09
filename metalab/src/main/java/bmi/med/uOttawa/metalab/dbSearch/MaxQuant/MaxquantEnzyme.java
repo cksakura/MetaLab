@@ -12,7 +12,7 @@ public class MaxquantEnzyme {
 	private String title;
 	private String description;
 	private String[] specificity;
-	private static final char[] commonAAs = new char[] {};
+//	private static final char[] commonAAs = new char[] {};
 
 	/**
 	 * in pFind specific is "3"
@@ -61,14 +61,4 @@ public class MaxquantEnzyme {
 	public String toString() {
 		return title;
 	}
-
-	public String getXTandemFormat() {
-		StringBuilder sb = new StringBuilder();
-		for (String sp : this.specificity) {
-			char cleave0 = sp.charAt(0);
-			char cleave1 = sp.charAt(1);
-		}
-		return sb.toString();
-	}
-
 }

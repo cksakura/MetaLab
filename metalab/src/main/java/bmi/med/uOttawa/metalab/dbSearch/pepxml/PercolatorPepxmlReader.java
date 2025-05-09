@@ -56,6 +56,7 @@ public class PercolatorPepxmlReader {
 		this.initial(xmls[0]);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initial(File xml) {
 		SAXReader reader = new SAXReader();
 		Document document = null;
@@ -64,6 +65,7 @@ public class PercolatorPepxmlReader {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading PSMs from " + xml, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -155,6 +157,7 @@ public class PercolatorPepxmlReader {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public PercolatorPSM next() {
 
 		int scan = Integer.parseInt(query.attributeValue("start_scan"));
@@ -203,6 +206,7 @@ public class PercolatorPepxmlReader {
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	private static void batchRead(String dir) throws IOException, DocumentException {
 		File[] pepxmlFiles = (new File(dir)).listFiles(new FilenameFilter() {
 			@Override
@@ -247,6 +251,7 @@ public class PercolatorPepxmlReader {
 		return psms;
 	}
 
+	@SuppressWarnings("unchecked")
 	public PercolatorPSM[][] getPSMArrays() {
 
 		ArrayList<PercolatorPSM>[] list = new ArrayList[this.files.length];
@@ -275,6 +280,7 @@ public class PercolatorPepxmlReader {
 		return psmarrays;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void biomassTest(String fasta, String pepxml) throws IOException {
 		/*
 		 * HashSet<String> proset = new HashSet<String>(); BufferedReader freader = new

@@ -258,7 +258,7 @@ public class MetaProteinXlsxWriter {
 				cells[id].setCellValue(ko);
 				id++;
 
-				String koName = keggMap.containsKey(ko) ? keggMap.get(ko) : "";
+				String koName = koMap.containsKey(ko) ? koMap.get(ko) : "";
 				cells[id] = row.createCell(id);
 				cells[id].setCellValue(koName);
 				id++;
@@ -596,7 +596,7 @@ public class MetaProteinXlsxWriter {
 				cells[id].setCellValue(ko);
 				id++;
 
-				String koName = keggMap.containsKey(ko) ? keggMap.get(ko) : "";
+				String koName = koMap.containsKey(ko) ? koMap.get(ko) : "";
 				cells[id] = row.createCell(id);
 				cells[id].setCellValue(koName);
 				id++;

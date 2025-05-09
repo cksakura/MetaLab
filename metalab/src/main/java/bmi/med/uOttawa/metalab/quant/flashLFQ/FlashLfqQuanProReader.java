@@ -51,22 +51,21 @@ public class FlashLfqQuanProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Protein Groups")) {
+					proteinId = i;
+				} else if (title[i].startsWith("Intensity_")) {
+					intensityTitleIdMap.put(title[i], i);
+					intensityTitleList.add(title[i]);
+				}
+			}
+
+			this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
-
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Protein Groups")) {
-				proteinId = i;
-			} else if (title[i].startsWith("Intensity_")) {
-				intensityTitleIdMap.put(title[i], i);
-				intensityTitleList.add(title[i]);
-			}
-		}
-
-		this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 	}
 
 	protected FlashLfqQuanProtein parse() {

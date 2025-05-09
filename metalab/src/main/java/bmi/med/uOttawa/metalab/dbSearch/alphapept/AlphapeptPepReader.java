@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import org.apache.hadoop.fs.ftp.FtpFs;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -66,36 +65,35 @@ public class AlphapeptPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split(AlphapeptProReader.delimiter);
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("sequence_naked")) {
+					sequenceId = i;
+				} else if (title[i].equals("sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("n_missed")) {
+					missId = i;
+				} else if (title[i].equals("mass_db")) {
+					massId = i;
+				} else if (title[i].equals("score")) {
+					scoreId = i;
+				} else if (title[i].equals("protein")) {
+					proteinId = i;
+				} else if (title[i].equals("charge")) {
+					chargeId = i;
+				} else if (title[i].equals("n_AA")) {
+					lengthId = i;
+				} else if (title[i].equals("ms1_int_sum_apex_dn")) {
+					intensityId = i;
+				} else if (title[i].equals("shortname")) {
+					fileSNameId = i;
+				} else if (title[i].equals("target_precursor")) {
+					targetId = i;
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading Fragpipe search result file " + super.getFile(), e);
-		}
-
-		this.title = line.split(AlphapeptProReader.delimiter);
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("sequence_naked")) {
-				sequenceId = i;
-			} else if (title[i].equals("sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("n_missed")) {
-				missId = i;
-			} else if (title[i].equals("mass_db")) {
-				massId = i;
-			} else if (title[i].equals("score")) {
-				scoreId = i;
-			} else if (title[i].equals("protein")) {
-				proteinId = i;
-			} else if (title[i].equals("charge")) {
-				chargeId = i;
-			} else if (title[i].equals("n_AA")) {
-				lengthId = i;
-			} else if (title[i].equals("ms1_int_sum_apex_dn")) {
-				intensityId = i;
-			} else if (title[i].equals("shortname")) {
-				fileSNameId = i;
-			} else if (title[i].equals("target_precursor")) {
-				targetId = i;
-			}
 		}
 	}
 
@@ -211,7 +209,8 @@ public class AlphapeptPepReader extends AbstractMetaPeptideReader {
 		}
 		return intensityTitles;
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void test(String in, String[] names) {
 		AlphapeptPepReader apReader = new AlphapeptPepReader(in, names);
 		try {
@@ -246,7 +245,8 @@ public class AlphapeptPepReader extends AbstractMetaPeptideReader {
 
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void compare(String in, String fragpipe, String alphadb) {
 		AlphapeptPepReader apReader = new AlphapeptPepReader(in, new String[] {});
 		try {
@@ -293,15 +293,4 @@ public class AlphapeptPepReader extends AbstractMetaPeptideReader {
 
 		}
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		AlphapeptPepReader.compare("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\MetaLab_alphapept\\mag_result\\mag_peptides.csv",
-				"Z:\\Kai\\Raw_files\\2023-05DDA\\MetaLab_fragpipe\\mag_result\\combined_peptide.tsv", 
-				"Z:\\Kai\\Raw_files\\2023-05DDA\\MetaLab_alphapept\\hap.fasta");
-		
-		
-	}
-
 }

@@ -17,19 +17,19 @@ import java.util.regex.Pattern;
  *
  */
 public class FastaReader {
-	
+
 	private File in;
 	private ProteinItem[] items;
-	
-	public FastaReader(String in) throws IOException{
+
+	public FastaReader(String in) throws IOException {
 		this(new File(in));
 	}
-	
-	public FastaReader(File in) throws IOException{
+
+	public FastaReader(File in) throws IOException {
 		this.in = in;
 		this.read();
 	}
-	
+
 	private void read() throws IOException {
 		ArrayList<ProteinItem> list = new ArrayList<ProteinItem>();
 		BufferedReader reader = new BufferedReader(new FileReader(in));
@@ -95,7 +95,7 @@ public class FastaReader {
 	public ProteinItem[] getItems() {
 		return items;
 	}
-	
+
 	public ProteinItem[] getTargetItems(String decoy_symbol) {
 		ArrayList<ProteinItem> list = new ArrayList<ProteinItem>();
 		for (int i = 0; i < items.length; i++) {
@@ -107,20 +107,22 @@ public class FastaReader {
 		ProteinItem[] targets = list.toArray(new ProteinItem[list.size()]);
 		return targets;
 	}
-	
-	private static void getCount(String in) throws IOException{
+
+	@SuppressWarnings("unused")
+	private static void getCount(String in) throws IOException {
 		int count = 0;
 		BufferedReader reader = new BufferedReader(new FileReader(in));
 		String line = null;
-		while((line=reader.readLine())!=null){
-			if(line.startsWith(">")){
+		while ((line = reader.readLine()) != null) {
+			if (line.startsWith(">")) {
 				count++;
 			}
 		}
 		reader.close();
 		System.out.println(count);
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void compare(String s1, String s2) throws IOException {
 		HashSet<String> set1 = new HashSet<String>();
 		BufferedReader reader1 = new BufferedReader(new FileReader(s1));
@@ -132,7 +134,7 @@ public class FastaReader {
 			}
 		}
 		reader1.close();
-		
+
 		HashSet<String> set2 = new HashSet<String>();
 		BufferedReader reader2 = new BufferedReader(new FileReader(s2));
 		while ((line = reader2.readLine()) != null) {
@@ -142,14 +144,16 @@ public class FastaReader {
 			}
 		}
 		reader2.close();
-		
+
 		HashSet<String> total = new HashSet<String>();
 		total.addAll(set1);
 		total.addAll(set2);
-		
-		System.out.println(set1.size()+"\t"+set2.size()+"\t"+total.size()+"\t"+(set1.size()+set2.size()-total.size()));
+
+		System.out.println(set1.size() + "\t" + set2.size() + "\t" + total.size() + "\t"
+				+ (set1.size() + set2.size() - total.size()));
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void getTotalAACount(String in) throws IOException {
 		long total = 0;
 		BufferedReader reader = new BufferedReader(new FileReader(in));
@@ -163,6 +167,7 @@ public class FastaReader {
 		System.out.println(total);
 	}
 
+	@SuppressWarnings("unused")
 	private static void getGenomeProCount(String in) throws IOException {
 		HashSet<String> set = new HashSet<String>();
 		int count = 0;
@@ -176,11 +181,6 @@ public class FastaReader {
 			}
 		}
 		reader.close();
-		System.out.println(set.size()+"\t"+count);
-	}
-	
-	public static void main(String[] args) throws IOException {
-		FastaReader.getGenomeProCount("Z:\\Kai\\Raw_files\\single_species\\8483\\pfind_open_search_MAG\\"
-				+ "Zhibin_20221021_singleStrain_F1\\Zhibin_20221021_singleStrain_F1.fasta");
+		System.out.println(set.size() + "\t" + count);
 	}
 }

@@ -618,6 +618,40 @@ public class MetaLabParViewPanel extends JPanel {
 							add(magDbVerNode);
 						}
 
+					} else if (workflowType == MetaLabWorkflowType.SageMAG) {
+						MetaParameterMag parV3 = (MetaParameterMag) par;
+						DefaultMutableTreeNode quanNode = new DefaultMutableTreeNode("Quantification mode");
+						quanNode.add(new DefaultMutableTreeNode(parV3.getQuanMode()));
+						add(quanNode);
+
+						if (parV3.getQuanMode().equals(MetaConstants.isobaricLabel)) {
+							DefaultMutableTreeNode labelNode = new DefaultMutableTreeNode("Labels");
+							MaxquantModification[] labels = parV3.getIsobaric();
+							for (int i = 0; i < labels.length; i++) {
+								labelNode.add(new DefaultMutableTreeNode(labels[i]));
+							}
+							add(labelNode);
+						}
+
+						MagDbItem magDbItem = parV3.getUsedMagDbItem();
+						if (magDbItem != null) {
+							DefaultMutableTreeNode magDbItemNode = new DefaultMutableTreeNode("MAG database");
+							magDbItemNode.add(new DefaultMutableTreeNode(magDbItem.getCatalogueID()));
+							add(magDbItemNode);
+
+							DefaultMutableTreeNode magDbVerNode = new DefaultMutableTreeNode("MAG database version");
+							magDbVerNode.add(new DefaultMutableTreeNode(magDbItem.getUsedVersion()));
+							add(magDbVerNode);
+						} else {
+							DefaultMutableTreeNode magDbItemNode = new DefaultMutableTreeNode("MAG database");
+							magDbItemNode.add(new DefaultMutableTreeNode(""));
+							add(magDbItemNode);
+
+							DefaultMutableTreeNode magDbVerNode = new DefaultMutableTreeNode("MAG database version");
+							magDbVerNode.add(new DefaultMutableTreeNode(""));
+							add(magDbVerNode);
+						}
+
 					} else {
 						MetaParameterMQ parV2 = (MetaParameterMQ) par;
 						DefaultMutableTreeNode fixModNode = new DefaultMutableTreeNode("Fixed modifications");

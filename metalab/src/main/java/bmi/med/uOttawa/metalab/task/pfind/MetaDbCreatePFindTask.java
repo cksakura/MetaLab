@@ -3,10 +3,11 @@ package bmi.med.uOttawa.metalab.task.pfind;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +35,7 @@ import bmi.med.uOttawa.metalab.task.v2.par.MetaSourcesV2;
 /**
  * Generate sample-specific database in pFind workflow
  * @author Kai Cheng
- *
+ * @version 2025.03.20 
  */
 public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 
@@ -63,19 +64,14 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 	 */
 	protected void cluster() {
 
-		bar2.setString(taskName + ": extracting spectra...");
-
-		LOGGER.info(taskName + ": spectra file format convert started");
-		System.out.println(format.format(new Date()) + "\t" + taskName + ": spectra file format convert started");
-
-		File clusterDir = new File(dbcFile, "clustered_spectra");
-		File clusterMgf = new File(clusterDir, "cluster.mgf");
-		clusterDir.mkdir();
-
 		bar2.setString(taskName + ": spectra clustering...");
 
 		LOGGER.info(taskName + ": spectra cluster started");
 		System.out.println(format.format(new Date()) + "\t" + taskName + ": spectra cluster started");
+
+		File clusterDir = new File(dbcFile, "clustered_spectra");
+		File clusterMgf = new File(clusterDir, "cluster.mgf");
+		clusterDir.mkdir();
 
 		if (clusterMgf.exists()) {
 			LOGGER.info(taskName + ": clustered MS/MS spectra file already existed in " + clusterMgf);
@@ -110,9 +106,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 	 */
 	protected File[] clusterSearch() {
 
-		bar2.setString(taskName + ": searching clustered spectra in original database");
+		bar2.setString(taskName + ": searching clustered spectra against the original database");
 
-		LOGGER.info(taskName + ": searching clustered spectra in original database started");
+		LOGGER.info(taskName + ": searching clustered spectra against the original database started");
 		System.out.println(format.format(new Date()) + "\t" + taskName
 				+ ": searching clustered spectra in original database started");
 
@@ -217,9 +213,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 			}
 
 			if (pSpecResult.exists() && pSpecResult.length() > 0) {
-				LOGGER.info(taskName + ": searching clustered spectra in original database finished");
+				LOGGER.info(taskName + ": searching clustered spectra against the original database finished");
 				System.out.println(format.format(new Date()) + "\t" + taskName
-						+ ": searching clustered spectra in original database finished");
+						+ ": searching clustered spectra against the original database finished");
 			}
 
 			PFindTask.cleanPFindResultFolder(pSpecResult.getParentFile(), true);
@@ -405,15 +401,12 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 			}
 
 			int firstProCount = 0;
-			
+
 			File dbReducerFasta = new File(firstDir, "DBReducer.fasta");
 			if (dbReducerFasta.exists()) {
-				BufferedReader reduceDbReader = null;
-				PrintWriter dbWriter = null;
-				String line = null;
-				try {
-					dbWriter = new PrintWriter(firstFasta);
-					reduceDbReader = new BufferedReader(new FileReader(dbReducerFasta));
+				try (BufferedReader reduceDbReader = new BufferedReader(new FileReader(dbReducerFasta))) {
+					PrintWriter dbWriter = new PrintWriter(firstFasta);
+					String line = null;
 					while ((line = reduceDbReader.readLine()) != null) {
 						dbWriter.println(line);
 						if (line.startsWith(">")) {
@@ -423,10 +416,10 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 					reduceDbReader.close();
 					dbWriter.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(taskName + ": error in reading the database file " + dbReducerFasta, e);
+					System.err.println(format.format(new Date()) + "\t" + taskName
+							+ ": error in reading the database file " + dbReducerFasta);
 				}
-
 			} else {
 				firstProCount = this.writeDatabase(originalFasta, firstFasta.getAbsolutePath(), false, pSpecResult);
 			}
@@ -456,7 +449,6 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 					LOGGER.info(taskName + ": second search results " + secondResults[i] + " already existed");
 					System.out.println(format.format(new Date()) + "\t" + taskName + ": second search results "
 							+ secondResults[i] + " already existed");
-
 					continue;
 				} else {
 					secondTaskCount++;
@@ -498,9 +490,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 						continue;
 					}
 
-					LOGGER.info(taskName + ": second search of " + name + " in original database started");
+					LOGGER.info(taskName + ": second search of " + name + " against the original database started");
 					System.out.println(format.format(new Date()) + "\t" + taskName + ": second search of " + name
-							+ " in original database started...");
+							+ " against the original database started...");
 
 					if (isMgf) {
 						task.searchMgf(new String[] { this.spectraFiles[i] }, secondDir.getAbsolutePath(),
@@ -547,9 +539,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 						continue;
 					}
 
-					LOGGER.info(taskName + ": second search of " + name + " in original database started");
+					LOGGER.info(taskName + ": second search of " + name + " against the original database started");
 					System.out.println(format.format(new Date()) + "\t" + taskName + ": second search of " + name
-							+ " in original database started...");
+							+ " against the original database started...");
 
 					if (isMgf) {
 						task.searchMgf(new String[] { this.spectraFiles[i] }, secondDir.getAbsolutePath(),
@@ -624,12 +616,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 
 		if (cluster) {
 			if (this.useDBReducer) {
-				BufferedReader reader = null;
-				PrintWriter writer = null;
 				int count = 0;
-				try {
-					reader = new BufferedReader(new FileReader(clusterResults[0]));
-					writer = new PrintWriter(ssdbFile);
+				try (BufferedReader reader = new BufferedReader(new FileReader(clusterResults[0]));
+						PrintWriter writer = new PrintWriter(ssdbFile)) {
 					String line = null;
 					while ((line = reader.readLine()) != null) {
 						writer.println(line);
@@ -640,16 +629,15 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 					reader.close();
 					writer.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					LOGGER.error(taskName + ": error in reading the DBReducer result file " + clusterResults[0], e);
+					System.err.println(format.format(new Date()) + "\t" + taskName
+							+ ": error in reading the DBReducer result file " + clusterResults[0]);
 				}
 				return count;
 			} else {
 				return writeDatabase(originalFasta, ssdbFile.getAbsolutePath(), false, clusterResults);
 			}
-
 		} else {
-
 			if (this.useDBReducer) {
 				HashMap<String, ProteinItem> proMap = new HashMap<String, ProteinItem>();
 				for (File reduceDb : clusterResults) {
@@ -660,18 +648,24 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 							String ref = pis[i].getRef();
 							proMap.put(ref, pis[i]);
 						}
-
-						PrintWriter writer = new PrintWriter(ssdbFile);
-						for (String ref : proMap.keySet()) {
-							writer.println(">" + ref);
-							writer.println(proMap.get(ref).getSequence());
-						}
-						writer.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						LOGGER.error(taskName + ": error in reading the DBReducer result file " + reduceDb, e);
+						System.err.println(format.format(new Date()) + "\t" + taskName
+								+ ": error in reading the DBReducer result file " + reduceDb);
 					}
+				}
 
+				try (PrintWriter writer = new PrintWriter(ssdbFile)) {
+					for (String ref : proMap.keySet()) {
+						writer.println(">" + ref);
+						writer.println(proMap.get(ref).getSequence());
+					}
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					LOGGER.error(taskName + ": error in writing the protein sequences to " + ssdbFile, e);
+					System.err.println(format.format(new Date()) + "\t" + taskName
+							+ ": error in writing the protein sequences to " + ssdbFile);
 				}
 
 				return proMap.size();
@@ -684,27 +678,61 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 	private HashSet<String> filterRedundantPros(HashMap<String, HashSet<String>> pepProMap,
 			HashMap<String, HashSet<String>> proPepMap) throws IOException {
 
-		HashSet<String> proSet = new HashSet<String>();
-		HashSet<String> uniquePepSet = new HashSet<String>();
-		for (String pro : proPepMap.keySet()) {
-			HashSet<String> pepSet = proPepMap.get(pro);
-			if (pepSet.size() > 3) {
-				proSet.add(pro);
-				uniquePepSet.addAll(pepSet);
+		String[] proteins = proPepMap.keySet().toArray(new String[proPepMap.size()]);
+		Arrays.sort(proteins, (g1, g2) -> {
+			int s1 = proPepMap.get(g1).size();
+			int s2 = proPepMap.get(g2).size();
+			return s2 - s1;
+		});
+
+		int proCount = 0;
+		for (int iteratorCount = 0; iteratorCount < 10; iteratorCount++) {
+			HashSet<String> totalSet = new HashSet<String>();
+			HashMap<String, Integer> orderMap = new HashMap<String, Integer>();
+			int count = 0;
+			for (int i = 0; i < proteins.length; i++) {
+				int currentSize = totalSet.size();
+				totalSet.addAll(proPepMap.get(proteins[i]));
+				int increaseSize = totalSet.size() - currentSize;
+				orderMap.put(proteins[i], increaseSize);
+
+				if (totalSet.size() == pepProMap.size()) {
+					count = i;
+				}
+			}
+
+			if (proCount == count) {
+				break;
+			} else {
+				Arrays.sort(proteins, (g1, g2) -> {
+					if (orderMap.get(g2) == orderMap.get(g1)) {
+						return proPepMap.get(g2).size() - proPepMap.get(g1).size();
+					} else {
+						return orderMap.get(g2) - orderMap.get(g1);
+					}
+				});
+
+				proCount = count;
+
+				ArrayList<String> list = new ArrayList<String>();
+				for (int i = 0; i < proteins.length; i++) {
+					if (orderMap.get(proteins[i]) == 0) {
+						break;
+					} else {
+						list.add(proteins[i]);
+					}
+				}
+				proteins = list.toArray(String[]::new);
 			}
 		}
 
-		Iterator<String> proit = proPepMap.keySet().iterator();
-		L: while (proit.hasNext()) {
-			String pro = proit.next();
-			if (!proSet.contains(pro)) {
-				HashSet<String> pepSet = proPepMap.get(pro);
-				for (String pep : pepSet) {
-					if (!uniquePepSet.contains(pep)) {
-						proSet.add(pro);
-						continue L;
-					}
-				}
+		HashSet<String> proSet = new HashSet<String>();
+		HashSet<String> totalPepSet = new HashSet<String>();
+		for (int i = 0; i < proteins.length; i++) {
+			proSet.add(proteins[i]);
+			totalPepSet.addAll(proPepMap.get(proteins[i]));
+			if (totalPepSet.size() == pepProMap.size()) {
+				break;
 			}
 		}
 
@@ -859,7 +887,9 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 						set = this.filterRedundantPros(pepProMap, proPepMap);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						LOGGER.error(taskName + ": error in filtering the redundant proteins", e);
+						System.err.println(format.format(new Date()) + "\t" + taskName
+								+ ": error in filtering the redundant proteins");
 					}
 				} else {
 					set.addAll(proPepMap.keySet());
@@ -868,27 +898,11 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 		}
 
 		int count = 0;
-		boolean write = false;
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(ssDb);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(taskName + ": error in writing protein database to " + ssDb, e);
-			System.err.println(
-					format.format(new Date()) + "\t" + taskName + ": error in writing protein database to " + ssDb);
-		}
-		BufferedReader fastaReader = null;
-		try {
-			fastaReader = new BufferedReader(new FileReader(originalDb));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(taskName + ": error in reading protein sequence from " + originalDb, e);
-			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in reading protein sequence from "
-					+ originalDb);
-		}
-		String line = null;
-		try {
+
+		try (BufferedReader fastaReader = new BufferedReader(new FileReader(originalDb));
+				PrintWriter writer = new PrintWriter(ssDb)) {
+			boolean write = false;
+			String line = null;
 			while ((line = fastaReader.readLine()) != null) {
 				if (line.startsWith(">")) {
 					String ref;
@@ -914,6 +928,7 @@ public class MetaDbCreatePFindTask extends MetaDbCreateTask {
 			}
 			fastaReader.close();
 			writer.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(taskName + ": error in writing protein database to " + ssDb, e);

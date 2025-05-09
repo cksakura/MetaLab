@@ -128,6 +128,7 @@ public class AminoAcidProperty {
 			/* Z */ { 3.55, 7.50, 0.0, 0.0, 0.0 } };
 			
 			
+	@SuppressWarnings("unused")
 	private static void getPossibleComposition(double mass) {
 		System.out.println(mass);
 		double delta = mass * 50 * 1E-6;
@@ -176,6 +177,7 @@ public class AminoAcidProperty {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void getDeltaPPM(double ionMz, int[] composition) {
 		double mass = MONOW_C * composition[0] + MONOW_H * composition[1] + MONOW_O * composition[2]
 				+ MONOW_N * composition[3];
@@ -183,52 +185,24 @@ public class AminoAcidProperty {
 		System.out.println(ppm+"\t"+mass);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void getDeltaPPM(double ionMz, double mass) {
 		double ppm = (ionMz - PROTON_W - mass) / mass * 1E6;
 		System.out.println(ppm);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void getDeltaPPM2(double ionMz, double mass) {
 		double ppm = (ionMz - mass) / mass * 1E6;
 		System.out.println(ppm);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void getMass(int[] comp) {
 		double mass = MONOW_C * comp[0] + MONOW_H * comp[1] + MONOW_N * comp[2] + MONOW_O * comp[3] + MONOW_P * comp[4];
-		double mass2 = AVERAGEW_C * comp[0] + AVERAGEW_H * comp[1] + AVERAGEW_N * comp[2] + AVERAGEW_O * comp[3] + MONOW_P * comp[4];
-		System.out.println(mass+"\t"+mass2);
-	}
-			
-	public static void main(String[] args) {
-
-//		AminoAcidProperty.getPossibleComposition(226.10629-AminoAcidProperty.PROTON_W);
-//		AminoAcidProperty.getPossibleComposition(358.08881-AminoAcidProperty.PROTON_W);
-//		AminoAcidProperty.getPossibleComposition(299.0635);
-//		AminoAcidProperty.getPossibleComposition(248.0087);
-//		AminoAcidProperty.getDeltaPPM(317.14481, new int[]{13, 20, 7, 2});
-//		AminoAcidProperty.getDeltaPPM(204.08588, new int[]{8, 13, 5, 1});
-//		AminoAcidProperty.getDeltaPPM(274.08984, new int[]{11, 15, 7, 1});
-//		AminoAcidProperty.getDeltaPPM(1706.7155-1546.6384, new int[]{7, 12, 4, 0});
-//		AminoAcidProperty.getDeltaPPM2(160.0759809225, 1706.7155-1546.6384);
-//		AminoAcidProperty.getDeltaPPM2(160.0759809225, 160.0735589);
-//		AminoAcidProperty.getDeltaPPM2(1411.5533-1265.5009, 146.0579088);
-//		AminoAcidProperty.getDeltaPPM(274.0910987773355, Glycosyl.NeuAc_H2O.getMonoMass());
-//		AminoAcidProperty.getDeltaPPM(292.10199103619544, Glycosyl.NeuAc.getMonoMass());
-//		AminoAcidProperty.getDeltaPPM(317.1328925307916, 316.127053);
-//		AminoAcidProperty.getDeltaPPM(317.145168195452, 316.127053);
-//		AminoAcidProperty.getDeltaPPM2(243.02544-AminoAcidProperty.PROTON_W, 242.0191538);
-//		AminoAcidProperty.getMass(new int[]{4, 10, 1, 5, 1});
-//		AminoAcidProperty.getMass(new int[]{8, 16, 2, 8, 1});
-//		AminoAcidProperty.getMass(new int[]{3, 5, 1, 2, 0});
-//		AminoAcidProperty.getMass(new int[]{6, 12, 4, 1, 0});
-		AminoAcidProperty.getMass(new int[]{11, 17, 1, 8, 0});
-//		AminoAcidProperty.getMass(new int[]{8, 14, 1, 9, 1});
-		
-//		AminoAcidProperty.getMass(new int[]{8, 13, 1, 5, 0});
-//		Aminoacids aas = new Aminoacids();
-//		System.out.println(aas.get('K').getMonoMass()+aas.get('E').getMonoMass());
-//		AminoAcidProperty.getPossibleComposition(226.10631-AminoAcidProperty.PROTON_W-Glycosyl.Fuc.getMonoMass());
-//		AminoAcidProperty.getPossibleComposition(301.9893);
+		double mass2 = AVERAGEW_C * comp[0] + AVERAGEW_H * comp[1] + AVERAGEW_N * comp[2] + AVERAGEW_O * comp[3]
+				+ MONOW_P * comp[4];
+		System.out.println(mass + "\t" + mass2);
 	}
 
 }

@@ -18,7 +18,7 @@ public class AlphapeptProReader extends AbstractMetaProteinReader {
 
 	private static final String REV = "REV__";
 	public static final String delimiter = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
-	
+
 	protected BufferedReader reader;
 	protected int proteinId = 0;
 	protected String[] fileNames;
@@ -68,36 +68,35 @@ public class AlphapeptProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading Fragpipe protein quantification result file " + super.getFile(), e);
-		}
-
-		this.title = line.split(delimiter);
-		if (fileNames == null) {
-			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].endsWith("LFQ")) {
-					idList.add(i);
+			this.title = line.split(delimiter);
+			if (fileNames == null) {
+				ArrayList<Integer> idList = new ArrayList<Integer>();
+				for (int i = 0; i < title.length; i++) {
+					if (title[i].endsWith("LFQ")) {
+						idList.add(i);
+					}
 				}
-			}
-			this.intensityId = new int[idList.size()];
-			this.fileNames = new String[idList.size()];
-			for (int i = 0; i < fileNames.length; i++) {
-				intensityId[i] = idList.get(i);
-				fileNames[i] = title[intensityId[i]].substring(0, title[intensityId[i]].length() - "_LFQ".length());
-			}
-		} else {
-			this.intensityId = new int[fileNames.length];
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].endsWith("LFQ")) {
-					for (int j = 0; j < fileNames.length; j++) {
-						if (title[i].equals(fileNames[j] + "_LFQ")) {
-							intensityId[j] = i;
+				this.intensityId = new int[idList.size()];
+				this.fileNames = new String[idList.size()];
+				for (int i = 0; i < fileNames.length; i++) {
+					intensityId[i] = idList.get(i);
+					fileNames[i] = title[intensityId[i]].substring(0, title[intensityId[i]].length() - "_LFQ".length());
+				}
+			} else {
+				this.intensityId = new int[fileNames.length];
+				for (int i = 0; i < title.length; i++) {
+					if (title[i].endsWith("LFQ")) {
+						for (int j = 0; j < fileNames.length; j++) {
+							if (title[i].equals(fileNames[j] + "_LFQ")) {
+								intensityId[j] = i;
+							}
 						}
 					}
 				}
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading Fragpipe protein quantification result file " + super.getFile(), e);
 		}
 	}
 
@@ -181,20 +180,5 @@ public class AlphapeptProReader extends AbstractMetaProteinReader {
 	public String[] getIntensityTitle() {
 		// TODO Auto-generated method stub
 		return fileNames;
-	}
-
-	public static void main(String[] args) {
-		AlphapeptProReader reader = new AlphapeptProReader(
-				"Z:\\Kai\\Raw_files\\test\\test\\MetaLab_alphapept\\mag_result\\mag_proteins.csv",
-				new String[] { "DDA_10507_1", "DDA_10507_2", "DDA_10507_3" });
-		MetaProtein[] pros = reader.getMetaProteins();
-		System.out.println(pros.length);
-		int count = 0;
-		for (int i = 0; i < pros.length; i++) {
-			if (pros[i].getProteinId() == 1) {
-				count++;
-			}
-		}
-		System.out.println(count);
 	}
 }

@@ -201,6 +201,64 @@ public class MSConvertor {
 		name = name.substring(0, name.lastIndexOf(".")) + ".mzXML";
 		return parent + "\\" + name;
 	}
+	
+	public static String raw2mzML(String raw) {
+		File file = new File(raw);
+		String parent = file.getParent();
+		String cmd = convertCmd + " " + file + " --mzML " + "-o " + parent
+				+ " --zlib --filter \"peakPicking true 1-\"";
+
+		Runtime run = Runtime.getRuntime();
+		try {
+			Process p = run.exec(cmd);
+			BufferedInputStream in = new BufferedInputStream(p.getInputStream());
+			BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
+			String lineStr;
+			while ((lineStr = inBr.readLine()) != null)
+				System.out.println(lineStr);
+			if (p.waitFor() != 0) {
+				if (p.exitValue() == 1)
+					System.err.println("false");
+			}
+			inBr.close();
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String name = file.getName();
+		name = name.substring(0, name.lastIndexOf(".")) + ".mzML";
+		return parent + "\\" + name;
+	}
+	
+	public static String raw2mzML(String convertCmd, String raw) {
+		File file = new File(raw);
+		String parent = file.getParent();
+		String cmd = convertCmd + " " + file + " --mzML " + "-o " + parent
+				+ " --zlib --filter \"peakPicking true 1-\"";
+
+		Runtime run = Runtime.getRuntime();
+		try {
+			Process p = run.exec(cmd);
+			BufferedInputStream in = new BufferedInputStream(p.getInputStream());
+			BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
+			String lineStr;
+			while ((lineStr = inBr.readLine()) != null)
+				System.out.println(lineStr);
+			if (p.waitFor() != 0) {
+				if (p.exitValue() == 1)
+					System.err.println("false");
+			}
+			inBr.close();
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String name = file.getName();
+		name = name.substring(0, name.lastIndexOf(".")) + ".mzML";
+		return parent + "\\" + name;
+	}
 
 	public static void help() {
 		String cmd = convertCmd + " --help";
@@ -224,8 +282,6 @@ public class MSConvertor {
 	}
 
 	public static void main(String[] args) {
-		MSConvertor.raw2mgf("E:\\Exported\\Resources\\ProteoWizard\\msconvert.exe", 
-				"Z:\\Kai\\Raw_files\\test\\S11_Fraction2.raw", 
-				"Z:\\Kai\\Raw_files\\test\\MetaLab_maxquant\\spectra");
+		MSConvertor.raw2mzML("Z:\\Kai\\Raw_files\\run21\\raw\\Haonan_20220809_DDA_S48_2.raw");
 	}
 }

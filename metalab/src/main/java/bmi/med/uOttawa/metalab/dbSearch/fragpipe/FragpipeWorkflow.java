@@ -204,25 +204,4 @@ public class FragpipeWorkflow {
 			return this.id - o.id;
 		}
 	}
-
-	public static void main(String[] args) throws IOException {
-
-		FragpipeWorkflow fw1 = FragpipeWorkflow
-				.parse("E:\\Exported\\Resources\\fragpipe\\workflows\\TMT10.workflow");
-		FragpipeWorkflow fw2 = FragpipeWorkflow.parse("E:\\Exported\\Resources\\fragpipe\\workflows\\Default.workflow");
-
-		System.out.println(fw1.valueMap.size() + "\t" + fw2.valueMap.size());
-
-		for (String key2 : fw2.valueMap.keySet()) {
-			if (fw1.valueMap.containsKey(key2)) {
-				if (!fw1.valueMap.get(key2).value.equals(fw2.valueMap.get(key2).value)) {
-					System.out
-							.println(key2 + "\t" + fw1.valueMap.get(key2).value + "\t" + fw2.valueMap.get(key2).value);
-				}
-			} else {
-				System.out.println("no key---------"+key2);
-			}
-		}
-
-	}
 }

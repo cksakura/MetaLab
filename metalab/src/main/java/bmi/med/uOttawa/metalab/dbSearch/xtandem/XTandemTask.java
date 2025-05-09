@@ -109,7 +109,7 @@ public class XTandemTask {
 					LOGGER.error("Error in writing log file", e);
 				}
 				MgfWriter writer = new MgfWriter(mgf);
-				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
+//				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
 				try {
 					log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 				} catch (IOException e) {
@@ -137,7 +137,7 @@ public class XTandemTask {
 						LOGGER.error("Error in writing log file", e);
 					}
 					MgfWriter writer = new MgfWriter(mgf);
-					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
+//					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
 					try {
 						log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 					} catch (IOException e) {
@@ -245,7 +245,7 @@ public class XTandemTask {
 					LOGGER.error("Error in writing log file", e);
 				}
 				MgfWriter writer = new MgfWriter(mgf);
-				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
+//				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
 				try {
 					log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 				} catch (IOException e) {
@@ -273,7 +273,7 @@ public class XTandemTask {
 						LOGGER.error("Error in writing log file", e);
 					}
 					MgfWriter writer = new MgfWriter(mgf);
-					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
+//					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
 					try {
 						log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 					} catch (IOException e) {
@@ -378,7 +378,7 @@ public class XTandemTask {
 					LOGGER.error("Error in writing log file", e);
 				}
 				MgfWriter writer = new MgfWriter(mgf);
-				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
+//				writer.wiffMzxml2Mgf4Mascot(raw.getAbsolutePath());
 				try {
 					log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 				} catch (IOException e) {
@@ -406,7 +406,7 @@ public class XTandemTask {
 						LOGGER.error("Error in writing log file", e);
 					}
 					MgfWriter writer = new MgfWriter(mgf);
-					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
+//					writer.wiffMzxml2Mgf4Mascot(mzxml.getAbsolutePath());
 					try {
 						log.append(format.format(new Date()) + "\t" + "mgf convert for " + raw + " finished" + "\n");
 					} catch (IOException e) {

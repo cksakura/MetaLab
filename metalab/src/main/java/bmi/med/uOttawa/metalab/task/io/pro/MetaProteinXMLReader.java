@@ -590,7 +590,7 @@ public class MetaProteinXMLReader {
 				String ko = mpa.getKO() == null ? "" : mpa.getKO();
 				sb.append("\"").append(ko).append("\"").append(",");
 
-				String koName = koMap.containsKey(ko) ? keggMap.get(ko) : "";
+				String koName = koMap.containsKey(ko) ? koMap.get(ko) : "";
 				sb.append("\"").append(koName).append("\"").append(",");
 			}
 
@@ -821,7 +821,7 @@ public class MetaProteinXMLReader {
 				String ko = mpa.getKO() == null ? "" : mpa.getKO();
 				sb.append(ko).append("\t");
 
-				String koName = keggMap.containsKey(ko) ? keggMap.get(ko) : "";
+				String koName = koMap.containsKey(ko) ? koMap.get(ko) : "";
 				sb.append(koName).append("\t");
 			}
 

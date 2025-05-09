@@ -86,34 +86,33 @@ public class FlashLfqQuanPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("Base Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Protein Groups")) {
+					proteinId = i;
+				} else if (title[i].startsWith("Intensity_")) {
+					intensityTitleIdMap.put(title[i], i);
+					intensityTitleList.add(title[i]);
+				} else if (title[i].startsWith("Detection Type_")) {
+					idenTypeTitleIdMap.put(title[i], i);
+					idenTypeList.add(title[i]);
+				}
+			}
+
+			if (sequenceId == -1) {
+				sequenceId = modSeqId;
+			}
+
+			this.intensityTitles = intensityTitleList.toArray(String[]::new);
+			this.idenTypeTitles = idenTypeList.toArray(String[]::new);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
-
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("Base Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Protein Groups")) {
-				proteinId = i;
-			} else if (title[i].startsWith("Intensity_")) {
-				intensityTitleIdMap.put(title[i], i);
-				intensityTitleList.add(title[i]);
-			} else if (title[i].startsWith("Detection Type_")) {
-				idenTypeTitleIdMap.put(title[i], i);
-				idenTypeList.add(title[i]);
-			}
-		}
-
-		if (sequenceId == -1) {
-			sequenceId = modSeqId;
-		}
-
-		this.intensityTitles = intensityTitleList.toArray(String[]::new);
-		this.idenTypeTitles = idenTypeList.toArray(String[]::new);
 	}
 	
 	protected void parseTitle(ArrayList<String> fileList) {
@@ -126,38 +125,37 @@ public class FlashLfqQuanPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
-		}
-
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("Base Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Protein Groups")) {
-				proteinId = i;
-			} else if (title[i].startsWith("Intensity_")) {
-				intensityTitleIdMap.put(title[i], i);
-				for (int j = 0; j < fileList.size(); j++) {
-					if (title[i].equals("Intensity_" + fileList.get(j))) {
-						this.intensityTitles[j] = title[i];
+			this.title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("Base Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Protein Groups")) {
+					proteinId = i;
+				} else if (title[i].startsWith("Intensity_")) {
+					intensityTitleIdMap.put(title[i], i);
+					for (int j = 0; j < fileList.size(); j++) {
+						if (title[i].equals("Intensity_" + fileList.get(j))) {
+							this.intensityTitles[j] = title[i];
+						}
 					}
-				}
-			} else if (title[i].startsWith("Detection Type_")) {
-				idenTypeTitleIdMap.put(title[i], i);
-				for (int j = 0; j < fileList.size(); j++) {
-					if (title[i].equals("Detection Type_" + fileList.get(j))) {
-						this.idenTypeTitles[j] = title[i];
+				} else if (title[i].startsWith("Detection Type_")) {
+					idenTypeTitleIdMap.put(title[i], i);
+					for (int j = 0; j < fileList.size(); j++) {
+						if (title[i].equals("Detection Type_" + fileList.get(j))) {
+							this.idenTypeTitles[j] = title[i];
+						}
 					}
 				}
 			}
-		}
 
-		if (sequenceId == -1) {
-			sequenceId = modSeqId;
+			if (sequenceId == -1) {
+				sequenceId = modSeqId;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
 	}
 
@@ -171,41 +169,40 @@ public class FlashLfqQuanPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
-		}
-
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("Base Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Protein Groups")) {
-				proteinId = i;
-			} else if (title[i].startsWith("Intensity_")) {
-				intensityTitleIdMap.put(title[i], i);
-				for (int j = 0; j < fileList.size(); j++) {
-					String fileJ = fileList.get(j);
-					for (int k = 0; k < reportTitle.length; k++) {
-						if (title[i].equals("Intensity_" + fileJ + "_" + reportTitle[k])) {
-							this.intensityTitles[j * reportTitle.length + k] = title[i];
+			this.title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("Base Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Protein Groups")) {
+					proteinId = i;
+				} else if (title[i].startsWith("Intensity_")) {
+					intensityTitleIdMap.put(title[i], i);
+					for (int j = 0; j < fileList.size(); j++) {
+						String fileJ = fileList.get(j);
+						for (int k = 0; k < reportTitle.length; k++) {
+							if (title[i].equals("Intensity_" + fileJ + "_" + reportTitle[k])) {
+								this.intensityTitles[j * reportTitle.length + k] = title[i];
+							}
+						}
+					}
+				} else if (title[i].startsWith("Detection Type_")) {
+					idenTypeTitleIdMap.put(title[i], i);
+					for (int j = 0; j < fileList.size(); j++) {
+						if (title[i].equals("Detection Type_" + fileList.get(j))) {
+							this.idenTypeTitles[j] = title[i];
 						}
 					}
 				}
-			} else if (title[i].startsWith("Detection Type_")) {
-				idenTypeTitleIdMap.put(title[i], i);
-				for (int j = 0; j < fileList.size(); j++) {
-					if (title[i].equals("Detection Type_" + fileList.get(j))) {
-						this.idenTypeTitles[j] = title[i];
-					}
-				}
 			}
-		}
 
-		if (sequenceId == -1) {
-			sequenceId = modSeqId;
+			if (sequenceId == -1) {
+				sequenceId = modSeqId;
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
 	}
 	

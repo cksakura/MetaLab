@@ -66,39 +66,47 @@ public class DiaNNTask {
 		String cmd = par.generateConvert();
 		File rawFile = (new File(raws[0])).getParentFile();
 		File batFile = new File(rawFile, "convert.bat");
+		File cfgFile = new File(rawFile, "convert.cfg");
+
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!");
+			 * 
+			 * 
+			 * writer.println(); writer.println("endlocal");
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * StringBuilder sb = new StringBuilder(); sb.append(batFile.getAbsolutePath());
+		 * for (String raw : raws) { sb.append("\t").append(raw); }
+		 * this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -112,39 +120,27 @@ public class DiaNNTask {
 	public void addTask(DiannParameter par, String[] raws, String out, String... libs) {
 		String cmd = par.generateLibSearch(raws, out, libs);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
-			writer.println();
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.print("exit");
 			writer.close();
+
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
+
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -163,39 +159,44 @@ public class DiaNNTask {
 			cmd = par.generateLibSearch(raws, out, lib);
 		}
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
+
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
 			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
 		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * StringBuilder sb = new StringBuilder(); sb.append(batFile.getAbsolutePath());
+		 * for (String raw : raws) { sb.append("\t").append(raw); }
+		 * this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -210,39 +211,44 @@ public class DiaNNTask {
 			boolean autoInfer) {
 		String cmd = par.generateLibSearch(raws, out, lib, genSpecLib, autoInfer);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * StringBuilder sb = new StringBuilder(); sb.append(batFile.getAbsolutePath());
+		 * for (String raw : raws) { sb.append("\t").append(raw); }
+		 * this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -256,39 +262,45 @@ public class DiaNNTask {
 	public void addTask(DiannParameter par, DiaLibSearchPar libSearchPar, String out, String... lib) {
 		String cmd = par.generateLibSearch(libSearchPar, out, lib);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			String[] raws = libSearchPar.getDiaFiles();
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-		String[] raws = libSearchPar.getDiaFiles();
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * String[] raws = libSearchPar.getDiaFiles(); StringBuilder sb = new
+		 * StringBuilder(); sb.append(batFile.getAbsolutePath()); for (String raw :
+		 * raws) { sb.append("\t").append(raw); } this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -302,40 +314,45 @@ public class DiaNNTask {
 	public void addFastTask(DiannParameter par, DiaLibSearchPar libSearchPar, String out, String... lib) {
 		String cmd = par.generateLibSearchFast(libSearchPar, out, lib);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			String[] raws = libSearchPar.getDiaFiles();
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		String[] raws = libSearchPar.getDiaFiles();
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * String[] raws = libSearchPar.getDiaFiles(); StringBuilder sb = new
+		 * StringBuilder(); sb.append(batFile.getAbsolutePath()); for (String raw :
+		 * raws) { sb.append("\t").append(raw); } this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -352,40 +369,45 @@ public class DiaNNTask {
 			boolean qvalueCutoff, String... libs) {
 		String cmd = par.generateLibSearch(libSearchPar, output, fast, genLib, qvalueCutoff, libs);
 		File batFile = new File(output + ".bat");
+		File cfgFile = new File(output + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			String[] raws = libSearchPar.getDiaFiles();
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		String[] raws = libSearchPar.getDiaFiles();
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * String[] raws = libSearchPar.getDiaFiles(); StringBuilder sb = new
+		 * StringBuilder(); sb.append(batFile.getAbsolutePath()); for (String raw :
+		 * raws) { sb.append("\t").append(raw); } this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -399,40 +421,45 @@ public class DiaNNTask {
 	public void addFastLibTask(DiannParameter par, DiaLibSearchPar libSearchPar, String out, String... lib) {
 		String cmd = par.generateLibSearchFastLib(libSearchPar, out, lib);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			String[] raws = libSearchPar.getDiaFiles();
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		String[] raws = libSearchPar.getDiaFiles();
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * String[] raws = libSearchPar.getDiaFiles(); StringBuilder sb = new
+		 * StringBuilder(); sb.append(batFile.getAbsolutePath()); for (String raw :
+		 * raws) { sb.append("\t").append(raw); } this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -448,39 +475,44 @@ public class DiaNNTask {
 	public void addTask(DiannParameter par, String[] raws, String out, String fasta, String libOut, boolean fast) {
 		String cmd = par.generateFastaSearch(raws, out, fasta, libOut, fast);
 		File batFile = new File(out + ".bat");
+		File cfgFile = new File(out + ".cfg");
 		try (PrintWriter writer = new PrintWriter(batFile)) {
 			writer.println(headsb);
-			writer.println("setlocal enabledelayedexpansion");
-			writer.println();
-			writer.println("REM Get all the file paths passed as parameters and store them in a variable");
-			writer.println("set files=");
-			writer.println();
-			writer.println(
-					"REM Loop through each file path and append it to the variable with a space and a --f option");
-			writer.println("for %%f in (%*) do (");
-			writer.println("\tset files=!files! --f \"%%f\"");
-			writer.println(")");
-			writer.println();
-			writer.println("REM Print the content of the start command");
-			writer.println("echo !files!");
-			writer.println();
-			writer.println("start /B " + diaNNFile.getName() + " " + cmd + "!files!");
-			writer.println();
-			writer.println("endlocal");
+			/*
+			 * writer.println("setlocal enabledelayedexpansion"); writer.println(); writer.
+			 * println("REM Get all the file paths passed as parameters and store them in a variable"
+			 * ); writer.println("set files="); writer.println(); writer.println(
+			 * "REM Loop through each file path and append it to the variable with a space and a --f option"
+			 * ); writer.println("for %%f in (%*) do (");
+			 * writer.println("\tset files=!files! --f \"%%f\""); writer.println(")");
+			 * writer.println();
+			 * writer.println("REM Print the content of the start command");
+			 * writer.println("echo !files!"); writer.println(); writer.println("start /B "
+			 * + diaNNFile.getName() + " " + cmd + "!files!"); writer.println();
+			 * writer.println("endlocal"); writer.println();
+			 */
+			writer.println("start /B " + diaNNFile.getName() + " --cfg " + cfgFile.getAbsolutePath());
 			writer.println();
 			writer.print("exit");
 			writer.close();
+
+			PrintWriter cfgWriter = new PrintWriter(cfgFile);
+			cfgWriter.print(cmd);
+			for (int i = 0; i < raws.length; i++) {
+				cfgWriter.print(" --f \"" + raws[i] + "\"");
+			}
+			cfgWriter.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(batFile.getAbsolutePath());
-		for (String raw : raws) {
-			sb.append("\t").append(raw);
-		}
-		this.parList.add(sb.toString());
+		/*
+		 * StringBuilder sb = new StringBuilder(); sb.append(batFile.getAbsolutePath());
+		 * for (String raw : raws) { sb.append("\t").append(raw); }
+		 * this.parList.add(sb.toString());
+		 */
+		this.parList.add(batFile.getAbsolutePath());
 	}
 
 	/**
@@ -569,7 +601,8 @@ public class DiaNNTask {
 			writer.close();
 		} catch (IOException e) {
 			LOGGER.error(taskName + ": error in writing the .bat file to " + batFile, e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + "batFile" + batFile);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the .bat file to " + batFile);
 		}
 
 		this.parList.add(batFile.getAbsolutePath());
@@ -606,10 +639,10 @@ public class DiaNNTask {
 						commands.add("start");
 						commands.add("/min");
 
-						for (String parString : pari.split("\t")) {
+						String[] cs = pari.split("\t");
+						for (String parString : cs) {
 							commands.add(parString);
 						}
-
 						ProcessBuilder pb = new ProcessBuilder(commands);
 						Process p = pb.start();
 						BufferedInputStream in = new BufferedInputStream(p.getInputStream());
@@ -742,15 +775,5 @@ public class DiaNNTask {
 		}
 
 		return true;
-	}
-
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		DiaNNTask task = new DiaNNTask("E:\\Exported\\Resources\\fragpipe\\tools\\diann\\1.9\\DiaNN.exe");
-		DiannParameter parameter = new DiannParameter();
-		parameter.setThreads(12);
-		task.addTask(parameter, "Z:\\Kai\\Adrian_20240606_AD2\\combined.fasta",
-				"Z:\\Kai\\Adrian_20240606_AD2\\combined.lib", false);
-		task.run(12);
 	}
 }

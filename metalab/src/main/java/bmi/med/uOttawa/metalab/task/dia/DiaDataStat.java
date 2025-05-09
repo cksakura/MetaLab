@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DiaDataStat {
 	
+	@SuppressWarnings("unused")
 	private static void transfer(String in, String project, String db) {
 		File oldFile = new File(in, project);
 		File outFile = new File(in, "genome_pep_rank");
@@ -109,6 +110,7 @@ public class DiaDataStat {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private static void getGenomePepCount(String db, String out) throws IOException, InterruptedException {
 
 		BufferedWriter[] writer = { null };

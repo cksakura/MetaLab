@@ -68,6 +68,7 @@ public class DeepDetectTask extends MetaLabTask {
 			drive = path.substring(0, id);
 		}
 		this.batFileList = new ArrayList<File>();
+		this.timeLeft = new JTextField();
 	}
 
 	public DeepDetectTask(File deepDetectFile, HashSet<String> genomeSet) {
@@ -85,6 +86,7 @@ public class DeepDetectTask extends MetaLabTask {
 		}
 		this.batFileList = new ArrayList<File>();
 		this.genomeSet = genomeSet;
+		this.timeLeft = new JTextField();
 	}
 
 	public DeepDetectTask(File deepDetectFile, DeepDetectParameter par, MagDbItem magdb, int threads,
@@ -632,19 +634,34 @@ public class DeepDetectTask extends MetaLabTask {
 	}
 	
 	public static void main(String[] args) {
-
-		/*
-		DeepDetectParameter parameter = new DeepDetectParameter();
-		parameter.setInput(new File("Z:\\Kai\\Raw_files\\core_pep_db\\hap.fasta"));
-		parameter.setOutput(new File("Z:\\Kai\\Raw_files\\core_pep_db\\hap.deepdetect.tsv"));
-		parameter.setMissCleavage(2);
-
+		
+		try(BufferedReader reader = new BufferedReader(new FileReader("E:\\20250505\\HTCmetagenomics.fasta"))){
+			PrintWriter writer = new PrintWriter(new File("E:\\20250505\\HTCmetagenomics20000.fasta"));
+			int count = 0;
+			String line = null;
+			while((line=reader.readLine())!=null) {
+				if(line.startsWith(">")) {
+					count++;
+					if(count==2000) {
+						break;
+					}
+					writer.println(line+"_"+line.substring(1));
+				}else {
+					writer.println(line);
+				}
+			}
+			reader.close();
+			writer.close();;
+		}catch(IOException e) {
+			
+		}
+/*		
 		DeepDetectTask task = new DeepDetectTask("E:\\Exported\\Resources\\DeepDetect\\DeepDetect.exe");
+		DeepDetectParameter parameter = new DeepDetectParameter();
+		parameter.setInput(new File("E:\\20250505\\HTCmetagenomics.fasta"));
+		parameter.setOutput(new File("E:\\20250505\\HTCmetagenomics.tsv"));
 		task.addTask(parameter);
-		task.run(1);
+		task.run();
 		*/
-		String nameString = "Z:\\Kai\\Raw_files\\core_pep_db\\hap.fasta";
-		System.out.println(nameString.substring(0, nameString.lastIndexOf(".")));
 	}
-
 }

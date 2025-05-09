@@ -50,14 +50,11 @@ import bmi.med.uOttawa.metalab.task.io.pep.MetaPeptide;
 import bmi.med.uOttawa.metalab.task.io.pro.MetaProtein;
 import bmi.med.uOttawa.metalab.task.io.pro.pfind.MetaProteinAnnoEggNog;
 import bmi.med.uOttawa.metalab.task.io.pro.pfind.MetaProteinXMLReader2;
-import bmi.med.uOttawa.metalab.task.mag.MagDbConfigIO;
 import bmi.med.uOttawa.metalab.task.mag.MagDbItem;
 import bmi.med.uOttawa.metalab.task.mag.MagFuncSearcher;
 import bmi.med.uOttawa.metalab.task.mag.MagHapPFindTask;
 import bmi.med.uOttawa.metalab.task.mag.MetaProteinAnnoMag;
-import bmi.med.uOttawa.metalab.task.mag.par.MetaParaIOMag;
 import bmi.med.uOttawa.metalab.task.mag.par.MetaParameterMag;
-import bmi.med.uOttawa.metalab.task.mag.par.MetaSourcesIoMag;
 import bmi.med.uOttawa.metalab.task.mag.par.MetaSourcesMag;
 import bmi.med.uOttawa.metalab.task.par.MetaConstants;
 import bmi.med.uOttawa.metalab.task.par.MetaData;
@@ -68,7 +65,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 	private String fragpipeBat;
 	private FragPipeTask fragPipeTask;
 	private String[] fragpipeExpNames;
-	
+
 	protected static final Logger LOGGER = LogManager.getLogger(MetaLabMagFragpipeTask.class);
 	protected static final String taskName = "FragPipe HAP workflow";
 
@@ -108,7 +105,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		}
 		setTaskCount();
 	}
-	
+
 	protected void setTaskCount() {
 		long totalMemorySize = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean())
 				.getTotalMemorySize() / 1024 / 1024 / 1024;
@@ -121,7 +118,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		LOGGER.info(getTaskName() + ": the number of max memory is " + totalMemorySize
 				+ " GB, the max number of tasks is set as " + maxTaskCount);
 	}
-	
+
 	protected boolean separateSearchHap() {
 
 		int taskCount = 0;
@@ -150,8 +147,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": FragPipe search result already exists in " + hapResultFolder.getAbsolutePath());
 
-				LOGGER.info(
-						getTaskName() + ": FragPipe search result already exists in " + hapResultFolder.getAbsolutePath());
+				LOGGER.info(getTaskName() + ": FragPipe search result already exists in "
+						+ hapResultFolder.getAbsolutePath());
 			} else {
 				taskCount++;
 			}
@@ -184,8 +181,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 				if (!manifest.exists()) {
 					LOGGER.error(getTaskName() + ": exporting Manifest failed for " + separateResultFolders[i]);
-					System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": exporting Manifest failed for "
-							+ separateResultFolders[i]);
+					System.err.println(format.format(new Date()) + "\t" + getTaskName()
+							+ ": exporting Manifest failed for " + separateResultFolders[i]);
 					return false;
 				}
 			}
@@ -221,11 +218,17 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 					if (workflow == null) {
 						LOGGER.error(getTaskName() + ": currently isobaric tag " + tag + " was not supported");
-						System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": currently isobaric tag "
-								+ tag + " was not supported");
+						System.err.println(format.format(new Date()) + "\t" + getTaskName()
+								+ ": currently isobaric tag " + tag + " was not supported");
 						return false;
 					}
+				} else {
+					LOGGER.error(getTaskName() + ": unknown quantitative mode");
+					System.err
+							.println(format.format(new Date()) + "\t" + getTaskName() + ": unknown quantitative mode");
+					return false;
 				}
+
 				File hapTdFile = this.magDb.getHapFastaTDFile();
 				if (!hapTdFile.exists()) {
 					try {
@@ -259,8 +262,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 					return false;
 				}
 
-				LOGGER.info(
-						getTaskName() + ": searching high-abundance database for " + separateResultFolders[i] + " started");
+				LOGGER.info(getTaskName() + ": searching high-abundance database for " + separateResultFolders[i]
+						+ " started");
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": searching high-abundance database for " + separateResultFolders[i] + " started");
 
@@ -301,7 +304,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		return true;
 	}
-	
+
 	protected boolean fastaExtract4Iterator() {
 
 		for (int i = 0; i < this.separateResultFolders.length; i++) {
@@ -401,7 +404,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 						while ((line = reader.readLine()) != null) {
 							if (line.startsWith(">")) {
 
-								if (rev != null) {
+								if (rev != null && sb != null) {
 									writer.println(rev);
 									writer.println(sb.reverse());
 								}
@@ -411,12 +414,14 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 								writer.println(line);
 
 							} else {
-								sb.append(line);
+								if (sb != null) {
+									sb.append(line);
+								}
 								writer.println(line);
 							}
 						}
 
-						if (rev != null) {
+						if (rev != null && sb != null) {
 							writer.println(rev);
 							writer.println(sb.reverse());
 						}
@@ -426,9 +431,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 					writer.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					LOGGER.error(
-							getTaskName() + ": error in writing protein sequences to the sample-specific database " + dbFile,
-							e);
+					LOGGER.error(getTaskName() + ": error in writing protein sequences to the sample-specific database "
+							+ dbFile, e);
 					System.err.println(format.format(new Date()) + "\t" + getTaskName()
 							+ ": error in writing protein sequences to the sample-specific database " + dbFile);
 				}
@@ -474,7 +478,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 						combineTsvReader.close();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						LOGGER.error(getTaskName() + ": error in reading database search result file " + combinePsmFile, e);
+						LOGGER.error(getTaskName() + ": error in reading database search result file " + combinePsmFile,
+								e);
 						System.err.println(format.format(new Date()) + "\t" + getTaskName()
 								+ ": error in reading database search result file " + combinePsmFile);
 					}
@@ -518,7 +523,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 							while ((line = reader.readLine()) != null) {
 								if (line.startsWith(">")) {
 
-									if (rev != null) {
+									if (rev != null && sb != null) {
 										writer.println(rev);
 										writer.println(sb.reverse());
 									}
@@ -528,12 +533,14 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 									writer.println(line);
 
 								} else {
-									sb.append(line);
+									if (sb != null) {
+										sb.append(line);
+									}
 									writer.println(line);
 								}
 							}
 
-							if (rev != null) {
+							if (rev != null && sb != null) {
 								writer.println(rev);
 								writer.println(sb.reverse());
 							}
@@ -544,14 +551,15 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
-						LOGGER.error(getTaskName() + ": error in writing protein sequences to the sample-specific database "
-								+ dbFile, e);
+						LOGGER.error(getTaskName()
+								+ ": error in writing protein sequences to the sample-specific database " + dbFile, e);
 						System.err.println(format.format(new Date()) + "\t" + getTaskName()
 								+ ": error in writing protein sequences to the sample-specific database " + dbFile);
 					}
 				} else {
 
-					LOGGER.info(getTaskName() + ": searching high-abundance database failed, result files were not found");
+					LOGGER.info(
+							getTaskName() + ": searching high-abundance database failed, result files were not found");
 					System.out.println(format.format(new Date()) + "\t" + getTaskName()
 							+ ": searching high-abundance database failed, result files were not found");
 					return false;
@@ -566,19 +574,19 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			if (dbFile.exists() && dbFile.length() > 0) {
 
 				LOGGER.info(getTaskName() + ": sample-specific database generation finished");
-				System.out.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": sample-specific database generation finished");
+				System.out.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": sample-specific database generation finished");
 
 				System.out.println(
 						format.format(new Date()) + "\t" + getTaskName() + ": generating sample-specific database for "
 								+ separateResultFolders[i].getName() + " finished");
 
-				LOGGER.info(getTaskName() + ": generating sample-specific database for " + separateResultFolders[i].getName()
-						+ " finished");
+				LOGGER.info(getTaskName() + ": generating sample-specific database for "
+						+ separateResultFolders[i].getName() + " finished");
 			} else {
 				LOGGER.info(getTaskName() + ": sample-specific database generation failed");
-				System.out.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": sample-specific database generation failed");
+				System.out.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": sample-specific database generation failed");
 
 				return false;
 			}
@@ -586,7 +594,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		return true;
 	}
-	
+
 	protected boolean separateSearch() {
 
 		int taskCount = 0;
@@ -596,8 +604,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			if (spResultFolder.exists() && combinePsmFile.exists()) {
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": FragPipe search result already exists in " + spResultFolder.getAbsolutePath());
-				LOGGER.info(
-						getTaskName() + ": FragPipe search result already exists in " + spResultFolder.getAbsolutePath());
+				LOGGER.info(getTaskName() + ": FragPipe search result already exists in "
+						+ spResultFolder.getAbsolutePath());
 			} else {
 				taskCount++;
 			}
@@ -635,8 +643,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 					if (workflow == null) {
 						LOGGER.error(getTaskName() + ": currently isobaric tag " + tag + " was not supported");
-						System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": currently isobaric tag "
-								+ tag + " was not supported");
+						System.err.println(format.format(new Date()) + "\t" + getTaskName()
+								+ ": currently isobaric tag " + tag + " was not supported");
 						return false;
 					}
 				}
@@ -644,8 +652,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				if (workflow == null) {
 
 					LOGGER.error(getTaskName() + ": unknown quantification mode " + quanMode);
-					System.err.println(
-							format.format(new Date()) + "\t" + getTaskName() + ": unknown quantification mode " + quanMode);
+					System.err.println(format.format(new Date()) + "\t" + getTaskName()
+							+ ": unknown quantification mode " + quanMode);
 					return false;
 				}
 
@@ -661,8 +669,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				}
 				File manifest = new File(this.separateResultFolders[i], "raws.fp-manifest");
 
-				LOGGER.info(
-						getTaskName() + ": searching high-abundance database for " + separateResultFolders[i] + " started");
+				LOGGER.info(getTaskName() + ": searching high-abundance database for " + separateResultFolders[i]
+						+ " started");
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": searching high-abundance database for " + separateResultFolders[i] + " started");
 
@@ -686,8 +694,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": FragPipe search result was not found from " + spResultFolder.getAbsolutePath());
 
-				LOGGER.info(
-						getTaskName() + ": FragPipe search result was not found from " + spResultFolder.getAbsolutePath());
+				LOGGER.info(getTaskName() + ": FragPipe search result was not found from "
+						+ spResultFolder.getAbsolutePath());
 
 				return false;
 			}
@@ -695,7 +703,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		return true;
 	}
-	
+
 	protected boolean combineResult() {
 		File combinedFastaFile = new File(metaPar.getDbSearchResultFile(), "combined.fasta");
 		if (!combinedFastaFile.exists()) {
@@ -884,15 +892,16 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		return true;
 	}
-	
+
 	protected boolean lfQuant() {
 		return true;
 	}
-	
+
 	protected boolean isobaricQuant() {
 		return true;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	protected boolean exportReport() {
 
 		LOGGER.info(getTaskName() + ": exporting peptide report started");
@@ -971,7 +980,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				}
 			}
 		}
-		
+
 		HashMap<String, Integer> psmCountMap = new HashMap<String, Integer>();
 
 		int[] filePsmCount = new int[fileIdMap.size()];
@@ -979,7 +988,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		for (int i = 0; i < fileSequenceSets.length; i++) {
 			fileSequenceSets[i] = new HashSet<String>();
 		}
-		
+
 		for (int i = 0; i < quanPeps.length; i++) {
 			String[] proteins = quanPeps[i].getProteins();
 			int count = 0;
@@ -1228,7 +1237,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 					totalMsCount += ms2Count[j];
 					sb.append(ms2Count[j]).append("\t");
 				}
-				
+
 				double[] intensity = peptide.getIntensity();
 				double totalIntensity = 0;
 				for (int j = 0; j < intensity.length; j++) {
@@ -1301,8 +1310,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		}
 
 		LOGGER.info(getTaskName() + ": peptide report has been exported to " + final_pep_txt);
-		System.out.println(
-				format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to " + final_pep_txt);
+		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to "
+				+ final_pep_txt);
 
 		if (!final_pep_txt.exists() || final_pep_txt.length() == 0) {
 			return false;
@@ -1392,7 +1401,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(), e);
+			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(),
+					e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in writing final protein result to " + this.final_pro_txt.getName());
 		}
@@ -1436,28 +1446,30 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 					+ this.final_pro_xml_file.getName(), e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in reading protein function information from " + this.quan_pro_file.getName());
+			return false;
 		}
 
 		if (!funTsv.exists() || !funReportTsv.exists()) {
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + funTsv.getName()
-					+ " started");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ funTsv.getName() + " started");
 			try {
 				funReader.exportTsv(funTsv);
 				funReader.exportTsvReport(funReportTsv);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in writing protein function information to " + funTsv.getName(), e);
+				LOGGER.error(getTaskName() + ": error in writing protein function information to " + funTsv.getName(),
+						e);
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in writing protein function information to " + funTsv.getName());
 			}
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + funTsv.getName()
-					+ " finished");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ funTsv.getName() + " finished");
 		}
 
 		File html = new File(funcFile, "functions.html");
 		if (!html.exists()) {
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + html.getName()
-					+ " started");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ html.getName() + " started");
 			try {
 				funReader.exportHtml(html);
 			} catch (IOException e) {
@@ -1466,8 +1478,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in writing protein function information to " + html.getName());
 			}
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + html.getName()
-					+ " finished");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ html.getName() + " finished");
 		}
 
 		setProgress(91);
@@ -1489,7 +1501,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		} catch (NumberFormatException | SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(getTaskName() + ": error in genome analysis, task failed", e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in genome analysis, task failed");
+			System.err.println(
+					format.format(new Date()) + "\t" + getTaskName() + ": error in genome analysis, task failed");
 
 			return false;
 		}
@@ -1629,7 +1642,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 						taxIntensityMaps[j].put(taxon, taxIntensity);
 
 						if (taxScoreMaps[j].containsKey(taxon)) {
-							taxScoreMaps[j].put(taxon, taxScoreMaps[j].get(taxon) -Math.log10(score));
+							taxScoreMaps[j].put(taxon, taxScoreMaps[j].get(taxon) - Math.log10(score));
 						} else {
 							taxScoreMaps[j].put(taxon, -Math.log10(score));
 						}
@@ -1693,7 +1706,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 					StringBuilder taxaSb = new StringBuilder();
 					taxaSb.append(taxon).append("\t");
-					
+
 					double taxonScore = taxScoreMaps[i].get(taxon);
 					taxaSb.append(FormatTool.getDF2().format(taxonScore)).append("\t");
 
@@ -1773,7 +1786,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		if (!reportHtmlDir.exists()) {
 			reportHtmlDir.mkdirs();
 		}
-		
+
 		File jsOutput = new File(metaPar.getReportDir() + "\\reports\\metamap\\data\\tree.js");
 		if (!jsOutput.getParentFile().exists()) {
 			jsOutput.getParentFile().mkdirs();
@@ -1884,7 +1897,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		FragpipePepReader pepReader = new FragpipePepReader(magPepResultFile, fragpipeExpNames);
 		FragpipePeptide[] peps = pepReader.getMetaPeptides();
 		HashMap<String, Integer> hostProMap = new HashMap<String, Integer>();
-		
+
 		HashSet<String> magPepSet = new HashSet<String>();
 		HashMap<String, HashSet<String>> genomePepMap = new HashMap<String, HashSet<String>>();
 		HashMap<String, HashSet<String>> totalPepProMap = new HashMap<String, HashSet<String>>();
@@ -1918,13 +1931,14 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				}
 			}
 		}
-		
+
 		File magsFile = new File(resultFolderFile, "mags.tsv");
 		HashSet<String> genomeSet = refineGenomes(genomePepMap, magPepSet.size(), 1.0, magsFile);
 
 		LOGGER.info(getTaskName() + ": filtered genome count " + genomeSet.size());
-		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": filtered genome count " + genomeSet.size());
-		
+		System.out.println(
+				format.format(new Date()) + "\t" + getTaskName() + ": filtered genome count " + genomeSet.size());
+
 		HashMap<String, HashSet<String>> magProPepMap = new HashMap<String, HashSet<String>>();
 
 		for (int i = 0; i < peps.length; i++) {
@@ -1952,7 +1966,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		LOGGER.info(getTaskName() + ": filtered microbial protein count " + razorProSet.size());
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": filtered microbial protein count "
 				+ razorProSet.size());
-		
+
 		razorProSet.addAll(hostProMap.keySet());
 
 		HashMap<String, Integer> proIdMap = new HashMap<String, Integer>();
@@ -1967,8 +1981,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			reader.close();
 		} catch (IOException e) {
 			LOGGER.error(getTaskName() + ": error in reading razor protein file " + razorProFile, e);
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": error in reading razor protein file "
-					+ razorProFile);
+			System.out.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in reading razor protein file " + razorProFile);
 		}
 
 		if (hostProMap.size() > 0) {
@@ -1987,7 +2001,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		HashMap<String, String[]> pepProMap = new HashMap<String, String[]>();
 		HashMap<String, double[]> proIntensityMap = new HashMap<String, double[]>();
 		HashMap<String, ArrayList<Double>> proScoreMap = new HashMap<String, ArrayList<Double>>();
-		
+
 		for (int i = 0; i < peps.length; i++) {
 			String seq = peps[i].getModSeq();
 			String[] pros = peps[i].getProteins();
@@ -2056,7 +2070,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		this.final_pep_txt = new File(metaPar.getResult(), "final_peptides.tsv");
 		this.final_pro_txt = new File(metaPar.getResult(), "final_proteins.tsv");
-		
+
 		PrintWriter pepWriter = null;
 		try {
 			pepWriter = new PrintWriter(this.final_pep_txt);
@@ -2169,8 +2183,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		}
 
 		LOGGER.info(getTaskName() + ": peptide report has been exported to " + final_pep_txt);
-		System.out.println(
-				format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to " + final_pep_txt);
+		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to "
+				+ final_pep_txt);
 
 		if (!final_pep_txt.exists() || final_pep_txt.length() == 0) {
 			return false;
@@ -2184,9 +2198,11 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			proWriter = new PrintWriter(this.final_pro_txt);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(), e);
+			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(),
+					e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in writing final protein result to " + this.final_pro_txt.getName());
+			return false;
 		}
 
 		StringBuilder titlesb = new StringBuilder();
@@ -2291,9 +2307,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 
 		return true;
 	}
-	
-	protected HashSet<String> refineProtein(HashMap<String, HashSet<String>> proPepMap, int totalPepCount,
-			File out) {
+
+	protected HashSet<String> refineProtein(HashMap<String, HashSet<String>> proPepMap, int totalPepCount, File out) {
 
 		String[] proteins = proPepMap.keySet().toArray(new String[proPepMap.size()]);
 		Arrays.sort(proteins, (g1, g2) -> {
@@ -2341,7 +2356,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			writer.close();
 		} catch (IOException e) {
 			LOGGER.error(getTaskName() + ": error in writing genomes to " + out, e);
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
+			System.out
+					.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
 		}
 
 		for (int i = 0; i < proteins.length; i++) {
@@ -2455,7 +2471,7 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 					sb.append(rawNameString).append("\t");
 					sb.append(this.expNames[i]).append("\t");
 					sb.append("0\t0\t0%\t0");
-					
+
 					countWriter.println(sb);
 				}
 			}
@@ -2482,8 +2498,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(getTaskName() + ": error in writing PSM information to " + final_summary_txt.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing PSM information to "
-					+ final_summary_txt.getName());
+			System.err.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in writing PSM information to " + final_summary_txt.getName());
 		}
 
 		if (!final_summary_txt.exists() || final_summary_txt.length() == 0) {
@@ -2502,12 +2518,12 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			return finish;
 		}
 	}
-	
+
 	protected boolean exportTaxaFunc(MetaReportTask task) {
 
 		LOGGER.info(getTaskName() + ": taxonomy analysis and functional annotation started");
-		System.out.println(
-				format.format(new Date()) + "\t" + getTaskName() + ": taxonomy analysis and functional annotation started");
+		System.out.println(format.format(new Date()) + "\t" + getTaskName()
+				+ ": taxonomy analysis and functional annotation started");
 
 		// functional annotation
 
@@ -2553,11 +2569,11 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 			funReader = new MetaProteinXMLReader2(final_pro_xml_file);
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error(
-					getTaskName() + ": error in reading protein function information from " + final_pro_xml_file.getName(),
-					e);
+			LOGGER.error(getTaskName() + ": error in reading protein function information from "
+					+ final_pro_xml_file.getName(), e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in reading protein function information from " + final_pro_xml_file.getName());
+			return false;
 		}
 
 		if (proTaxIdMap.size() == 0) {
@@ -2573,25 +2589,26 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 		}
 
 		if (!funTsv.exists() || !funReportTsv.exists()) {
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + funTsv.getName()
-					+ " started");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ funTsv.getName() + " started");
 			try {
 				funReader.exportTsv(funTsv);
 				funReader.exportTsvReport(funReportTsv);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in writing protein function information to " + funTsv.getName(), e);
+				LOGGER.error(getTaskName() + ": error in writing protein function information to " + funTsv.getName(),
+						e);
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in writing protein function information to " + funTsv.getName());
 			}
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + funTsv.getName()
-					+ " finished");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ funTsv.getName() + " finished");
 		}
 
 		File html = new File(funcResultFile, "functions.html");
 		if (!html.exists()) {
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + html.getName()
-					+ " started");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ html.getName() + " started");
 			try {
 				funReader.exportHtml(html);
 			} catch (IOException e) {
@@ -2600,8 +2617,8 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in writing protein function information to " + html.getName());
 			}
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to " + html.getName()
-					+ " finished");
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": writing results to "
+					+ html.getName() + " finished");
 		}
 
 		File report_function_summary = new File(this.reportHtmlDir, "report_function_summary.html");
@@ -2710,48 +2727,5 @@ public class MetaLabMagFragpipeTask extends MagHapPFindTask {
 	protected Logger getLogger() {
 		// TODO Auto-generated method stub
 		return LOGGER;
-	}
-
-	public static void main(String[] args) {
-
-		MetaParameterMag metaPar = MetaParaIOMag
-				.parse("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab\\parameter.json");
-		MetaSourcesMag msv = MetaSourcesIoMag.parse("E:\\Exported\\exe\\resources_MAG_1_1.json");
-		MagDbItem[][] mags = MagDbConfigIO.parse("E:\\Exported\\exe\\MAGDB_1_1.json");
-		MagDbItem useDbItem = null;
-		for(int i=0;i<mags[0].length;i++) {
-			if(mags[0][i].getCatalogueID().equals("mouse-gut")) {
-				useDbItem = mags[0][i];
-			}
-		}
-		
-		if (useDbItem != null) {
-			
-			metaPar.setUsedMagDbItem(useDbItem);
-			metaPar.setResult("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab");
-			metaPar.setMicroDb("Z:\\Kai\\Database\\mouse-gut\\v1.0");
-			MetaLabMagFragpipeTask task = new MetaLabMagFragpipeTask(metaPar, msv, new JProgressBar(),
-					new JProgressBar(), null);
-			task.quan_pep_file = new File("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab\\mag_result\\combined_modified_peptide.tsv");
-			task.resultFolderFile = new File("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab");
-			/*task
-			FragpipePepReader quanPepReader = new FragpipePepReader("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab\\mag_result"
-					+ "\\combined_modified_peptide.tsv");
-			String[] intensityTitles = quanPepReader.getIntensityTitle();
-
-			FragpipePeptide[] quanPeps = quanPepReader.getMetaPeptides();
-
-			System.out.println(quanPeps.length);
-
-			HashMap<String, Double> genomeScoreMap = task.refineGenomes(quanPeps, FastaManager.shuffle);
-			System.out.println(genomeScoreMap.size());
-
-			String[] razorProteins = task.refineProteins(quanPeps, genomeScoreMap, FastaManager.shuffle);
-			System.out.println(razorProteins.length);
-*/			
-			task.exportReport();
-		}
-		
-		
 	}
 }

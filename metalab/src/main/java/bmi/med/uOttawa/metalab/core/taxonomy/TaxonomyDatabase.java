@@ -4,7 +4,6 @@
 package bmi.med.uOttawa.metalab.core.taxonomy;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,39 +55,26 @@ public class TaxonomyDatabase {
 	}
 
 	private void read(String in) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(in));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading taxonomy and phylogeny information from " + in, e);
-		}
-		String line = null;
-		try {
-			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading taxonomy and phylogeny information from " + in, e);
-		}
-		String[] title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Taxon")) {
-				taxonColumn = i;
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+			String line = reader.readLine();
+			String[] title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Taxon")) {
+					taxonColumn = i;
+				}
+				if (title[i].equals("Scientific name")) {
+					nameColumn = i;
+				}
+				if (title[i].equals("Rank")) {
+					rankColumn = i;
+				}
+				if (title[i].equals("Lineage")) {
+					lineageColumn = i;
+				}
+				if (title[i].equals("Parent")) {
+					parentColumn = i;
+				}
 			}
-			if (title[i].equals("Scientific name")) {
-				nameColumn = i;
-			}
-			if (title[i].equals("Rank")) {
-				rankColumn = i;
-			}
-			if (title[i].equals("Lineage")) {
-				lineageColumn = i;
-			}
-			if (title[i].equals("Parent")) {
-				parentColumn = i;
-			}
-		}
-		try {
 			while ((line = reader.readLine()) != null) {
 				Taxon taxon = parse(line);
 				if (taxon != null) {
@@ -101,6 +87,7 @@ public class TaxonomyDatabase {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading taxonomy and phylogeny information from " + in, e);
+			System.err.println("Error in reading taxonomy and phylogeny information from " + in);
 		}
 	}
 
@@ -154,36 +141,23 @@ public class TaxonomyDatabase {
 	
 	public static HashMap<String, Integer> parseFullNameMap() {
 		HashMap<String, Integer> nameMap = new HashMap<String, Integer>();
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(filepath));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading taxonomy and phylogeny information from " + filepath, e);
-		}
-		String line = null;
-		try {
-			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading taxonomy and phylogeny information from " + filepath, e);
-		}
-		String[] title = line.split("\t");
-		int taxonColumn = -1;
-		int namesColumn = -1;
-		int rankColumn = -1;
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Taxon")) {
-				taxonColumn = i;
+		try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
+			String line = reader.readLine();
+			String[] title = line.split("\t");
+			int taxonColumn = -1;
+			int namesColumn = -1;
+			int rankColumn = -1;
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Taxon")) {
+					taxonColumn = i;
+				}
+				if (title[i].equals("Other Names")) {
+					namesColumn = i;
+				}
+				if (title[i].equals("Rank")) {
+					rankColumn = i;
+				}
 			}
-			if (title[i].equals("Other Names")) {
-				namesColumn = i;
-			}
-			if (title[i].equals("Rank")) {
-				rankColumn = i;
-			}
-		}
-		try {
 			while ((line = reader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				if (namesColumn < cs.length && cs[namesColumn].length() > 0) {
@@ -202,6 +176,7 @@ public class TaxonomyDatabase {
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading taxonomy and phylogeny information from " + filepath, e);
+			System.err.println("Error in reading taxonomy and phylogeny information from " + filepath);
 		}
 
 		return nameMap;
@@ -345,23 +320,11 @@ public class TaxonomyDatabase {
 			}
 		}
 
-		if (set.size() == 0) {
-			if (mainType == null) {
-				return null;
-			} else {
-				if (mainTypeSet.contains(mainType)) {
-					return this.taxonMap.get(mainType.getId());
-				} else {
-					return null;
-				}
-			}
-		}
-
-		if (!mainTypeSet.contains(mainType)) {
+		if (mainType == null || !mainTypeSet.contains(mainType)) {
 			return null;
 		}
 
-		if (mainType == RootType.cellular_organisms) {
+		if (set.size() == 0 || mainType == RootType.cellular_organisms) {
 			return this.taxonMap.get(mainType.getId());
 		}
 
@@ -515,23 +478,11 @@ public class TaxonomyDatabase {
 			}
 		}
 
-		if (set.size() == 0) {
-			if (mainType == null) {
-				return null;
-			} else {
-				if (mainTypeSet.contains(mainType)) {
-					return this.taxonMap.get(mainType.getId());
-				} else {
-					return null;
-				}
-			}
-		}
-
-		if (!mainTypeSet.contains(mainType)) {
+		if (mainType == null || !mainTypeSet.contains(mainType)) {
 			return null;
 		}
 
-		if (mainType == RootType.cellular_organisms) {
+		if (set.size() == 0 || mainType == RootType.cellular_organisms) {
 			return this.taxonMap.get(mainType.getId());
 		}
 
@@ -685,23 +636,11 @@ public class TaxonomyDatabase {
 			}
 		}
 
-		if (set.size() == 0) {
-			if (mainType == null) {
-				return null;
-			} else {
-				if (mainTypeSet.contains(mainType)) {
-					return this.taxonMap.get(mainType.getId());
-				} else {
-					return null;
-				}
-			}
-		}
-
-		if (!mainTypeSet.contains(mainType)) {
+		if (mainType == null || !mainTypeSet.contains(mainType)) {
 			return null;
 		}
 
-		if (mainType == RootType.cellular_organisms) {
+		if (set.size() == 0 || mainType == RootType.cellular_organisms) {
 			return this.taxonMap.get(mainType.getId());
 		}
 

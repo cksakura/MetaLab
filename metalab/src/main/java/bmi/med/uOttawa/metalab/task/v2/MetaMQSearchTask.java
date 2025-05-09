@@ -306,6 +306,7 @@ public class MetaMQSearchTask extends MetaAbstractTask {
 			LOGGER.error(taskName + ": error in reading MaxQuant parameter in " + mqpar, e);
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in reading MaxQuant parameter in " + mqpar);
+			return null;
 		}
 		Element root = document.getRootElement();
 
@@ -879,6 +880,7 @@ public class MetaMQSearchTask extends MetaAbstractTask {
 			LOGGER.error(taskName + ": error in reading MaxQuant parameter in " + mqpar, e);
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in reading MaxQuant parameter in " + mqpar);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -1502,33 +1504,35 @@ public class MetaMQSearchTask extends MetaAbstractTask {
 			}
 		}
 
-		StringBuilder sb = new StringBuilder();
-		String proName;
-		if (namesb.charAt(namesb.length() - 1) == ';') {
-			proName = namesb.substring(0, namesb.length() - 1);
-		} else {
-			proName = namesb.toString();
+		if (protein != null) {
+			StringBuilder sb = new StringBuilder();
+			String proName;
+			if (namesb.charAt(namesb.length() - 1) == ';') {
+				proName = namesb.substring(0, namesb.length() - 1);
+			} else {
+				proName = namesb.toString();
+			}
+
+			sb.append(proName).append("\t");
+			sb.append(protein.getPepCount()).append("\t");
+			sb.append(protein.getRazorUniPepCount()).append("\t");
+			sb.append(protein.getUniPepCount()).append("\t");
+			sb.append(protein.getScore()).append("\t");
+
+			double[] intensity = protein.getIntensities();
+
+			sb.append((int) MathTool.getTotal(intensity)).append("\t");
+			for (int j = 0; j < intensity.length; j++) {
+				sb.append((int) intensity[j]).append("\t");
+			}
+
+			sb.append("").append("\t");
+			sb.append("").append("\t");
+			sb.append("").append("\t");
+			sb.append(protein.getGroupId());
+
+			writer.println(sb);
 		}
-
-		sb.append(proName).append("\t");
-		sb.append(protein.getPepCount()).append("\t");
-		sb.append(protein.getRazorUniPepCount()).append("\t");
-		sb.append(protein.getUniPepCount()).append("\t");
-		sb.append(protein.getScore()).append("\t");
-
-		double[] intensity = protein.getIntensities();
-
-		sb.append((int) MathTool.getTotal(intensity)).append("\t");
-		for (int j = 0; j < intensity.length; j++) {
-			sb.append((int) intensity[j]).append("\t");
-		}
-
-		sb.append("").append("\t");
-		sb.append("").append("\t");
-		sb.append("").append("\t");
-		sb.append(protein.getGroupId());
-
-		writer.println(sb);
 
 		proReader.close();
 		writer.close();

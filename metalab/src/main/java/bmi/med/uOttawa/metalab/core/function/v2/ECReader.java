@@ -43,19 +43,23 @@ public class ECReader {
 					if (enzymeCommission != null) {
 						list.add(enzymeCommission);
 					}
-
 					String id = line.substring(2).trim();
 					enzymeCommission = new EnzymeCommission(id);
-
 				} else if (line.startsWith("DE")) {
 					String de = line.substring(2).trim();
-					enzymeCommission.setDe(de);
+					if (enzymeCommission != null) {
+						enzymeCommission.setDe(de);
+					}
 				} else if (line.startsWith("CA")) {
 					String ca = line.substring(2).trim();
-					enzymeCommission.addCa(ca);
+					if (enzymeCommission != null) {
+						enzymeCommission.addCa(ca);
+					}
 				} else if (line.startsWith("AN")) {
 					String an = line.substring(2).trim();
-					enzymeCommission.addAn(an);
+					if (enzymeCommission != null) {
+						enzymeCommission.addAn(an);
+					}
 				}
 			}
 			reader.close();

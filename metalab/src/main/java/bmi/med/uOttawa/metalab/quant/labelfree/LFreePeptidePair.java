@@ -12,12 +12,12 @@ import bmi.med.uOttawa.metalab.task.io.pep.MetaPeptide;
 public class LFreePeptidePair {
 
 	private MetaPeptide peptide;
-	private FreeFeatures[] feas;
+//	private FreeFeatures[] feas;
 	private String[] srcs;
 
 	public LFreePeptidePair(MetaPeptide peptide, FreeFeatures[] feas, String[] srcs) {
 		this.peptide = peptide;
-		this.feas = feas;
+//		this.feas = feas;
 		this.srcs = srcs;
 	}
 

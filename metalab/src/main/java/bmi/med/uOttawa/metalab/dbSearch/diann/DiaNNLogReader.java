@@ -114,25 +114,4 @@ public class DiaNNLogReader {
 	public double getOptiAccu() {
 		return optiAccu;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		DiaNNLogReader reader = new DiaNNLogReader(
-				"Z:\\Kai\\Raw_files\\PXD008738\\12mix\\hap\\hap.log.txt");
-		System.out.println(reader.getMs1Accu() + "\t" + reader.getOptiAccu() + "\t" + reader.getPeakWidth() + "\t"
-				+ reader.getRtWindow() + "\t" + reader.getScanWindow());
-/*
-		File[] files = (new File("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\hap\\separate_search")).listFiles();
-		for (int i = 0; i < files.length; i++) {
-			File logFile = new File(files[i], files[i].getName() + ".log.txt");
-
-			DiaNNLogReader readeri = new DiaNNLogReader(logFile);
-			System.out.println(logFile.getName()+"\t"+readeri.getMs1Accu() + "\t" + readeri.getOptiAccu() + "\t" + readeri.getPeakWidth()
-					+ "\t" + readeri.getRtWindow() + "\t" + readeri.getScanWindow());
-		}
-*/		
-		
-	}
-
 }

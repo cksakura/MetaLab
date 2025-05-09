@@ -63,10 +63,4 @@ public class DiaNNLibTsvReader {
 	public String getTitleString() {
 		return titleString;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

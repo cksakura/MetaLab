@@ -157,8 +157,8 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 		searchEnginePanel
 				.setBorder(new TitledBorder(null, "Search engine", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		parameterPanel.add(searchEnginePanel, "cell 0 0,grow");
-		searchEnginePanel
-				.setLayout(new MigLayout("", "[200:270:320,grow][200:270:320,grow][200:270:320,grow]", "[80]"));
+		searchEnginePanel.setLayout(
+				new MigLayout("", "[150:200:240,grow][150:200:240,grow][150:200:240,grow][150:200:240,grow]", "[80]"));
 
 		pfindCheckBox = new JCheckBox("pFind");
 		searchEnginePanel.add(pfindCheckBox, "cell 0 0,grow");
@@ -169,10 +169,14 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 		alphapeptBox = new JCheckBox("Alphapept");
 		searchEnginePanel.add(alphapeptBox, "cell 2 0,grow");
 
+		sageBox = new JCheckBox("Sage");
+		searchEnginePanel.add(sageBox, "cell 3 0,grow");
+
 		ButtonGroup searchEngineGroup = new ButtonGroup();
 		searchEngineGroup.add(pfindCheckBox);
 		searchEngineGroup.add(fragpipeBox);
 		searchEngineGroup.add(alphapeptBox);
+		searchEngineGroup.add(sageBox);
 
 		if (this.workflowType == MetaLabWorkflowType.FragpipeIMMag) {
 			pfindCheckBox.setSelected(false);
@@ -182,6 +186,11 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 			pfindCheckBox.setSelected(false);
 			pfindCheckBox.setEnabled(false);
 			alphapeptBox.setSelected(true);
+		} else if (this.workflowType == MetaLabWorkflowType.SageMAG) {
+			pfindCheckBox.setSelected(false);
+			fragpipeBox.setSelected(false);
+			alphapeptBox.setSelected(false);
+			sageBox.setSelected(true);
 		} else {
 			pfindCheckBox.setSelected(true);
 		}
@@ -311,7 +320,7 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 
 		MetaParameterMag magPar = (MetaParameterMag) par;
 
-		metaLabModPanel = new MetaLabModPanel(magPar, PFindModIO.getMods(msv.getMod()));
+		metaLabModPanel = new MetaLabModPanel(magPar, PFindModIO.getMaxQuantMods(msv.getMod()));
 		parameterPanel.add(metaLabModPanel, "cell 0 2,grow");
 
 		metaLabEnzymePanel = new MetaLabEnzymePanel(magPar, PFindEnzymeIO.getEnzymes(msv.getEnzyme()));
@@ -344,20 +353,6 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 		rdbtnLabelFree.setSelected(true);
 		rdbtnIsobaricLabeling.setEnabled(true);
 
-		if (magPar.getQuanMode().equals(MetaConstants.labelFree)) {
-			rdbtnLabelFree.setSelected(true);
-			metaLabIsobaricQuanPanel.setEnabled(false);
-			lblLabelQuantificationResult.setEnabled(false);
-			rdbtnCombine.setEnabled(false);
-			rdbtnNotCombine.setEnabled(false);
-		} else if (magPar.getQuanMode().equals(MetaConstants.isobaricLabel)) {
-			rdbtnIsobaricLabeling.setSelected(true);
-			metaLabIsobaricQuanPanel.setEnabled(true);
-			lblLabelQuantificationResult.setEnabled(true);
-			rdbtnCombine.setEnabled(true);
-			rdbtnNotCombine.setEnabled(true);
-		}
-
 		metaLabIsobaricQuanPanel.setBorder(new TitledBorder(null, MetaConstants.isobaricLabel, TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		quantPanel.add(metaLabIsobaricQuanPanel, "cell 0 2 7 2,grow");
@@ -376,7 +371,20 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 		} else if (this.workflowType == MetaLabWorkflowType.pFindMAG) {
 			setComponentsEnabled(metaLabModPanel, true);
 			setComponentsEnabled(metaLabEnzymePanel, true);
-			setComponentsEnabled(quantPanel, true);
+
+			if (magPar.getQuanMode().equals(MetaConstants.labelFree)) {
+				rdbtnLabelFree.setSelected(true);
+				metaLabIsobaricQuanPanel.setEnabled(false);
+				lblLabelQuantificationResult.setEnabled(false);
+				rdbtnCombine.setEnabled(false);
+				rdbtnNotCombine.setEnabled(false);
+			} else if (magPar.getQuanMode().equals(MetaConstants.isobaricLabel)) {
+				rdbtnIsobaricLabeling.setSelected(true);
+				metaLabIsobaricQuanPanel.setEnabled(true);
+				lblLabelQuantificationResult.setEnabled(true);
+				rdbtnCombine.setEnabled(true);
+				rdbtnNotCombine.setEnabled(true);
+			}
 		}
 
 		metaLabMetaPanel = new MetaLabMetaPanel(magPar.getMetadata(), magPar.getMetadata().isIsobaricQuan());
@@ -384,7 +392,7 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 		metaLabMetaPanel.setBorder(
 				new TitledBorder(null, "Metadata settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		parameterPanel.add(metaLabMetaPanel, "cell 1 3 1 1,grow");
-		
+
 		pfindCheckBox.addActionListener(l -> {
 			if (pfindCheckBox.isSelected()) {
 				setComponentsEnabled(metaLabModPanel, true);
@@ -417,6 +425,16 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 				rdbtnIsobaricLabeling.setSelected(false);
 				setComponentsEnabled(quantPanel, false);
 				this.workflowType = MetaLabWorkflowType.FragpipeIMMag;
+				this.par.setWorkflowType(this.workflowType.name());
+			}
+		});
+
+		sageBox.addActionListener(l -> {
+			if (sageBox.isSelected()) {
+				setComponentsEnabled(metaLabModPanel, true);
+				setComponentsEnabled(metaLabEnzymePanel, true);
+				setComponentsEnabled(quantPanel, true);
+				this.workflowType = MetaLabWorkflowType.SageMAG;
 				this.par.setWorkflowType(this.workflowType.name());
 			}
 		});
@@ -499,7 +517,7 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 					return;
 				}
 			}
-
+/*
 			LicenseVerifier verifier = new LicenseVerifier();
 			boolean verified = verifier.verify();
 			if (!verified) {
@@ -512,7 +530,7 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 				setCursor(null);
 				return;
 			}
-
+*/
 			try {
 				consoleTextArea = new ConsoleTextArea();
 			} catch (IOException e) {
@@ -718,7 +736,7 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 			String[] fragEnzyme = metaLabEnzymePanel.getFragpipeEnzyme();
 			((MetaParameterMag) par).setFragpipeEnzyme(fragEnzyme);
 
-		} else {
+		} else if (par.getWorkflowType() == MetaLabWorkflowType.pFindMAG) {
 
 			MetaParameterMag magPar = (MetaParameterMag) par;
 
@@ -733,6 +751,48 @@ public class MetaLabMainPanelMag extends MetaLabPFindMainPanel {
 			int miss = metaLabEnzymePanel.getMissCleavages();
 
 			magPar.setEnzyme(enzyme);
+			magPar.setDigestMode(digestMode);
+			magPar.setMissCleavages(miss);
+
+			if (rdbtnLabelFree.isSelected()) {
+				magPar.setQuanMode(MetaConstants.labelFree);
+				magPar.setIsobaric(new MaxquantModification[] {});
+				magPar.getMetadata().setLabelTitle(new String[] {});
+				magPar.setIsoCorFactor(new double[][] {});
+				magPar.setIsobaricTag(null);
+			}
+
+			if (rdbtnIsobaricLabeling.isSelected()) {
+				magPar.setQuanMode(MetaConstants.isobaricLabel);
+				MaxquantModification[] isobaric = metaLabIsobaricQuanPanel.getIsobaricTags();
+				magPar.setIsobaric(isobaric);
+
+				double[][] factor = metaLabIsobaricQuanPanel.getIsoCorFactor();
+				magPar.setIsoCorFactor(factor);
+
+				IsobaricTag tag = metaLabIsobaricQuanPanel.getIsobaricTag();
+				magPar.setIsobaricTag(tag);
+
+				magPar.getMetadata().setLabelTitle(metaLabIsobaricQuanPanel.getLabelTitle());
+			}
+
+			String ms2ScanMode = this.ms2ComboBox.getSelectedItem().toString();
+			magPar.setMs2ScanMode(ms2ScanMode);
+		} else if (par.getWorkflowType() == MetaLabWorkflowType.SageMAG) {
+
+			MetaParameterMag magPar = (MetaParameterMag) par;
+
+			MaxquantModification[] fixMods = metaLabModPanel.getPFindFullFixMods();
+			MaxquantModification[] variMods = metaLabModPanel.getPFindFullVariMods();
+
+			magPar.setFullFixMods(fixMods);
+			magPar.setFullVariMods(variMods);
+
+			String[] enzyme = metaLabEnzymePanel.getFragpipeEnzyme();
+			int digestMode = metaLabEnzymePanel.getDigestMode();
+			int miss = metaLabEnzymePanel.getMissCleavages();
+
+			magPar.setFragpipeEnzyme(enzyme);
 			magPar.setDigestMode(digestMode);
 			magPar.setMissCleavages(miss);
 

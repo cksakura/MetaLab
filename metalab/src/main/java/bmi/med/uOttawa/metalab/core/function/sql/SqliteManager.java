@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,6 +15,7 @@ import java.util.HashMap;
 
 public class SqliteManager {
 
+	@SuppressWarnings("unused")
 	private static void create(String in) {
 		String url = "jdbc:sqlite:D:/MetaLab/Project/Resources/function2/" + in;
 
@@ -65,7 +65,7 @@ public class SqliteManager {
 						sql += new String(" " + map.get(i + 1) + " text NOT NULL,\n");
 					}
 				}
-				
+
 				sql += new String(" " + "COG" + " text NOT NULL,\n");
 				sql += new String(" " + "NOG" + " text NOT NULL,\n");
 
@@ -87,13 +87,15 @@ public class SqliteManager {
 		reader.close();
 	}
 
+	@SuppressWarnings("unused")
 	private static void insert(String in, String usedTitles, String name) throws NumberFormatException, IOException {
 		String url = "jdbc:sqlite:D:/MetaLab/Project/Resources/function2/func.db";
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
@@ -182,6 +184,7 @@ public class SqliteManager {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void insert(String in, String usedTitles, String name, String cog, String nog)
 			throws NumberFormatException, IOException {
 
@@ -214,7 +217,8 @@ public class SqliteManager {
 		try {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
@@ -318,7 +322,8 @@ public class SqliteManager {
 			}
 		}
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void select(String table, String in) {
 
 		String url = "jdbc:sqlite:D:/MetaLab/Project/Resources/function2/func.db";
@@ -326,12 +331,13 @@ public class SqliteManager {
 		try {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		ArrayList<ResultSet> list = new ArrayList<ResultSet>();
 		ArrayList<ResultSet> findList = new ArrayList<ResultSet>();
-		
+
 		try {
 			Statement stmt = conn.createStatement();
 
@@ -355,15 +361,15 @@ public class SqliteManager {
 					if (count % 10000 == 0) {
 						System.out.println(new Date() + "\t" + count);
 					}
-					
-					if(rs.next()) {
+
+					if (rs.next()) {
 						String ss = rs.getString("Gene_Ontology");
-						if(ss!=null) {
+						if (ss != null) {
 							findList.add(rs);
 						}
 					}
 				}
-				
+
 			}
 			reader.close();
 
@@ -378,6 +384,7 @@ public class SqliteManager {
 		System.out.println("Goodbye!");
 	}
 
+	@SuppressWarnings("unused")
 	private static void deleteTable(String name) {
 
 		String url = "jdbc:sqlite:D:/MetaLab/Project/Resources/function2/func.db";
@@ -385,7 +392,8 @@ public class SqliteManager {
 		try {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		String sql = "CREATE TABLE IF NOT EXISTS " + name + " (\n query_name VARCHAR(100),\n";
@@ -409,7 +417,8 @@ public class SqliteManager {
 		try {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
+			return;
 		}
 
 		String sql = "select * from " + "human" + " where query_name=" + "\"" + name + "\"";
@@ -432,17 +441,18 @@ public class SqliteManager {
 		// TODO Auto-generated method stub
 
 //		SqliteManager.create("func.db");
-/*
-		SqliteManager.createNewTable(
-				"Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\chicken.emapper.annotations",
-				"Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\columnNames.txt", "chicken");
-
-		SqliteManager.insert(
-				"Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\chicken.emapper.annotations",
-				"Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\columnNames.txt", "chicken",
-				"D:\\MetaLab\\Project\\Resources\\function\\COG_chicken.gc",
-				"D:\\MetaLab\\Project\\Resources\\function\\NOG_chicken.gc");
-*/
+		/*
+		 * SqliteManager.createNewTable(
+		 * "Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\chicken.emapper.annotations",
+		 * "Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\columnNames.txt",
+		 * "chicken");
+		 * 
+		 * SqliteManager.insert(
+		 * "Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\chicken.emapper.annotations",
+		 * "Z:\\Microbiome\\eggNOG5.0_database_organize\\eggnogmapper_annotation\\columnNames.txt",
+		 * "chicken", "D:\\MetaLab\\Project\\Resources\\function\\COG_chicken.gc",
+		 * "D:\\MetaLab\\Project\\Resources\\function\\NOG_chicken.gc");
+		 */
 //		SqliteManager.select("mouse", "D:\\Data\\MetaLab_test\\MetaLab\\maxquant_search\\combined\\txt"
 //				+ "\\proteinGroups.txt");
 

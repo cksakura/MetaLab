@@ -52,7 +52,7 @@ import bmi.med.uOttawa.metalab.dbSearch.deepDetect.DeepDetectTask;
 import bmi.med.uOttawa.metalab.license.LicenseVerifier;
 import bmi.med.uOttawa.metalab.task.MetaLabWorkflowType;
 import bmi.med.uOttawa.metalab.task.dia.DiaLibCreateTask;
-import bmi.med.uOttawa.metalab.task.dia.DiaModelTask;
+import bmi.med.uOttawa.metalab.task.dia.DiaPyTorchModelTask;
 import bmi.med.uOttawa.metalab.task.dia.gui.MagDbModelPanel;
 import bmi.med.uOttawa.metalab.task.dia.gui.MagDbPepLibPanel;
 import bmi.med.uOttawa.metalab.task.dia.gui.MagDbStatPanel;
@@ -78,9 +78,9 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 	 */
 	private static final long serialVersionUID = 6690900527070030161L;
 	protected SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
-	
+
 	private DeepDetectTask deepDetectTask;
-	private DiaModelTask diaModelTask;
+	private DiaPyTorchModelTask diaModelTask;
 	private DiaLibCreateTask diaLibCreateTask;
 
 	private MagDbStatPanel magDbStatPanel;
@@ -102,7 +102,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		this.initialMagDbPanel();
 		this.initialParPanel();
 		this.initialRunPanel();
-		
+
 		tabbedPane.setSelectedIndex(1);
 	}
 
@@ -112,8 +112,8 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 				new ImageIcon(MetaLabMainPanelMag.class.getResource("/toolbarButtonGraphics/general/Edit16.gif")),
 				parameterPanel, null);
 
-		parameterPanel.setLayout(new MigLayout("", "[400:600:980,grow][400:600:980,grow]",
-				"[40][300:350:400,grow][380:420:460,grow]"));
+		parameterPanel.setLayout(
+				new MigLayout("", "[400:600:980,grow][400:600:980,grow]", "[40][300:350:400,grow][380:420:460,grow]"));
 
 		ItemListener itemListener = new ItemListener() {
 			@Override
@@ -174,23 +174,20 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 						finish = get();
 
 						if (finish) {
-/*
-							File repoFile = diaPar.getUsedMagDbItem().getRepositoryFile();
-							File currentFile = diaPar.getUsedMagDbItem().getCurrentFile();
-							File sqlDbFile = new File(currentFile, repoFile.getName() + ".db");
-
-							MagSqliteTask.create(sqlDbFile);
-							try {
-								MagSqliteTask.createTaxaTable(repoFile + "\\genomes-all_metadata.tsv", sqlDbFile);
-								MagSqliteTask.createFuncTable(repoFile + "\\eggNOG", sqlDbFile);
-
-							} catch (NumberFormatException | IOException e) {
-								// TODO Auto-generated catch block
-								LOGGER.error("SQL database: error in creating the SQL database", e);
-								System.err.println(format.format(new Date()) + "\t"
-										+ "SQL database: error in creating the SQL database");
-							}
-*/
+							/*
+							 * File repoFile = diaPar.getUsedMagDbItem().getRepositoryFile(); File
+							 * currentFile = diaPar.getUsedMagDbItem().getCurrentFile(); File sqlDbFile =
+							 * new File(currentFile, repoFile.getName() + ".db");
+							 * 
+							 * MagSqliteTask.create(sqlDbFile); try { MagSqliteTask.createTaxaTable(repoFile
+							 * + "\\genomes-all_metadata.tsv", sqlDbFile);
+							 * MagSqliteTask.createFuncTable(repoFile + "\\eggNOG", sqlDbFile);
+							 * 
+							 * } catch (NumberFormatException | IOException e) { // TODO Auto-generated
+							 * catch block LOGGER.error("SQL database: error in creating the SQL database",
+							 * e); System.err.println(format.format(new Date()) + "\t" +
+							 * "SQL database: error in creating the SQL database"); }
+							 */
 							magDbStatPanel.update();
 							magDbStatPanel.getProgressBar().setString("finished");
 
@@ -217,13 +214,13 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			};
 			deepDetectTask.execute();
 		});
-		
+
 		JButton updateButton = magDbStatPanel.getUpdateButton();
 		updateButton.addActionListener(l -> {
 			SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 				@Override
 				protected Void doInBackground() throws Exception {
-					
+
 					updateButton.setEnabled(false);
 					magDbStatPanel.getProgressBar().setValue(0);
 					magDbStatPanel.getProgressBar().setStringPainted(true);
@@ -267,7 +264,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 							}
 						}
 					}
-					
+
 					magDbStatPanel.getProgressBar().setValue(70);
 
 					File libFile = new File(currentFile, "libraries");
@@ -279,7 +276,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 							}
 						}
 					}
-					
+
 					magDbStatPanel.getProgressBar().setValue(100);
 
 					return null;
@@ -298,10 +295,10 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 				protected void done() {
 					JOptionPane.showMessageDialog(null, "Update completed", "Warning", JOptionPane.INFORMATION_MESSAGE);
 					setCursor(null);
-					
+
 					modelPanel.update();
 					pepLibPanel.update();
-					
+
 					updateButton.setEnabled(true);
 				}
 			};
@@ -403,14 +400,14 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 					return;
 				}
 			}
-			
+
 			if (!libFile.exists()) {
 				libFile.mkdir();
 			}
 
 			createLibButton.setEnabled(false);
 			pepLibPanel.getProgressBar().setIndeterminate(true);
-			
+
 			diaPar.setResult(libFile.getAbsolutePath());
 			diaPar.setThreadCount(threadComboBox.getItemAt(threadComboBox.getSelectedIndex()));
 
@@ -429,7 +426,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 					setCursor(null);
 					createLibButton.setEnabled(true);
 					pepLibPanel.getProgressBar().setIndeterminate(false);
-					
+
 					if (diaLibCreateTask.isCancelled()) {
 						pepLibPanel.getProgressBar().setString("Task stopped");
 						return;
@@ -529,7 +526,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 					return;
 				}
 			}
-			
+
 			if (!modelFile.exists()) {
 				modelFile.mkdir();
 			}
@@ -540,8 +537,8 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			diaPar.setThreadCount(threadComboBox.getItemAt(threadComboBox.getSelectedIndex()));
 			diaPar.setResult(modelFile.getAbsolutePath());
 
-			diaModelTask = new DiaModelTask(diaPar, msd, modelPanel.getProgressBar(), pepFile.getAbsolutePath(),
-					modelPanel.getModelName(), modelPanel.getModelType()) {
+			diaModelTask = new DiaPyTorchModelTask((MetaParameterDia) par, msd, modelPanel.getProgressBar(),
+					pepFile.getAbsolutePath(), modelFile) {
 				public void done() {
 					try {
 						Thread.sleep(1000);
@@ -613,13 +610,13 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		tabbedPane.addTab("Run",
 				new ImageIcon(MetaLabMainPanelMag.class.getResource("/toolbarButtonGraphics/development/Host16.gif")),
 				consolePanel, null);
-		
+
 		JPanel monitorJPanel = new JPanel();
 		monitorJPanel.setLayout(new MigLayout("", "[450:600:1120,grow]", "[520:740:940,grow][60]"));
-		
+
 		JPanel combineJPanel = new JPanel();
 		combineJPanel.setLayout(new MigLayout("", "[450:600:1120,grow]", "[520:740:940,grow][60]"));
-		
+
 		JTabbedPane runTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		runTabbedPane.addTab("Monitor",
 				new ImageIcon(MetaLabMainPanelMag.class.getResource("/toolbarButtonGraphics/development/Host16.gif")),
@@ -627,7 +624,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		runTabbedPane.addTab("Combine",
 				new ImageIcon(MetaLabMainPanelMag.class.getResource("/toolbarButtonGraphics/development/Host16.gif")),
 				combineJPanel, null);
-		
+
 		consolePanel.add(runTabbedPane, "cell 0 0,grow");
 
 		JScrollPane scrollPaneConsole = new JScrollPane();
@@ -638,11 +635,12 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 		this.statusPanel = new StatusPanel("Version: " + MetaParIODiaRT.version);
 		consolePanel.add(statusPanel, "cell 0 1 2 1,grow");
-		
+
 		MetaParameterDiaRT diaRTPar = (MetaParameterDiaRT) par;
 		JPanel monitorIOPanel = new JPanel();
 		monitorJPanel.add(monitorIOPanel, "cell 0 0,grow");
-		monitorIOPanel.setLayout(new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][240:300:400,grow][240:300:400,grow][120]"));
+		monitorIOPanel.setLayout(
+				new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][240:300:400,grow][240:300:400,grow][120]"));
 
 		JLabel lblMonFolder = new JLabel("Monitor folder");
 		monitorIOPanel.add(lblMonFolder, "cell 0 0,alignx left");
@@ -685,7 +683,8 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		});
 
 		JPanel monitorFolderPanel = new JPanel(new BorderLayout());
-		monitorFolderPanel.setBorder(new TitledBorder(null, "Monitor folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		monitorFolderPanel.setBorder(
+				new TitledBorder(null, "Monitor folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		JScrollPane scrollPaneMonitor = new JScrollPane();
 		scrollPaneMonitor.setToolTipText("Monitor folder");
 		monitorFolderPanel.add(scrollPaneMonitor);
@@ -695,7 +694,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		scrollPaneMonitor.setViewportView(monitorList);
 		DefaultListModel<String> rawListModel = new DefaultListModel<String>();
 		monitorList.setModel(rawListModel);
-		
+
 		JPanel resultPanel = new JPanel(new BorderLayout());
 		resultPanel
 				.setBorder(new TitledBorder(null, "Result folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -704,7 +703,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		monitorIOPanel.add(resultPanel, "cell 0 3 3 1,grow");
 
 		JTable resultTable = new JTable();
-		Object[] columnName = new Object[] {"File","Round 1", "Model", "Round 2", "Round 3", "Round 4"};
+		Object[] columnName = new Object[] { "File", "Round 1", "Model", "Round 2", "Round 3", "Round 4" };
 		DefaultTableModel resultTableModel = new DefaultTableModel(columnName, 0);
 		resultTable.setModel(resultTableModel);
 		scrollPaneResult.setViewportView(resultTable);
@@ -722,13 +721,13 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 		JProgressBar progressBar = new JProgressBar();
 		runPanel.add(progressBar, "cell 0 2 3 1,growx");
-		
+
 		JProgressBar progressBar2 = new JProgressBar();
 		runPanel.add(progressBar2, "cell 0 3 3 1,growx");
-		
+
 		int processorCount = ProcessorCount();
 		diaRTPar.setThreadCount(processorCount);
-		
+
 		runPanel.add(btnStart, "cell 0 0,growx");
 		btnStart.addActionListener(l -> {
 
@@ -766,19 +765,23 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 			File monitorFolder = new File(textFieldMonFolder.getText());
 			File destinationFolder = new File(textFieldResFolder.getText());
-			
+
 			diaRTPar.setMonitorFolder(monitorFolder);
 			diaRTPar.setResultFolder(destinationFolder);
 			diaRTPar.setResult(destinationFolder.getAbsolutePath());
 
-			MetaDiaMonitorTask task = new MetaDiaMonitorTask(diaRTPar, (MetaSourcesDia) msv,
-					progressBar, null, null, monitorFolder, destinationFolder, resultTableModel, rawListModel) {
+			rawListModel.clear();
+			resultTableModel.setRowCount(0);
+
+			MetaDiaMonitorTask task = new MetaDiaMonitorTask(diaRTPar, (MetaSourcesDia) msv, progressBar, null, null,
+					monitorFolder, destinationFolder, resultTableModel, rawListModel) {
 				protected void done() {
 					try {
 						if (!isCancelled()) {
 							get(); // Trigger any exceptions thrown in doInBackground
 							// Update GUI with completion status
-							System.out.println("Monitoring completed. Total number of files processed: " + rawListModel.size());
+							System.out.println(
+									"Monitoring completed. Total number of files processed: " + rawListModel.size());
 
 							btnStart.setEnabled(true);
 							btnEnd.setEnabled(false);
@@ -786,7 +789,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 							btnReset.setEnabled(false);
 							progressBar2.setIndeterminate(false);
 							setCursor(null);
-							
+
 							int rawFileCount = resultTableModel.getRowCount();
 
 							int unfinished = 0;
@@ -802,8 +805,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 							if (unfinished == 0) {
 								JOptionPane.showMessageDialog(MetaLabMainPanelDiaRT.this,
-										"Task finished, the total number of processed files is "
-												+ rawFileCount,
+										"Task finished, the total number of processed files is " + rawFileCount,
 										"Information", JOptionPane.INFORMATION_MESSAGE);
 							} else {
 
@@ -818,8 +820,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 								switch (choice) {
 								case 0:
-									setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-									execute();
+									btnStart.doClick();
 									break;
 								case 1:
 									break;
@@ -858,14 +859,14 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		btnEnd.setEnabled(false);
 		btnEnd.addActionListener(l -> {
 			btnEnd.setEnabled(false);
-			SwingWorker worker = new SwingWorker() {
+			SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
 
 				@Override
 				protected Object doInBackground() throws Exception {
 					// TODO Auto-generated method stub
 					diaRTPar.setStopNow(true);
 					diaRTPar.setStopComplete(false);
-					
+
 					LocalDateTime now = LocalDateTime.now();
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 					String formattedDateTime = now.format(formatter);
@@ -895,13 +896,13 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		btnEnd2.setEnabled(false);
 		btnEnd2.addActionListener(l -> {
 			btnEnd2.setEnabled(false);
-			
-			SwingWorker worker = new SwingWorker() {
+
+			SwingWorker<Object, Object> worker = new SwingWorker<Object, Object>() {
 
 				@Override
 				protected Object doInBackground() throws Exception {
 					// TODO Auto-generated method stub
-					
+
 					diaRTPar.setStopNow(false);
 					diaRTPar.setStopComplete(true);
 					int taskCount = comboBoxFileCount.getItemAt(comboBoxFileCount.getSelectedIndex());
@@ -949,10 +950,14 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			diaRTPar.setStopComplete(false);
 		});
 
+		JProgressBar comProgressBar = new JProgressBar();
+		JProgressBar comProgressBar2 = new JProgressBar();
+
 		// combine panel
 		JPanel rawIOPanel = new JPanel();
 		combineJPanel.add(rawIOPanel, "cell 0 0,grow");
-		rawIOPanel.setLayout(new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][30][240:300:400,grow][240:300:400,grow][120]"));
+		rawIOPanel.setLayout(new MigLayout("", "[100][300:680:920,grow][50]",
+				"[30][30][30][240:300:400,grow][240:300:400,grow][120]"));
 
 		JLabel lblRawFolder = new JLabel("Raw file folder");
 		rawIOPanel.add(lblRawFolder, "cell 0 0,alignx left");
@@ -993,7 +998,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 				textFieldCombResFolder.setText(selectedPath);
 			}
 		});
-		
+
 		JLabel lblOutputFolder = new JLabel("Output folder");
 		rawIOPanel.add(lblOutputFolder, "cell 0 2,alignx left");
 
@@ -1013,29 +1018,36 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 				textFieldOutputFolder.setText(selectedPath);
 			}
 		});
-		
+
 		JPanel combineRawFolderPanel = new JPanel(new BorderLayout());
-		combineRawFolderPanel.setBorder(new TitledBorder(null, "Raw file folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		combineRawFolderPanel.setBorder(
+				new TitledBorder(null, "Raw file folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		JScrollPane scrollPaneCombineRaw = new JScrollPane();
 		scrollPaneCombineRaw.setToolTipText("Raw file folder");
 		combineRawFolderPanel.add(scrollPaneCombineRaw);
 		rawIOPanel.add(combineRawFolderPanel, "cell 0 3 3 1,grow");
 
-		Object[] combineColumnName = new Object[] {"Select all","File name","File path"};
+		Object[] combineColumnName = new Object[] { "Select all", "File name", "File path" };
 		DefaultTableModel combineRawTableModel = new DefaultTableModel(combineColumnName, 0);
 		final JTable combineRawTable = new JTable(combineRawTableModel) {
-            @Override
-            public Class<?> getColumnClass(int column) {
-                if (column == 0) {
-                    return Boolean.class;
-                }
-                return String.class;
-            }
-            public boolean isCellEditable(int row, int column) {
-                return column == 0;
-            }
-        };
-		
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -738077452527789490L;
+
+			@Override
+			public Class<?> getColumnClass(int column) {
+				if (column == 0) {
+					return Boolean.class;
+				}
+				return String.class;
+			}
+
+			public boolean isCellEditable(int row, int column) {
+				return column == 0;
+			}
+		};
+
 		combineRawTable.getColumnModel().getColumn(0).setCellRenderer(new CheckboxCellRenderer());
 		combineRawTable.getColumnModel().getColumn(0).setMaxWidth(90);
 		combineRawTable.getColumnModel().getColumn(1).setPreferredWidth(120);
@@ -1045,20 +1057,56 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			public void mouseClicked(MouseEvent e) {
 				int column = combineRawTable.columnAtPoint(e.getPoint());
 				if (column == 0) {
-					TableColumn selectColumn = combineRawTable.getColumnModel().getColumn(0);
-					String headerValue = (String) selectColumn.getHeaderValue();
-					if (headerValue.equals("Select all")) {
-						selectColumn.setHeaderValue("Deselect all");
-						for (int row = 0; row < combineRawTableModel.getRowCount(); row++) {
-							combineRawTableModel.setValueAt(true, row, 0);
+
+					setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					comProgressBar2.setIndeterminate(true);
+					SwingWorker<Object, Object> task = new SwingWorker<Object, Object>() {
+						protected void done() {
+							try {
+								if (!isCancelled()) {
+									get();
+									comProgressBar2.setIndeterminate(false);
+									setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+								}
+								repaint();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
 						}
-					} else {
-						selectColumn.setHeaderValue("Select all");
-						for (int row = 0; row < combineRawTableModel.getRowCount(); row++) {
-							combineRawTableModel.setValueAt(false, row, 0);
+
+						@Override
+						protected Object doInBackground() throws Exception {
+							// TODO Auto-generated method stub
+
+							TableColumn selectColumn = combineRawTable.getColumnModel().getColumn(0);
+							String headerValue = (String) selectColumn.getHeaderValue();
+							if (headerValue.equals("Select all")) {
+								selectColumn.setHeaderValue("Deselect all");
+								for (int row = 0; row < combineRawTableModel.getRowCount(); row++) {
+									combineRawTableModel.setValueAt(true, row, 0);
+									comProgressBar.setValue(
+											(int) ((double) row / (double) combineRawTableModel.getRowCount() * 100.0));
+								}
+							} else {
+								selectColumn.setHeaderValue("Select all");
+								for (int row = 0; row < combineRawTableModel.getRowCount(); row++) {
+									combineRawTableModel.setValueAt(false, row, 0);
+									comProgressBar.setValue(
+											(int) ((double) row / (double) combineRawTableModel.getRowCount() * 100.0));
+								}
+							}
+
+							return null;
 						}
+					};
+
+					try {
+						task.execute();
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(MetaLabMainPanelDiaRT.this,
+								"Task failed :(\nplease contact us to get a solution", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
-					repaint();
 				}
 			}
 		});
@@ -1072,12 +1120,12 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		rawIOPanel.add(combineResultPanel, "cell 0 4 3 1,grow");
 
 		JTable combineResultTable = new JTable();
-		DefaultTableModel combineResultTableModel = new DefaultTableModel(new Object[] {"File name","File path"}, 0);
+		DefaultTableModel combineResultTableModel = new DefaultTableModel(new Object[] { "File name", "File path" }, 0);
 		combineResultTable.setModel(combineResultTableModel);
 		scrollPaneCombineResult.setViewportView(combineResultTable);
 		combineResultTable.getColumnModel().getColumn(0).setPreferredWidth(200);
 		combineResultTable.getColumnModel().getColumn(1).setPreferredWidth(480);
-		
+
 		combineRawTableModel.addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
@@ -1109,21 +1157,19 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		});
 
 		JPanel combineRunPanel = new JPanel();
-		combineRunPanel.setBorder(new TitledBorder(null, "Control panel", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		combineRunPanel
+				.setBorder(new TitledBorder(null, "Control panel", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		rawIOPanel.add(combineRunPanel, "cell 0 5 3 1,grow");
 		combineRunPanel.setLayout(new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][30][30]"));
 
 		JButton btnCheck = new JButton("Check folder");
 		JButton btnCombine = new JButton("Combine the result");
 
-		JProgressBar comProgressBar = new JProgressBar();
 		combineRunPanel.add(comProgressBar, "cell 0 2 3 1,growx");
-		
-		JProgressBar comProgressBar2 = new JProgressBar();
 		combineRunPanel.add(comProgressBar2, "cell 0 3 3 1,growx");
-		
+
 		diaRTPar.setThreadCount(processorCount);
-		
+
 		combineRunPanel.add(btnCheck, "cell 0 0,growx");
 		btnCheck.addActionListener(l -> {
 
@@ -1153,8 +1199,8 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 			comProgressBar2.setIndeterminate(true);
 			btnCheck.setEnabled(false);
-			
-			SwingWorker task = new SwingWorker() {
+
+			SwingWorker<Object, Object> task = new SwingWorker<Object, Object>() {
 				protected void done() {
 					try {
 						if (!isCancelled()) {
@@ -1260,11 +1306,11 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			comProgressBar2.setIndeterminate(true);
 
 			btnCombine.setEnabled(false);
-			
+
 			File resultFolder = new File(textFieldOutputFolder.getText());
 			diaRTPar.setResultFolder(resultFolder);
 			diaRTPar.setResult(resultFolder.getAbsolutePath());
-			
+
 			HashMap<String, String[]> rawResultFileMap = new HashMap<String, String[]>();
 			for (int i = 0; i < combineResultTableModel.getRowCount(); i++) {
 				String fileName = (String) combineResultTableModel.getValueAt(i, 0);
@@ -1277,7 +1323,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 					}
 				}
 			}
-			
+
 			if (rawResultFileMap.size() == 0) {
 				JOptionPane.showMessageDialog(this,
 						"No raw files were selected. Please select the raw files for the processing first.", "Warning",
@@ -1285,16 +1331,16 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 				btnCombine.setEnabled(true);
 				comProgressBar2.setIndeterminate(false);
 				setCursor(null);
-				
+
 			} else {
 
-				MetaDiaCombineTask task = new MetaDiaCombineTask(diaRTPar, (MetaSourcesDia) msv,
-						comProgressBar, comProgressBar2, null, rawResultFileMap) {
+				MetaDiaCombineTask task = new MetaDiaCombineTask(diaRTPar, (MetaSourcesDia) msv, comProgressBar,
+						comProgressBar2, null, rawResultFileMap) {
 					protected void done() {
 						try {
 							if (!isCancelled()) {
-								boolean finish = get(); 
-								
+								boolean finish = get();
+
 								btnCombine.setEnabled(true);
 								comProgressBar2.setIndeterminate(false);
 								setCursor(null);
@@ -1312,7 +1358,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 								if (finish) {
 									comProgressBar.setString("finished");
-									
+
 									int reply = JOptionPane.showConfirmDialog(MetaLabMainPanelDiaRT.this,
 											"Task finished :)\nView the report?", "Finished",
 											JOptionPane.YES_NO_OPTION);
@@ -1350,7 +1396,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			}
 		});
 	}
-	
+
 	private File findResultFile(String fileName, File resultDir) {
 		File[] listFiles = resultDir.listFiles();
 		for (File file : listFiles) {
@@ -1380,6 +1426,11 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 	// Custom cell renderer to display checkboxes in the first column
 	private class CheckboxCellRenderer extends JCheckBox implements TableCellRenderer {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -3409337273879152519L;
+
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
 			setSelected((Boolean) value);
@@ -1400,7 +1451,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 			break;
 		}
 	}
-	
+
 	protected void update1() {
 		String microdb = dbPanel.getMicroDb();
 		par.setMicroDb(microdb);
@@ -1421,7 +1472,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 
 		String[] usedLibs = this.pepLibPanel.getUsedLibs();
 		String[] usedModels = this.modelPanel.getUsedModels();
-		
+
 		diaPar.setLibrary(usedLibs);
 		diaPar.setModels(usedModels);
 	}
@@ -1458,7 +1509,7 @@ public class MetaLabMainPanelDiaRT extends MetaLabMainPanelDia {
 		if (diaPar.getResult() == null || diaPar.getResult().length() == 0) {
 			list.add("Result file is not found.");
 		}
-		
+
 		String[] usedLibs = diaPar.getLibrary();
 		if (usedLibs.length == 0) {
 			list.add("Peptide libraries are not set.");

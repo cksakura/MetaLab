@@ -58,6 +58,7 @@ public class OpenModXmlReader {
 		this.read();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void read() {
 
 		this.openMods = new OpenMod[Integer.parseInt(root.attributeValue("open_mod_count"))];

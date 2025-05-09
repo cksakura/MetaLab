@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -28,8 +27,6 @@ import javax.swing.SwingWorker;
 import javax.swing.border.TitledBorder;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import bmi.med.uOttawa.metalab.core.model.ConsoleTextArea;
 import bmi.med.uOttawa.metalab.dbSearch.deepDetect.DeepDetectParameter;
@@ -37,7 +34,7 @@ import bmi.med.uOttawa.metalab.dbSearch.deepDetect.DeepDetectTask;
 import bmi.med.uOttawa.metalab.license.LicenseVerifier;
 import bmi.med.uOttawa.metalab.task.MetaLabWorkflowType;
 import bmi.med.uOttawa.metalab.task.dia.DiaLibCreateTask;
-import bmi.med.uOttawa.metalab.task.dia.DiaModelTask;
+import bmi.med.uOttawa.metalab.task.dia.DiaPyTorchModelTask;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaParaIoDia;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaParameterDia;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaSourcesDia;
@@ -66,15 +63,15 @@ public class MetaLabMainPanelDia extends MetaLabMainPanelMag {
 	private JCheckBox largeScaleSearchCheckBox;
 	
 	private DeepDetectTask deepDetectTask;
-	private DiaModelTask diaModelTask;
+	private DiaPyTorchModelTask diaModelTask;
 	private DiaLibCreateTask diaLibCreateTask;
 
 	private MagDbStatPanel magDbStatPanel;
 	private MagDbPepLibPanel pepLibPanel;
 	private MagDbModelPanel modelPanel;
 	
-	private static Logger LOGGER = LogManager.getLogger(MetaLabMainPanelDia.class);
-	private static SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
+//	private static Logger LOGGER = LogManager.getLogger(MetaLabMainPanelDia.class);
+//	private static SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 	
 	public MetaLabMainPanelDia(MetaParameterDia par, MetaSourcesDia msv) {
 		super(par, msv);
@@ -624,8 +621,8 @@ public class MetaLabMainPanelDia extends MetaLabMainPanelMag {
 			diaPar.setThreadCount(threadComboBox.getItemAt(threadComboBox.getSelectedIndex()));
 			diaPar.setResult(modelFile.getAbsolutePath());
 
-			diaModelTask = new DiaModelTask(diaPar, msd, modelPanel.getProgressBar(), pepFile.getAbsolutePath(),
-					modelPanel.getModelName(), modelPanel.getModelType()) {
+			diaModelTask = new DiaPyTorchModelTask(diaPar, msd, modelPanel.getProgressBar(), pepFile.getAbsolutePath(),
+					modelFile) {
 				public void done() {
 					try {
 						Thread.sleep(1000);
@@ -811,7 +808,7 @@ public class MetaLabMainPanelDia extends MetaLabMainPanelMag {
 					return;
 				}
 			}
-
+/*
 			LicenseVerifier verifier = new LicenseVerifier();
 			boolean verified = verifier.verify();
 			if (!verified) {
@@ -824,7 +821,7 @@ public class MetaLabMainPanelDia extends MetaLabMainPanelMag {
 				setCursor(null);
 				return;
 			}
-
+*/
 			try {
 				consoleTextArea = new ConsoleTextArea();
 			} catch (IOException e) {

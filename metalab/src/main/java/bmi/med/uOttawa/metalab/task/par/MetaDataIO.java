@@ -25,8 +25,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import cern.colt.Arrays;
-
 public class MetaDataIO {
 
 	public static void exportBlank(String output) throws IOException {

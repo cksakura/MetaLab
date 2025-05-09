@@ -9,7 +9,6 @@ import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -540,7 +539,7 @@ public class PFindPsmReader {
 			int finalScoreID = -1;
 			int modID = -1;
 			int specificitID = -1;
-			int proteinID = -1;
+//			int proteinID = -1;
 			int isTargetID = -1;
 			int missID = -1;
 			int fragMassShiftID = -1;
@@ -571,7 +570,7 @@ public class PFindPsmReader {
 				} else if (title[i].equals("Specificity")) {
 					specificitID = i;
 				} else if (title[i].equals("Proteins")) {
-					proteinID = i;
+//					proteinID = i;
 				} else if (title[i].equals("Target/Decoy")) {
 					isTargetID = i;
 				} else if (title[i].equals("Miss.Clv.Sites")) {
@@ -648,6 +647,7 @@ public class PFindPsmReader {
 	 * @param rawDir
 	 * @param promap
 	 */
+	@SuppressWarnings("unused")
 	private void read(File in, HashMap<String, HashSet<String>> promap,
 			HashMap<String, Integer> ms2CountMap, HashMap<String, HashMap<Integer, Double>> rtmap,
 			HashMap<String, PostTransModification> modMap) {
@@ -879,6 +879,7 @@ public class PFindPsmReader {
 		return set1;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void compare(String s1, String s2) {
 		PFindPsmReader reader1 = new PFindPsmReader(s1);
 		PFindPSM[] psms1 = reader1.getPsms();
@@ -903,20 +904,5 @@ public class PFindPsmReader {
 			}
 		}
 		System.out.println(psms1.length + "\t" + set.size() + "\t" + count + "\t" + count2);
-	}
-	
-	
-	public static void main(String[] args) throws IOException, SQLException {
-		// TODO Auto-generated method stub
-
-//		PFindPsmReader.filterFdr("Z:\\Kai\\HAP\\Krystal_LSARP_09112020\\rib_elon\\pFind.spectra", 
-//				"Z:\\Kai\\HAP\\Krystal_LSARP_09112020\\rib_elon\\pFind-fdr001.spectra", 0.01);
-		
-//		System.out.println(PFindPsmReader.getPepSet("Z:\\Kai\\Raw_files\\PXD008738\\fecal\\dda\\MetaLab_pfind\\open_search\\170825_HF_1_6_pool_2ug_DDA_library_1column_6\\pFind-Filtered.spectra").size());
-//		PFindPsmReader.compare("Z:\\Kai\\Raw_files\\run21\\DDA\\MetaLab_pfind\\mag_result\\Haonan_20220809_DDA_S48_1\\pFind-Filtered.spectra", 
-//				"Z:\\Kai\\Raw_files\\run21\\DDA\\MetaLab_pfind\\mag_result\\combined\\pFind-Filtered.spectra");
-		
-		PFindPsmReader.compare("Z:\\Kai\\Raw_files\\run21\\DDA\\MetaLab_pfind\\mag_result\\Haonan_20220809_DDA_S48_1\\pFind-Filtered.spectra", 
-				"Z:\\Kai\\Raw_files\\run21\\DDA\\MetaLab_pfind\\mag_result\\combined\\pFind.spectra");
 	}
 }

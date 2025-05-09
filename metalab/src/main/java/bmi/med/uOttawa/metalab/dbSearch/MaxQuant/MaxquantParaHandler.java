@@ -49,6 +49,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 		Iterator<Element> it = root.elementIterator();
@@ -72,7 +73,7 @@ public class MaxquantParaHandler {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private static void setThreadCount(String path, int threadCount) {
 		SAXReader reader = new SAXReader();
 		Document document = null;
@@ -81,6 +82,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 		Iterator<Element> it = root.elementIterator();
@@ -115,46 +117,46 @@ public class MaxquantParaHandler {
 		Document document = null;
 		try {
 			document = reader.read(parOutput);
-		} catch (DocumentException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MaxQuant parameter in " + parOutput, e);
-		}
-		Element root = document.getRootElement();
+			Element root = document.getRootElement();
 
-		Iterator<Element> it = root.elementIterator();
-		while (it.hasNext()) {
-			Element element = it.next();
-			String name = element.getName();
-			if (name.equals("maxQuantVersion")) {
-				String version = element.getText();
-				String[] cs = version.split("\\.");
+			Iterator<Element> it = root.elementIterator();
+			while (it.hasNext()) {
+				Element element = it.next();
+				String name = element.getName();
+				if (name.equals("maxQuantVersion")) {
+					String version = element.getText();
+					String[] cs = version.split("\\.");
 
-				Integer v1 = Integer.parseInt(cs[1]);
-				Integer v2 = Integer.parseInt(cs[2]);
-				Integer v3 = Integer.parseInt(cs[3]);
+					Integer v1 = Integer.parseInt(cs[1]);
+					Integer v2 = Integer.parseInt(cs[2]);
+					Integer v3 = Integer.parseInt(cs[3]);
 
-				if (cs.length == 4) {
-					if (v1 == 5) {
-						config_1_5_3_30(par, parOutput);
-					} else if (v1 == 6) {
-						if (v2 >= 4) {
-							config_1_6_4_0(par, parOutput);
-						} else if (v2 == 3) {
-							if (v3 >= 4) {
+					if (cs.length == 4) {
+						if (v1 == 5) {
+							config_1_5_3_30(par, parOutput);
+						} else if (v1 == 6) {
+							if (v2 >= 4) {
 								config_1_6_4_0(par, parOutput);
+							} else if (v2 == 3) {
+								if (v3 >= 4) {
+									config_1_6_4_0(par, parOutput);
+								} else {
+									config_1_6_2_3(par, parOutput);
+								}
 							} else {
 								config_1_6_2_3(par, parOutput);
 							}
 						} else {
-							config_1_6_2_3(par, parOutput);
+							LOGGER.error("Error in reading MaxQuant parameter in " + parOutput);
 						}
 					} else {
 						LOGGER.error("Error in reading MaxQuant parameter in " + parOutput);
 					}
-				} else {
-					LOGGER.error("Error in reading MaxQuant parameter in " + parOutput);
 				}
 			}
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading MaxQuant parameter in " + parOutput, e);
 		}
 	}
 
@@ -168,7 +170,7 @@ public class MaxquantParaHandler {
 		int digestMode = par.getDigestMode();
 		String[][] labels = par.getLabels();
 		String[] isobaric = par.getIsobaric();
-		double[][] isoCorFactor = par.getIsoCorFactor();
+//		double[][] isoCorFactor = par.getIsoCorFactor();
 
 		File ssDatabase = par.getSSDatabase();
 		String fasta = ssDatabase.exists() ? ssDatabase.getAbsolutePath() : par.getDatabase();
@@ -187,6 +189,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + parOutput, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -502,7 +505,7 @@ public class MaxquantParaHandler {
 		int digestMode = par.getDigestMode();
 		String[][] labels = par.getLabels();
 		String[] isobaric = par.getIsobaric();
-		double[][] isoCorFactor = par.getIsoCorFactor();
+//		double[][] isoCorFactor = par.getIsoCorFactor();
 
 		File ssDatabase = par.getSSDatabase();
 		String fasta = ssDatabase.exists() ? ssDatabase.getAbsolutePath() : par.getDatabase();
@@ -521,6 +524,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + parOutput, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -855,6 +859,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + parOutput, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -1318,7 +1323,7 @@ public class MaxquantParaHandler {
 		return ">(.*)";
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private static void config(String[] variMods, String[] fixMods, String[] enzyme, String[][] labels,
 			String[] isobaric, String fasta, String[][] rawFiles) {
 
@@ -1329,6 +1334,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -1524,7 +1530,7 @@ public class MaxquantParaHandler {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	private static void config(String[] variMods, String[] fixMods, String[] enzyme, String[][] labels,
 			String[] isobaric, String[][] rawFiles) {
 
@@ -1535,6 +1541,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -1715,6 +1722,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -1757,6 +1765,7 @@ public class MaxquantParaHandler {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant parameter in " + path, e);
+			return;
 		}
 		Element root = document.getRootElement();
 

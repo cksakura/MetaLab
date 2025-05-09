@@ -68,4 +68,14 @@ public class MetaDataIO {
 
 		}
 	}
+
+	public String[] getPath() {
+		return path;
+	}
+
+	public String[] getExpNames() {
+		return expNames;
+	}
+	
+	
 }

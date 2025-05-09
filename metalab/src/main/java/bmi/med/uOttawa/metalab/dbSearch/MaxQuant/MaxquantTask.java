@@ -14,7 +14,6 @@ import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dom4j.DocumentException;
 
 import bmi.med.uOttawa.metalab.dbSearch.alphapept.AlphapeptTask;
 
@@ -31,7 +30,7 @@ public class MaxquantTask {
 	private static String taskName = "Alphapept task";
 	private static final Logger LOGGER = LogManager.getLogger(AlphapeptTask.class);
 	private SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
-	
+
 	/**
 	 * Be careful with this error!!!
 	 * 
@@ -53,6 +52,7 @@ public class MaxquantTask {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 
 		try {
@@ -94,12 +94,16 @@ public class MaxquantTask {
 			if (p.waitFor() != 0) {
 				if (p.exitValue() == 1) {
 					LOGGER.error("Error in database searching by MaxQuant");
+					System.err.println(
+							format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 				}
 			}
 			inBr.close();
 			in.close();
 		} catch (Exception e) {
 			LOGGER.error("Error in database searching by MaxQuant", e);
+			System.err
+					.println(format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 			return false;
 		}
 		try {
@@ -107,17 +111,19 @@ public class MaxquantTask {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
-		
+
 		return true;
 	}
-	
+
 	public void run(String par) {
 		try {
 			log.append(format.format(new Date()) + "\t" + "Maxquant search started" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 		String cmd = MaxQuantCmd + " " + par;
 		Runtime run = Runtime.getRuntime();
@@ -131,27 +137,33 @@ public class MaxquantTask {
 			if (p.waitFor() != 0) {
 				if (p.exitValue() == 1) {
 					LOGGER.error("Error in database searching by MaxQuant");
+					System.err.println(
+							format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 				}
 			}
 			inBr.close();
 			in.close();
 		} catch (Exception e) {
 			LOGGER.error("Error in database searching by MaxQuant", e);
+			System.err
+					.println(format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 		}
 		try {
 			log.append(format.format(new Date()) + "\t" + "Maxquant search finished" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 	}
-	
+
 	public void run() {
 		try {
 			log.append(format.format(new Date()) + "\t" + "Maxquant search started" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 		String cmd = MaxQuantCmd + " " + MaxQuantPara;
 		Runtime run = Runtime.getRuntime();
@@ -165,18 +177,23 @@ public class MaxquantTask {
 			if (p.waitFor() != 0) {
 				if (p.exitValue() == 1) {
 					LOGGER.error("Error in database searching by MaxQuant");
+					System.err.println(
+							format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 				}
 			}
 			inBr.close();
 			in.close();
 		} catch (Exception e) {
 			LOGGER.error("Error in database searching by MaxQuant", e);
+			System.err
+					.println(format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 		}
 		try {
 			log.append(format.format(new Date()) + "\t" + "Maxquant search finished" + "\n");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 	}
 
@@ -186,12 +203,15 @@ public class MaxquantTask {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing log file", e);
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in writing log file");
 		}
 		try {
 			parameter.export(paraPath);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting parameter file to " + paraPath, e);
+			System.err.println(
+					format.format(new Date()) + "\t" + taskName + ": error in exporting parameter file to " + paraPath);
 		}
 		String cmd = MaxQuantCmd + " " + paraPath;
 		Runtime run = Runtime.getRuntime();
@@ -205,12 +225,16 @@ public class MaxquantTask {
 			if (p.waitFor() != 0) {
 				if (p.exitValue() == 1) {
 					LOGGER.error("Error in database searching by MaxQuant");
+					System.err.println(
+							format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 				}
 			}
 			inBr.close();
 			in.close();
 		} catch (Exception e) {
 			LOGGER.error("Error in database searching by MaxQuant", e);
+			System.err
+					.println(format.format(new Date()) + "\t" + taskName + ": error in database searching by MaxQuant");
 		}
 		try {
 			log.append(format.format(new Date()) + "\t" + "Maxquant search finished" + "\n");
@@ -219,17 +243,8 @@ public class MaxquantTask {
 			LOGGER.error("Error in writing log file", e);
 		}
 	}
-	
+
 	public static String getMaxQuantParameter() {
 		return MaxQuantPara;
 	}
-
-	public static void main(String[] args) throws IOException, DocumentException {
-		// TODO Auto-generated method stub
-
-		MaxquantTask task = new MaxquantTask(new StringBuilder());
-		task.run("D:\\MetaLab\\Project\\Resources\\mq_bin\\MaxQuantCmd.exe", 
-				"D:\\Data\\MetaLab_test\\wash_long_column\\mq_1623\\parameter\\pep_iden_par.xml");
-	}
-
 }

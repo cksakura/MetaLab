@@ -130,28 +130,59 @@ public class PFindTask {
 				// TODO Auto-generated catch block
 				LOGGER.error(taskName + ": extract spectra failed", e);
 				System.err.println(format.format(new Date()) + "\t" + taskName + ": extract spectra failed");
+				return;
 			}
 
 			writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
-			writer.println("cd " + pFindBin);
-
-			String cmd = xtract + " " + xtract_par + " \"" + spectraDir + "\" \"" + raw + "\"";
-			writer.println(cmd);
 
 			PFindConfig config = new PFindConfig(pFindBin);
 
-			File conf = null;
+			if (config.ispParse2Plus()) {
+				writer.println("cd " + pFindBin + "\\pParse2Plus");
+				File yamlFile = new File(spectraDir, rawName + ".pParse.yaml");
+				File defaultYamlFile = new File(pFindBin + "\\pParse2Plus", "pParse2Plus_cfg_default.yaml");
+				try (BufferedReader reader = new BufferedReader(new FileReader(defaultYamlFile))) {
 
-			try {
-				conf = config.extractSingle(co_elute, spectraDir, raw, rawName);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error(taskName + ": error in configuration, extract spectra failed", e);
-				System.err.println(format.format(new Date()) + "\t" + taskName
-						+ ": error in configuration, extract spectra failed");
+					PrintWriter yamlWriter = new PrintWriter(yamlFile);
+					String line = null;
+					while ((line = reader.readLine()) != null) {
+						if (line.startsWith("path_raw:")) {
+							yamlWriter.println(line);
+							yamlWriter.println("  - " + raw);
+						} else if (line.startsWith("  output:")) {
+							yamlWriter.println("  output: '" + spectraDir + "'");
+						} else {
+							yamlWriter.println(line);
+						}
+					}
+					reader.close();
+					yamlWriter.close();
+				} catch (IOException e) {
+					LOGGER.error(taskName + ": error in configuration, extract spectra failed", e);
+					System.err.println(format.format(new Date()) + "\t" + taskName
+							+ ": error in configuration, extract spectra failed");
+				}
+				writer.println("pParse2Plus.exe \"" + yamlFile + "\"");
+
+			} else {
+				writer.println("cd " + pFindBin);
+				String cmd = xtract + " " + xtract_par + " \"" + spectraDir + "\" \"" + raw + "\"";
+				writer.println(cmd);
+
+				File conf = null;
+
+				try {
+					conf = config.extractSingle(co_elute, spectraDir, raw, rawName);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					LOGGER.error(taskName + ": error in configuration, extract spectra failed", e);
+					System.err.println(format.format(new Date()) + "\t" + taskName
+							+ ": error in configuration, extract spectra failed");
+				}
+
+				writer.println(pParser + " " + conf);
 			}
 
-			writer.println(pParser + " " + conf);
 			writer.close();
 
 			this.pfindTaskMap.put(batFile.getAbsolutePath(), false);
@@ -255,6 +286,7 @@ public class PFindTask {
 			// TODO Auto-generated catch block
 			LOGGER.error(taskName + ": extract spectra failed", e);
 			System.err.println(format.format(new Date()) + "\t" + taskName + ": extract spectra failed");
+			return;
 		}
 
 		writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
@@ -314,6 +346,7 @@ public class PFindTask {
 			LOGGER.error(taskName + ": error in writing a bat file to " + batFile, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing a bat file to " + batFile);
+			return;
 		}
 
 		writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
@@ -331,6 +364,7 @@ public class PFindTask {
 		}
 
 		if (conf == null) {
+			writer.close();
 			return;
 		}
 
@@ -368,6 +402,7 @@ public class PFindTask {
 			LOGGER.error(taskName + ": error in writing a bat file to " + batFile, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing a bat file to " + batFile);
+			return;
 		}
 
 		writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
@@ -385,6 +420,7 @@ public class PFindTask {
 		}
 
 		if (conf == null) {
+			writer.close();
 			return;
 		}
 
@@ -423,6 +459,7 @@ public class PFindTask {
 			LOGGER.error(taskName + ": error in writing a bat file to " + batFile, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing a bat file to " + batFile);
+			return;
 		}
 
 		writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
@@ -439,6 +476,7 @@ public class PFindTask {
 				enzyme, missCleavages, digestMode, tag);
 
 		if (conf == null) {
+			writer.close();
 			return;
 		}
 
@@ -497,6 +535,7 @@ public class PFindTask {
 			LOGGER.error(taskName + ": error in writing a bat file to " + batFile, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing a bat file to " + batFile);
+			return;
 		}
 
 		writer.println(pFindBin.getAbsolutePath().split("\\\\")[0]);
@@ -513,6 +552,7 @@ public class PFindTask {
 				enzyme, missCleavages, digestMode, tag);
 
 		if (conf == null) {
+			writer.close();
 			return;
 		}
 

@@ -10,11 +10,20 @@ import bmi.med.uOttawa.metalab.task.io.pep.MetaPeptide;
 public class FlashLfqQuanPeptide extends MetaPeptide {
 
 	private boolean isDecoy;
+	private String razorProtein;
 
 	public FlashLfqQuanPeptide(String sequence, String modSeq, String[] proteins, double[] intensity, int[] idenType, boolean isDecoy) {
 		super(sequence, modSeq, proteins, intensity, idenType);
 		// TODO Auto-generated constructor stub
 		this.isDecoy = isDecoy;
+	}
+
+	public String getRazorProtein() {
+		return razorProtein;
+	}
+
+	public void setRazorProtein(String razorProtein) {
+		this.razorProtein = razorProtein;
 	}
 
 	public String getProteinString() {
@@ -95,7 +104,7 @@ public class FlashLfqQuanPeptide extends MetaPeptide {
 		ePep.addAttribute("intensities", intensitySb.toString());
 
 		StringBuilder idenTypeSb = new StringBuilder();
-		for (double iden : idenType) {
+		for (int iden : idenType) {
 			idenTypeSb.append(iden).append("_");
 		}
 		if (idenTypeSb.length() > 0)

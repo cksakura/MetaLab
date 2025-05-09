@@ -72,7 +72,9 @@ public class DiaNNResultReader {
 		int chargeId = -1;
 		int qvalueId = -1;
 		int pepId = -1;
+		int globalQValueId = -1;
 		int pgQvalueId = -1;
+		int globalPGQValueId = -1;
 		int preTransId = -1;
 		int scoreId = -1;
 
@@ -91,8 +93,12 @@ public class DiaNNResultReader {
 				qvalueId = i;
 			} else if (title[i].equals("PEP")) {
 				pepId = i;
+			} else if (title[i].equals("Global.Q.Value")) {
+				globalQValueId = i;
 			} else if (title[i].equals("PG.Q.Value")) {
 				pgQvalueId = i;
+			} else if (title[i].equals("Global.PG.Q.Value")) {
+				globalPGQValueId = i;
 			} else if (title[i].equals("Precursor.Normalised")) {
 				preTransId = i;
 			} else if (title[i].equals("CScore")) {
@@ -144,7 +150,8 @@ public class DiaNNResultReader {
 
 			DiaNNPrecursor diaNNPrecursor = new DiaNNPrecursor(cs[runId], pros, cs[modSeqId], cs[seqId],
 					Integer.parseInt(cs[chargeId]), missCleavage, mass, Double.parseDouble(cs[qvalueId]),
-					Double.parseDouble(cs[pepId]), Double.parseDouble(cs[pgQvalueId]),
+					Double.parseDouble(cs[pepId]), Double.parseDouble(cs[globalQValueId]),
+					Double.parseDouble(cs[pgQvalueId]), Double.parseDouble(cs[globalPGQValueId]),
 					Double.parseDouble(cs[preTransId]), Double.parseDouble(cs[scoreId]));
 
 			list.add(diaNNPrecursor);
@@ -157,16 +164,4 @@ public class DiaNNResultReader {
 	public DiaNNPrecursor[] getDiaNNPrecursors() {
 		return diaNNPrecursors;
 	}
-
-	
-	public static void main(String[] args) {
-		DiaNNResultReader reader = new DiaNNResultReader(
-				"Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\MetaLab_dia\\firstSearch", "firstSearch", "K*,R*");
-		HashSet<String> set1 = new HashSet<String>();
-		for (int i = 0; i < reader.getDiaNNPrecursors().length; i++) {
-			set1.add(reader.getDiaNNPrecursors()[i].getSeqString());
-		}
-		System.out.println(reader.getDiaNNPrecursors().length + "\t" + set1.size());
-	}
-	
 }

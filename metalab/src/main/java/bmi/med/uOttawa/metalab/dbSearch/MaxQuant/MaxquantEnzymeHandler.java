@@ -23,11 +23,11 @@ public class MaxquantEnzymeHandler {
 	private String enzyme = "Resources//mq_bin//conf//enzymes.xml";
 
 	private static Logger LOGGER = LogManager.getLogger(MaxquantEnzymeHandler.class);
-	
+
 	public MaxquantEnzymeHandler() {
-		
+
 	}
-	
+
 	public MaxquantEnzymeHandler(String enzyme) {
 		this.enzyme = enzyme;
 	}
@@ -43,25 +43,25 @@ public class MaxquantEnzymeHandler {
 			Document document = null;
 			try {
 				document = reader.read(new File(enzyme));
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element enzyme = it.next();
+					String title = enzyme.attributeValue("title");
+					String des = enzyme.attributeValue("description");
+					Element specificity = enzyme.element("specificity");
+
+					List<Element> splist = specificity.elements("string");
+					String[] spArrays = new String[splist.size()];
+					for (int i = 0; i < spArrays.length; i++) {
+						spArrays[i] = splist.get(i).getText();
+					}
+					list.add(new MaxquantEnzyme(title, des, spArrays));
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in parsing MaxQuant parameter file " + enzyme, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element enzyme = it.next();
-				String title = enzyme.attributeValue("title");
-				String des = enzyme.attributeValue("description");
-				Element specificity = enzyme.element("specificity");
-
-				List<Element> splist = specificity.elements("string");
-				String[] spArrays = new String[splist.size()];
-				for (int i = 0; i < spArrays.length; i++) {
-					spArrays[i] = splist.get(i).getText();
-				}
-				list.add(new MaxquantEnzyme(title, des, spArrays));
 			}
 		}
 
@@ -77,46 +77,46 @@ public class MaxquantEnzymeHandler {
 			Document document = null;
 			try {
 				document = reader.read(new File(enzyme));
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element eEnzyme = it.next();
+					String title = eEnzyme.attributeValue("title");
+					if (title.equals(enzymeName)) {
+						Element specificity = eEnzyme.element("specificity");
+						List<Element> splist = specificity.elements("string");
+						HashSet<Character> set1 = new HashSet<Character>();
+						HashSet<Character> set2 = new HashSet<Character>();
+						for (int i = 'A'; i <= 'Z'; i++) {
+							if (i != 'B' && i != 'J' && i != 'O' && i != 'U' && i != 'X' && i != 'Z') {
+								set2.add((char) i);
+							}
+						}
+						for (int i = 0; i < splist.size(); i++) {
+							String si = splist.get(i).getText();
+							char c0 = si.charAt(0);
+							char c1 = si.charAt(1);
+							set1.add(c0);
+							set2.remove(c1);
+						}
+
+						StringBuilder sb = new StringBuilder();
+						sb.append("[");
+						for (Character cc : set1) {
+							sb.append(cc);
+						}
+						sb.append("]").append("|").append("{");
+						for (Character cc : set2) {
+							sb.append(cc);
+						}
+						sb.append("}");
+						return sb.toString();
+					}
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in parsing MaxQuant parameter file " + enzyme, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element eEnzyme = it.next();
-				String title = eEnzyme.attributeValue("title");
-				if (title.equals(enzymeName)) {
-					Element specificity = eEnzyme.element("specificity");
-					List<Element> splist = specificity.elements("string");
-					HashSet<Character> set1 = new HashSet<Character>();
-					HashSet<Character> set2 = new HashSet<Character>();
-					for (int i = 'A'; i <= 'Z'; i++) {
-						if (i != 'B' && i != 'J' && i != 'O' && i != 'U' && i != 'X' && i != 'Z') {
-							set2.add((char) i);
-						}
-					}
-					for (int i = 0; i < splist.size(); i++) {
-						String si = splist.get(i).getText();
-						char c0 = si.charAt(0);
-						char c1 = si.charAt(1);
-						set1.add(c0);
-						set2.remove(c1);
-					}
-
-					StringBuilder sb = new StringBuilder();
-					sb.append("[");
-					for (Character cc : set1) {
-						sb.append(cc);
-					}
-					sb.append("]").append("|").append("{");
-					for (Character cc : set2) {
-						sb.append(cc);
-					}
-					sb.append("}");
-					return sb.toString();
-				}
 			}
 		}
 
@@ -161,26 +161,20 @@ public class MaxquantEnzymeHandler {
 			Document document = null;
 			try {
 				document = reader.read(new File(enzyme));
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					list.add(title);
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in parsing MaxQuant parameter file " + enzyme, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				list.add(title);
 			}
 		}
 		String[] titles = list.toArray(new String[list.size()]);
 		return titles;
 	}
-
-	public static void main(String[] args) throws DocumentException {
-		// TODO Auto-generated method stub
-
-	}
-
 }

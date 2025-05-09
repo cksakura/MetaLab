@@ -23,6 +23,11 @@ import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
 
+/**
+ * @deprecated
+ * @author Kai Cheng
+ *
+ */
 public class DiaNNPercolator {
 
 	private int rawFileCound;
@@ -292,6 +297,7 @@ public class DiaNNPercolator {
 		return pps;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void test(String fasta, String perTsv) throws IOException {
 		HashSet<String> pepSet = new HashSet<String>();
 		FastaReader fr = new FastaReader(fasta);
@@ -335,10 +341,4 @@ public class DiaNNPercolator {
 		System.out.println(tdPer[0] + "\t" + tdPer[1] + "\t" + (double) tdPer[1] / (double) tdPer[0]);
 		System.out.println(tdNoPer[0] + "\t" + tdNoPer[1] + "\t" + (double) tdNoPer[1] / (double) tdNoPer[0]);
 	}
-	
-	public static void main(String[] args) throws IOException {
-		DiaNNPercolator.test("Z:\\Kai\\DIA_Test\\DSM10507_21run\\uniprot_DSM10507.fasta",
-				"Z:\\Kai\\DIA_Test\\DSM10507_21run\\MetaLab\\DIA\\DIA.percolator.tsv");
-	}
-
 }

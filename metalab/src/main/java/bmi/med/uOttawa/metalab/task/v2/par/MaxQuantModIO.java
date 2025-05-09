@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
 
@@ -43,19 +42,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -112,19 +104,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -181,19 +166,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -252,19 +230,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -321,19 +292,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -390,19 +354,12 @@ public class MaxQuantModIO {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MetaLab modification file.", e);
-		}
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab modification file.", e);
+			return null;
 		}
 
 		StringBuilder sb = new StringBuilder();
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -458,55 +415,50 @@ public class MaxQuantModIO {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object().key("modifications").array();
+
+			MaxquantModHandler maxhandler = new MaxquantModHandler(in);
+			MaxquantModification[][] mmods = maxhandler.getModifications();
+
+			for (int i = 0; i < mmods[type].length; i++) {
+				String name = mmods[type][i].getTitle();
+				String description = mmods[type][i].getDescription();
+				String position = mmods[type][i].getPosition();
+				String[] sites = mmods[type][i].getSites();
+				String composition = mmods[type][i].getComposition();
+				double mass = mmods[type][i].getMonomass();
+
+				jw.object();
+				jw.key("name").value(name);
+				jw.key("description").value(description);
+				jw.key("mass").value(mass);
+				jw.key("position").value(position);
+				jw.key("composition").value(composition);
+
+				if (type == 2) {
+					double tmtMass = mmods[type][i].getTmtMass();
+					String tmtComp = mmods[type][i].getTmtComp();
+					jw.key("tmtMass").value(tmtMass);
+					jw.key("tmtComposition").value(tmtComp);
+				}
+
+				jw.key("sites").array();
+				for (int j = 0; j < sites.length; j++) {
+					jw.object().key("site").value(sites[j]).endObject();
+				}
+				jw.endArray();
+				jw.endObject();
+			}
+
+			jw.endArray();
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object().key("modifications").array();
-
-		MaxquantModHandler maxhandler = new MaxquantModHandler(in);
-		MaxquantModification[][] mmods = maxhandler.getModifications();
-
-		for (int i = 0; i < mmods[type].length; i++) {
-			String name = mmods[type][i].getTitle();
-			String description = mmods[type][i].getDescription();
-			String position = mmods[type][i].getPosition();
-			String[] sites = mmods[type][i].getSites();
-			String composition = mmods[type][i].getComposition();
-			double mass = mmods[type][i].getMonomass();
-
-			jw.object();
-			jw.key("name").value(name);
-			jw.key("description").value(description);
-			jw.key("mass").value(mass);
-			jw.key("position").value(position);
-			jw.key("composition").value(composition);
-
-			if (type == 2) {
-				double tmtMass = mmods[type][i].getTmtMass();
-				String tmtComp = mmods[type][i].getTmtComp();
-				jw.key("tmtMass").value(tmtMass);
-				jw.key("tmtComposition").value(tmtComp);
-			}
-
-			jw.key("sites").array();
-			for (int j = 0; j < sites.length; j++) {
-				jw.object().key("site").value(sites[j]).endObject();
-			}
-			jw.endArray();
-			jw.endObject();
-		}
-
-		jw.endArray();
-		jw.endObject();
-
-		writer.close();
-	}
-	
-	public static void main(String[] args) {
-		MaxQuantModIO.convertMaxquant("Z:\\Kai\\maxquant_mod\\modifications_maxquant_modified.xml", 
-				"Z:\\Kai\\mods.json", 0);
 	}
 }

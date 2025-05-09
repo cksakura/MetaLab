@@ -15,13 +15,10 @@ import bmi.med.uOttawa.metalab.task.MetaLabTask;
 import bmi.med.uOttawa.metalab.task.MetaLabWorkflowType;
 import bmi.med.uOttawa.metalab.task.alphapept.MetaLabMagAlphapeptTask;
 import bmi.med.uOttawa.metalab.task.dia.MetaDiaTask;
-import bmi.med.uOttawa.metalab.task.dia.par.MetaParIODiaSearchLib;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaParaIoDia;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaParameterDia;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaSourcesDia;
-import bmi.med.uOttawa.metalab.task.dia.par.MetaSourcesIoDia;
 import bmi.med.uOttawa.metalab.task.fragpipe.MetaLabMagFragpipeTask;
-import bmi.med.uOttawa.metalab.task.dia.par.MetaDiaParSearchLib;
 import bmi.med.uOttawa.metalab.task.hgm.HgmHapPFindTask;
 import bmi.med.uOttawa.metalab.task.hgm.par.MetaParaIOHGM;
 import bmi.med.uOttawa.metalab.task.hgm.par.MetaParameterHGM;
@@ -34,6 +31,7 @@ import bmi.med.uOttawa.metalab.task.par.MetaData;
 import bmi.med.uOttawa.metalab.task.par.MetaParameter;
 import bmi.med.uOttawa.metalab.task.pfind.par.MetaParaIOPFind;
 import bmi.med.uOttawa.metalab.task.pfind.par.MetaParameterPFind;
+import bmi.med.uOttawa.metalab.task.sage.MetaLabMagSageTask;
 import bmi.med.uOttawa.metalab.task.v2.par.MetaSourcesIOV2;
 import bmi.med.uOttawa.metalab.task.v2.par.MetaSourcesV2;
 
@@ -91,6 +89,11 @@ public class MetaLabMagTask extends MetaLabTask {
 		} else if (metaPar.getWorkflowType() == MetaLabWorkflowType.AlphapeptIMMag) {
 			MetaParaIOMag.export((MetaParameterMag) metaPar, new File(result, "parameter.json"));
 			searchresultFile = new File(result, "mag_result");
+		} else if (metaPar.getWorkflowType() == MetaLabWorkflowType.SageMAG) {
+			MetaParaIOMag.export((MetaParameterMag) metaPar, new File(result, "parameter.json"));
+			searchresultFile = new File(result, "mag_result");
+		} else {
+			return false;
 		}
 
 		if (!searchresultFile.exists()) {
@@ -98,7 +101,7 @@ public class MetaLabMagTask extends MetaLabTask {
 		}
 
 		metaPar.setDbSearchResultFile(searchresultFile);
-		
+
 		if (metaPar.getWorkflowType() == MetaLabWorkflowType.pFindWorkflow) {
 
 			idenTask = new MetaIdenPFindTask((MetaParameterPFind) metaPar, msv, bar1, bar2, null);
@@ -118,12 +121,18 @@ public class MetaLabMagTask extends MetaLabTask {
 			idenTask = new MetaDiaTask(diaPar, (MetaSourcesDia) msv, bar1, bar2, null);
 
 		} else if (metaPar.getWorkflowType() == MetaLabWorkflowType.FragpipeIMMag) {
-			
-			idenTask = new MetaLabMagFragpipeTask((MetaParameterMag) this.metaPar, (MetaSourcesMag) msv, bar1, bar2, null);
+
+			idenTask = new MetaLabMagFragpipeTask((MetaParameterMag) this.metaPar, (MetaSourcesMag) msv, bar1, bar2,
+					null);
 
 		} else if (metaPar.getWorkflowType() == MetaLabWorkflowType.AlphapeptIMMag) {
 
-			idenTask = new MetaLabMagAlphapeptTask((MetaParameterMag) this.metaPar, (MetaSourcesMag) msv, bar1, bar2, null);
+			idenTask = new MetaLabMagAlphapeptTask((MetaParameterMag) this.metaPar, (MetaSourcesMag) msv, bar1, bar2,
+					null);
+
+		} else if (metaPar.getWorkflowType() == MetaLabWorkflowType.SageMAG) {
+
+			idenTask = new MetaLabMagSageTask((MetaParameterMag) this.metaPar, (MetaSourcesMag) msv, bar1, bar2, null);
 
 		} else {
 
@@ -133,7 +142,7 @@ public class MetaLabMagTask extends MetaLabTask {
 		}
 
 		idenTask.setLogBuilder(this.builder);
-		
+
 		idenTask.execute();
 
 		return idenTask.get();
@@ -309,9 +318,11 @@ public class MetaLabMagTask extends MetaLabTask {
 //		MetaSourcesDia msv2 = MetaSourcesIoDia.parse("D:\\Exported\\exe\\resources_DIA_1_0.json");
 //		MetaDiaParSearchLib parV3 = MetaParIODiaSearchLib
 //				.parse("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\MetaLab\\parameter.json");
-		
-		MetaParameterPFind par = MetaParaIOPFind.parse("E:\\Exported\\exe\\parameters_2_3_1.json");
-		MetaSourcesV2 msv2 = MetaSourcesIOV2.parse("E:\\Exported\\exe\\resources_2_3_1.json");
+
+		MetaParameterPFind par = MetaParaIOPFind
+				.parse("C:\\Users\\kchen2\\.git\\repository\\metalab\\target\\classes\\parameters_MAG_1_1.json");
+		MetaSourcesV2 msv2 = MetaSourcesIOV2
+				.parse("C:\\Users\\kchen2\\.git\\repository\\metalab\\target\\classes\\resources_MAG_1_1.json");
 		MetaLabMagTask task = new MetaLabMagTask(par, msv2, new JProgressBar(), new JProgressBar());
 
 		task.execute();

@@ -6,8 +6,10 @@ import bmi.med.uOttawa.metalab.task.hgm.par.MetaSourcesHGM;
 
 public class MetaSourcesMag extends MetaSourcesHGM {
 
+	private String msconvert;
 	private String fragpipe;
 	private String alphapept;
+	private String sage;
 
 	public MetaSourcesMag(String version, String resource, String func, String funcDef, String flashlfq, String pFind,
 			String dbReducer) {
@@ -15,12 +17,14 @@ public class MetaSourcesMag extends MetaSourcesHGM {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MetaSourcesMag(String version, String resource, String func, String funcDef, String flashlfq, String pFind,
-			String dbReducer, String fragpipe, String alphapept) {
+	public MetaSourcesMag(String version, String resource, String msconvert, String func, String funcDef,
+			String flashlfq, String pFind, String dbReducer, String fragpipe, String alphapept, String sage) {
 		super(version, resource, func, funcDef, flashlfq, pFind, dbReducer);
 		// TODO Auto-generated constructor stub
+		this.msconvert = msconvert;
 		this.fragpipe = fragpipe;
 		this.alphapept = alphapept;
+		this.sage = sage;
 	}
 
 	public void setFragpipe(String fragpipe) {
@@ -55,4 +59,35 @@ public class MetaSourcesMag extends MetaSourcesHGM {
 		}
 	}
 
+	public String getSage() {
+		return sage;
+	}
+
+	public void setSage(String sage) {
+		this.sage = sage;
+	}
+
+	public boolean findSage() {
+		if (this.sage == null) {
+			return false;
+		} else {
+			return (new File(this.sage)).exists();
+		}
+	}
+
+	public String getMsconvert() {
+		return msconvert;
+	}
+
+	public void setMsconvert(String msconvert) {
+		this.msconvert = msconvert;
+	}
+
+	public boolean findMsconvert() {
+		if (this.msconvert == null) {
+			return false;
+		} else {
+			return (new File(this.msconvert)).exists();
+		}
+	}
 }

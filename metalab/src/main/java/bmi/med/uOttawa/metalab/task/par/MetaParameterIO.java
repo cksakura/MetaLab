@@ -2,7 +2,6 @@ package bmi.med.uOttawa.metalab.task.par;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -30,17 +29,9 @@ public class MetaParameterIO {
 			return null;
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -61,12 +52,7 @@ public class MetaParameterIO {
 
 		if (obj.has("workflowType")) {
 			MetaLabWorkflowType workflow = MetaLabWorkflowType.valueOf(obj.getString("workflowType"));
-			if (workflow == null) {
-				LOGGER.error("Unknown workflow " + obj.getString("workflowType"));
-				return null;
-			} else {
-				return workflow;
-			}
+			return workflow;
 		} else {
 			LOGGER.error("There is no workflowType information in " + json);
 			return null;
@@ -83,17 +69,9 @@ public class MetaParameterIO {
 			MetaParaIOMQ.exportBlank(json);
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}

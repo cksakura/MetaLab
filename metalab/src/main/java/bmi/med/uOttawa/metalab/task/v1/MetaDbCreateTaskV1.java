@@ -30,7 +30,6 @@ import bmi.med.uOttawa.metalab.dbSearch.xtandem.TandemFastaGetter;
 import bmi.med.uOttawa.metalab.dbSearch.xtandem.XTandemParameterHandler;
 import bmi.med.uOttawa.metalab.dbSearch.xtandem.XTandemTask;
 import bmi.med.uOttawa.metalab.spectra.cluster.ClusterTask;
-import bmi.med.uOttawa.metalab.spectra.io.MgfWriter;
 import bmi.med.uOttawa.metalab.spectra.io.ProteomicsTools;
 import bmi.med.uOttawa.metalab.task.v1.par.MetaParameterV1;
 

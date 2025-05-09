@@ -3,14 +3,9 @@
  */
 package bmi.med.uOttawa.metalab.dbSearch.philosopher;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,22 +45,22 @@ public class InteractPepReader {
 		this.initial(xml);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initial(File xml) {
 		SAXReader reader = new SAXReader();
 		Document document = null;
 		try {
 			document = reader.read(xml);
+			Element root = document.getRootElement();
+			this.summaryIt = root.elementIterator("msms_run_summary");
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading PSMs from " + xml, e);
 		}
-		Element root = document.getRootElement();
-
-		this.summaryIt = root.elementIterator("msms_run_summary");
-
 		this.nextSummary();
 	}
 
+	@SuppressWarnings("unchecked")
 	private boolean nextSummary() {
 		if (summaryIt.hasNext()) {
 
@@ -148,6 +143,7 @@ public class InteractPepReader {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public InteractPsm next() {
 
 		int scan = Integer.parseInt(query.attributeValue("start_scan"));

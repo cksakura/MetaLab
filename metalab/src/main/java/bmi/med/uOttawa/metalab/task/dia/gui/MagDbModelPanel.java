@@ -26,7 +26,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JProgressBar;
 
-import bmi.med.uOttawa.metalab.task.dia.DiaModelTask;
 import bmi.med.uOttawa.metalab.task.mag.MagDbItem;
 import bmi.med.uOttawa.metalab.task.mag.MagDbItem.MagModel;
 
@@ -145,10 +144,10 @@ public class MagDbModelPanel extends JPanel {
 		rdbtnRNN = new JRadioButton("RNN");
 		rdbtnRNN.setSelected(true);
 		createModelPanel.add(rdbtnRNN, "flowx,cell 1 2");
-		
+
 		rdbtnDFNN = new JRadioButton("DFNN");
 		createModelPanel.add(rdbtnDFNN, "cell 1 2");
-		
+
 		ButtonGroup buttonGroup = new ButtonGroup();
 		buttonGroup.add(rdbtnRNN);
 		buttonGroup.add(rdbtnDFNN);
@@ -160,16 +159,6 @@ public class MagDbModelPanel extends JPanel {
 		createModelPanel.add(progressBar, "cell 1 3 2 1,growx");
 	}
 
-	public String getModelType() {
-		if (this.rdbtnRNN.isSelected()) {
-			return DiaModelTask.RNN;
-		} else if (this.rdbtnDFNN.isSelected()) {
-			return DiaModelTask.DFNN;
-		} else {
-			return "Unknown";
-		}
-	}
-	
 	public String getModelName() {
 		return modelNameTextField.getText();
 	}

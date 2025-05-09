@@ -128,6 +128,7 @@ public class MetaLabPFindMainPanel extends JPanel {
 	protected JCheckBox pfindCheckBox;
 	protected JCheckBox fragpipeBox;
 	protected JCheckBox alphapeptBox;
+	protected JCheckBox sageBox;
 
 	protected MetaLabTask task;
 
@@ -341,7 +342,7 @@ public class MetaLabPFindMainPanel extends JPanel {
 		if (this.workflowType == MetaLabWorkflowType.pFindWorkflow) {
 			MetaParameterPFind parV3 = (MetaParameterPFind) par;
 
-			metaLabModPanel = new MetaLabModPanel(parV3, PFindModIO.getMods(msv.getMod()));
+			metaLabModPanel = new MetaLabModPanel(parV3, PFindModIO.getMaxQuantMods(msv.getMod()));
 			parameterPanel.add(metaLabModPanel, "cell 0 0,grow");
 
 			metaLabEnzymePanel = new MetaLabEnzymePanel(parV3, PFindEnzymeIO.getEnzymes(msv.getEnzyme()));
@@ -734,7 +735,7 @@ public class MetaLabPFindMainPanel extends JPanel {
 					return;
 				}
 			}
-
+/*
 			LicenseVerifier verifier = new LicenseVerifier();
 			boolean verified = verifier.verify();
 			if (!verified) {
@@ -752,7 +753,7 @@ public class MetaLabPFindMainPanel extends JPanel {
 				setCursor(null);
 				return;
 			}
-
+*/
 			try {
 				consoleTextArea = new ConsoleTextArea();
 			} catch (IOException e) {

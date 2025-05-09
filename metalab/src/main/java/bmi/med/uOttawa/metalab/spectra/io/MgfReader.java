@@ -119,12 +119,14 @@ public class MgfReader {
 					}
 					Arrays.sort(peaks);
 
-					spectrum.setPeaks(peaks);
-					return spectrum;
+					if (spectrum != null) {
+						spectrum.setPeaks(peaks);
+						return spectrum;
+					}
 				}
 
 				int eid = line.indexOf("=");
-				if (eid > 0) {
+				if (eid > 0 && spectrum != null) {
 					String key = line.substring(0, eid);
 					String value = line.substring(eid + 1);
 					if (key.equalsIgnoreCase("PEPMASS")) {
@@ -141,9 +143,7 @@ public class MgfReader {
 						}
 
 						double mz = format.parse(cs[0]).doubleValue();
-
 						spectrum.setPrecursorMz(mz);
-
 						if (cs.length > 1) {
 							double intensity = format.parse(cs[1]).doubleValue();
 							spectrum.setPrecursorIntensity(intensity);

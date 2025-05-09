@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,34 +65,31 @@ public class MaxLFQQuanPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split(AlphapeptProReader.delimiter);
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Stripped.Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Modified.Sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("score")) {
+					scoreId = i;
+				} else if (title[i].equals("protein")) {
+					proteinId = i;
+				} else if (title[i].equals("charge")) {
+					chargeId = i;
+				} else if (title[i].equals("n_AA")) {
+					lengthId = i;
+				} else if (title[i].equals("ms1_int_sum_apex_dn")) {
+					intensityId = i;
+				} else if (title[i].equals("run")) {
+					fileSNameId = i;
+				} else if (title[i].equals("target_precursor")) {
+					targetId = i;
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading Fragpipe search result file " + super.getFile(), e);
-		}
-		
-
-
-		this.title = line.split(AlphapeptProReader.delimiter);
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Stripped.Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Modified.Sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("score")) {
-				scoreId = i;
-			} else if (title[i].equals("protein")) {
-				proteinId = i;
-			} else if (title[i].equals("charge")) {
-				chargeId = i;
-			} else if (title[i].equals("n_AA")) {
-				lengthId = i;
-			} else if (title[i].equals("ms1_int_sum_apex_dn")) {
-				intensityId = i;
-			} else if (title[i].equals("run")) {
-				fileSNameId = i;
-			} else if (title[i].equals("target_precursor")) {
-				targetId = i;
-			}
 		}
 	}
 
@@ -137,8 +133,8 @@ public class MaxLFQQuanPepReader extends AbstractMetaPeptideReader {
 			}
 		} else {
 			int length = Integer.parseInt(cs[lengthId]);
-			int miss = Integer.parseInt(cs[missId]);
-			double mass = Double.parseDouble(cs[massId]);
+//			int miss = Integer.parseInt(cs[missId]);
+//			double mass = Double.parseDouble(cs[massId]);
 			double score = Double.parseDouble(cs[scoreId]);
 			double[] intensities = new double[fileNames.length];
 			intensities[fileId] += intensity;
@@ -153,7 +149,7 @@ public class MaxLFQQuanPepReader extends AbstractMetaPeptideReader {
 				pros = new String[] { cs[proteinId] };
 			}
 
-			AlphapeptPeptide alphaPep = new AlphapeptPeptide(seqString, modSeq, length, miss, mass, score, charges,
+			AlphapeptPeptide alphaPep = new AlphapeptPeptide(seqString, modSeq, length, 0, 0, score, charges,
 					pros, intensities, spCounts);
 			pepMap.put(modSeq, alphaPep);
 		}
@@ -209,50 +205,4 @@ public class MaxLFQQuanPepReader extends AbstractMetaPeptideReader {
 		}
 		return intensityTitles;
 	}
-	
-	private static void test(String in, String[] names) {
-		AlphapeptPepReader apReader = new AlphapeptPepReader(in, names);
-		try {
-			HashMap<String, Integer> countMap = new HashMap<String, Integer>();
-			HashMap<String, HashSet<String>> pepMap = new HashMap<String, HashSet<String>>();
-			for (int i = 0; i < names.length; i++) {
-				countMap.put(names[i], 0);
-				pepMap.put(names[i], new HashSet<String>());
-			}
-
-			int totalCount = 0;
-			while ((apReader.line = apReader.reader.readLine()) != null) {
-				String[] cs = apReader.line.split(AlphapeptProReader.delimiter);
-				if (cs[apReader.targetId].equals("FALSE")) {
-					return;
-				}
-				String seqString = cs[apReader.sequenceId];
-				String fileName = cs[apReader.fileSNameId];
-				countMap.put(fileName, countMap.get(fileName) + 1);
-				pepMap.get(fileName).add(seqString);
-				totalCount++;
-			}
-			apReader.reader.close();
-
-			System.out.println(totalCount);
-			for (int i = 0; i < names.length; i++) {
-				System.out.println(names[i] + "\t" + countMap.get(names[i]) + "\t" + pepMap.get(names[i]).size());
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-
-		}
-	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		AlphapeptPepReader.test("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\MetaLab_alphapept\\mag_result\\mag_peptides.csv",
-				new String[] { "DDA_DC1_1_2240", "DDA_DC2_1_2217", "DDA_DC3_1_2199", "DDA_DF10_1_1_2215",
-						"DDA_DF10_2_1_2219", "DDA_DF10_3_1_2227" });
-		
-		
-	}
-
 }

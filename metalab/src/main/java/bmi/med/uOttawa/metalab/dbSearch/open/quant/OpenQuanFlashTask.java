@@ -28,6 +28,7 @@ public class OpenQuanFlashTask extends SwingWorker<Object, Object> {
 		return null;
 	}
 	
+	@SuppressWarnings("unused")
 	private static void help() {
 		String cmd = flashLFQ + " --help";
 		LOGGER.info(cmd);

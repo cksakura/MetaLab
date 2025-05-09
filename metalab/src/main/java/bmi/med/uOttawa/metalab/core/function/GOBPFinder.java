@@ -4,7 +4,6 @@
 package bmi.med.uOttawa.metalab.core.function;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,17 +46,8 @@ public class GOBPFinder extends FunctionFinder {
 			map.put(pro.getPro().getName(), new ArrayList<String>());
 		}
 		if (isUsable()) {
-
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new FileReader(db));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading " + abbreviation + " database in " + db, e);
-			}
-
-			String line = null;
-			try {
+			try (BufferedReader reader = new BufferedReader(new FileReader(db))) {
+				String line = null;
 				while ((line = reader.readLine()) != null) {
 					String[] cs = line.split("\t");
 					String[] dbpros = cs[2].split(";");

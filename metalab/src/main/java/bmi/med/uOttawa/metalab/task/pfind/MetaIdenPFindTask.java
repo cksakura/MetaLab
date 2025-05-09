@@ -96,7 +96,7 @@ import bmi.med.uOttawa.metalab.task.v2.par.MetaSourcesV2;
 
 /**
  * Peptide/protein identification and quantification in pFind workflow
- * 
+ * @version 2025.03.27
  * @author Kai Cheng
  *
  */
@@ -107,9 +107,9 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 	protected MetaOpenPar mosp;
 	protected boolean isIsobaric;
 	protected boolean isOpenSearch;
-	
+
 	protected int maxTaskCount;
-	
+
 	protected File dbReducerExe;
 	protected boolean useDBReducer;
 	protected DBReducerTask dbReducerTask;
@@ -125,7 +125,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 	protected boolean isBrukD;
 	protected boolean spConvert;
 	protected String quanMode = ((MetaParameterPFind) metaPar).getQuanMode();
-	
+
 	protected File rawDir;
 	protected File spectraDirFile;
 	protected PFindTask pFindTask;
@@ -157,7 +157,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			SwingWorker<Boolean, Object> nextWork) {
 		super(metaPar, msv, bar1, bar2, nextWork);
 	}
-	
+
 	protected void initial() {
 		this.metadata = metaPar.getMetadata();
 		this.mptp = ((MetaParameterPFind) metaPar).getPtp();
@@ -232,7 +232,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 	protected void setTaskCount() {
 		long totalMemorySize = ((OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean())
 				.getTotalMemorySize() / 1024 / 1024 / 1024;
-		this.maxTaskCount = (int) (totalMemorySize / 16);
+		this.maxTaskCount = (int) (totalMemorySize / 20);
 		if (this.maxTaskCount == 0) {
 			this.maxTaskCount = 1;
 		}
@@ -242,39 +242,40 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		LOGGER.info(getTaskName() + ": the number of max memory is " + totalMemorySize
 				+ " GB, the max number of tasks is set as " + maxTaskCount);
 	}
-	
+
 	public MetaParameter getMetaParameter() {
 		return super.metaPar;
 	}
-	
+
 	@Override
 	protected Boolean doInBackground() throws Exception {
 		// TODO Auto-generated method stub
 
 		bar2.setString(getTaskName());
 		setProgress(0);
-		
+
 		LOGGER.info(getTaskName() + ": start");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": start");
 
 		boolean convert = spectraConvert();
 		if (!convert) {
 			LOGGER.error(getTaskName() + ": error in spectra format conversion");
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in spectra format conversion");
+			System.err
+					.println(format.format(new Date()) + "\t" + getTaskName() + ": error in spectra format conversion");
 			return false;
 		}
 
 		setProgress(10);
-		
+
 		boolean createSSDB = createSSDB();
 
 		if (!createSSDB) {
 			LOGGER.error(getTaskName() + ": error in sample-specific database generation");
-			System.err.println(
-					format.format(new Date()) + "\t" + getTaskName() + ": error in sample-specific database generation");
+			System.err.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in sample-specific database generation");
 			return false;
 		}
-		
+
 		setProgress(50);
 
 		boolean iden = iden();
@@ -293,8 +294,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			isIsobaric = false;
 			if (!quant) {
 				LOGGER.error(getTaskName() + ": error in peptide and protein quantification");
-				System.err.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": error in peptide and protein quantification");
+				System.err.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": error in peptide and protein quantification");
 				return false;
 			}
 		} else if (this.quanMode.equals(MetaConstants.isobaricLabel)) {
@@ -302,8 +303,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			isIsobaric = true;
 			if (!quant) {
 				LOGGER.error(getTaskName() + ": error in peptide and protein quantification");
-				System.err.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": error in peptide and protein quantification");
+				System.err.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": error in peptide and protein quantification");
 				return false;
 			}
 
@@ -312,8 +313,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			quant = isobaricQuant();
 			if (!quant) {
 				LOGGER.error(getTaskName() + ": error in peptide and protein quantification");
-				System.err.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": error in peptide and protein quantification");
+				System.err.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": error in peptide and protein quantification");
 				return false;
 			}
 		}
@@ -326,7 +327,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 		return true;
 	}
-	
+
 	protected boolean spectraConvert() {
 		if (spConvert) {
 			if (isMzML || isBrukD) {
@@ -335,7 +336,9 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 				} catch (NumberFormatException | IOException e) {
 					// TODO Auto-generated catch block
 					LOGGER.error(getTaskName() + ": error in extracting spectra", e);
-					System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in extracting spectra");
+					System.err.println(
+							format.format(new Date()) + "\t" + getTaskName() + ": error in extracting spectra");
+					return false;
 				}
 			} else {
 				try {
@@ -343,11 +346,11 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 				} catch (NumberFormatException | IOException e) {
 					// TODO Auto-generated catch block
 					LOGGER.error(getTaskName() + ": error in extracting spectra", e);
-					System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in extracting spectra");
+					System.err.println(
+							format.format(new Date()) + "\t" + getTaskName() + ": error in extracting spectra");
+					return false;
 				}
 			}
-
-			setProgress(20);
 		}
 
 		return true;
@@ -390,7 +393,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		int breakPoint2 = -1;
 
 		try (PrintWriter writer = new PrintWriter(out)) {
-			writer.println("Rank\tGenome\tTotal_covered_PSM_count\tPercentage\tIncrement\tIncrement ratio");
+			writer.println(
+					"Rank\tGenome\tPeptide_count\tTotal_covered_peptide_count\tPercentage\tIncrement\tIncrement ratio");
 			for (int i = 0; i < genomes.length; i++) {
 
 				int currentSize = totalSet.size();
@@ -400,8 +404,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 				percentage[i] = ((double) totalSet.size() / (double) totalPepCount);
 
-				writer.println(i + "\t" + genomes[i] + "\t" + totalSet.size() + "\t" + percentage[i] + "\t" + add + "\t"
-						+ additional);
+				writer.println(i + "\t" + genomes[i] + "\t" + genomePepMap.get(genomes[i]).size() + "\t"
+						+ totalSet.size() + "\t" + percentage[i] + "\t" + add + "\t" + additional);
 
 				if (add > 1) {
 					breakPoint1 = i;
@@ -413,7 +417,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			writer.close();
 		} catch (IOException e) {
 			LOGGER.error(getTaskName() + ": error in writing genomes to " + out, e);
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
+			System.out
+					.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
 		}
 
 		int decoyCount = 0;
@@ -435,15 +440,16 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 					}
 				}
 			} else {
-
 				if (percentage[i] >= threshold) {
 					break;
 				}
-				if (i == breakPoint1 || i == breakPoint2) {
-					break;
-				}
-				if (genomeSet.size() > maxium) {
-					break;
+				if (threshold < 1.0) {
+					if (i == breakPoint1 || i == breakPoint2) {
+						break;
+					}
+					if (genomeSet.size() > maxium) {
+						break;
+					}
 				}
 			}
 		}
@@ -451,8 +457,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		return genomeSet;
 	}
 
-	protected HashSet<String> refineProtein(HashMap<String, HashSet<String>> proPepMap, int totalPepCount,
-			File out) {
+	protected HashSet<String> refineProtein(HashMap<String, HashSet<String>> proPepMap, int totalPepCount, File out) {
 
 		String[] proteins = proPepMap.keySet().toArray(new String[proPepMap.size()]);
 		Arrays.sort(proteins, (g1, g2) -> {
@@ -500,7 +505,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			writer.close();
 		} catch (IOException e) {
 			LOGGER.error(getTaskName() + ": error in writing genomes to " + out, e);
-			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
+			System.out
+					.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing genomes to " + out);
 		}
 
 		for (int i = 0; i < proteins.length; i++) {
@@ -512,7 +518,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 		return proSet;
 	}
-	
+
 	protected String[] msconvert(String[] raws) throws NumberFormatException, IOException {
 
 		bar2.setString(getTaskName() + ": extracting spectra");
@@ -551,7 +557,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			if (((MetaSourcesV2) msv).findMSConvert()) {
 				msconvertFile = new File(((MetaSourcesV2) msv).getMsconvert());
 			} else {
-				File resourceFile = (new File(((MetaSourcesV2) msv).getFlashlfq())).getParentFile().getParentFile();
+				File resourceFile = (new File(((MetaSourcesV2) msv).getMsconvert())).getParentFile().getParentFile();
 				File proteoWizardFile = new File(resourceFile, "ProteoWizard");
 				msconvertFile = new File(proteoWizardFile, "msconvert.exe");
 			}
@@ -595,12 +601,13 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": msconvert failed");
+					LOGGER.error(getTaskName() + ": msconvert failed", e);
 				}
 
 			} else {
-				System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": msconvert was not found, please "
-						+ "put \"ProteoWizard\" into the resource folder");
+				System.out.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": msconvert was not found, please " + "put \"ProteoWizard\" into the resource folder");
 				LOGGER.info(getTaskName() + ": msconvert was not found, please "
 						+ "put \"ProteoWizard\" into the resource folder");
 			}
@@ -678,7 +685,6 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		this.ms2CountFile = new File(spectraDirFile, "ms2Count.txt");
 
 		String[] rawFileNames = new String[raws.length];
-		String[] pf2FileNames = new String[raws.length];
 		String[] ms2FileNames = new String[raws.length];
 		this.mgfs = new String[raws.length];
 
@@ -693,7 +699,6 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			File pf2 = new File(spectraDirFile, rawFileNames[i] + suffix + ".pf2");
 			File ms2 = new File(spectraDirFile, rawFileNames[i] + ".ms2");
 
-			pf2FileNames[i] = pf2.getAbsolutePath();
 			ms2FileNames[i] = ms2.getAbsolutePath();
 
 			if (!pf2.exists() || pf2.length() == 0) {
@@ -789,7 +794,9 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 						} else if (cs[0].equals("I")) {
 							if (cs[1].equals("RetTime")) {
 								try {
-									rtsecond = df.parse(cs[2]).doubleValue();
+									if (df != null) {
+										rtsecond = df.parse(cs[2]).doubleValue();
+									}
 								} catch (ParseException e) {
 									// TODO Auto-generated catch block
 									System.err.println(format.format(new Date()) + "\t" + getTaskName()
@@ -879,7 +886,9 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 							} else if (cs[0].equals("I")) {
 								if (cs[1].equals("RetTime")) {
 									try {
-										rtsecond = format.parse(cs[2]).doubleValue();
+										if (format != null) {
+											rtsecond = format.parse(cs[2]).doubleValue();
+										}
 									} catch (ParseException e) {
 										// TODO Auto-generated catch block
 										System.err.println(format.format(new Date()) + "\t" + getTaskName()
@@ -900,9 +909,24 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			}
 		}
 
+		String[] pf2FileNames = new String[raws.length];
+		for (int i = 0; i < raws.length; i++) {
+
+			File rawi = new File(raws[i]);
+			String rawName = rawi.getName();
+
+			rawFileNames[i] = rawName.substring(0, rawName.lastIndexOf("."));
+
+			File pf2 = new File(spectraDirFile, rawFileNames[i] + suffix + ".pf2");
+
+			if (pf2.exists()) {
+				pf2FileNames[i] = pf2.getAbsolutePath();
+			}
+		}
+
 		return pf2FileNames;
 	}
-	
+
 	protected boolean createSSDB() {
 		MetaSsdbCreatePar scp = metaPar.getMscp();
 		if (scp.isSsdb()) {
@@ -927,13 +951,13 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			} catch (InterruptedException | ExecutionException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error(getTaskName() + ": error in sample-specific database generation", e);
-				System.err.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": error in sample-specific database generation");
+				System.err.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": error in sample-specific database generation");
 			}
 			if (!finish) {
 				LOGGER.error(getTaskName() + ": error in sample-specific database generation");
-				System.err.println(
-						format.format(new Date()) + "\t" + getTaskName() + ": error in sample-specific database generation");
+				System.err.println(format.format(new Date()) + "\t" + getTaskName()
+						+ ": error in sample-specific database generation");
 				return false;
 			}
 
@@ -949,15 +973,15 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		bar2.setString(getTaskName() + ": peptide and protein identification");
 
 		LOGGER.info(getTaskName() + ": peptide and protein identification started");
-		System.out
-				.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein identification started");
+		System.out.println(
+				format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein identification started");
 
 		this.pFindResultReader = new PFindResultReader(resultFolderFile, spectraDirFile, ptmMap);
 
 		if (pFindResultReader.hasResult()) {
 
-			LOGGER.info(getTaskName() + ": peptide and protein identification results have been found in " + resultFolderFile
-					+ ", go to next step");
+			LOGGER.info(getTaskName() + ": peptide and protein identification results have been found in "
+					+ resultFolderFile + ", go to next step");
 			System.out.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": peptide and protein identification results have been found in " + resultFolderFile
 					+ ", go to next step");
@@ -984,10 +1008,10 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 							+ ": reduced database was generated in " + dbReducerFile);
 				} else {
 					LOGGER.info(getTaskName() + ": reduced database was not found");
-					System.out
-							.println(format.format(new Date()) + "\t" + getTaskName() + ": reduced database was not found");
+					System.out.println(
+							format.format(new Date()) + "\t" + getTaskName() + ": reduced database was not found");
 				}
-			} 
+			}
 
 			this.pFindTask.setTotalThread(metaPar.getThreadCount());
 
@@ -1043,8 +1067,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		}
 
 		LOGGER.info(getTaskName() + ": peptide and protein identification finished");
-		System.out
-				.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein identification finished");
+		System.out.println(
+				format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein identification finished");
 
 		return true;
 	}
@@ -1075,12 +1099,6 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			System.out.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in peptide and protein label-free quantification");
 
-			LOGGER.info(getTaskName() + ": try to fix this problem by install the dotNET framework, please download from "
-					+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
-			System.out.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": try to fix this problem by install the dotNET framework, please download from "
-					+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
-
 			return false;
 		}
 
@@ -1103,11 +1121,12 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		bar2.setString(getTaskName() + ": peptide and protein quantification");
 
 		LOGGER.info(getTaskName() + ": peptide and protein isobaric quantification started");
-		System.out
-				.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein isobaric quantification started");
+		System.out.println(format.format(new Date()) + "\t" + getTaskName()
+				+ ": peptide and protein isobaric quantification started");
 
-		PFindIsobaricTask pfindIsobaricTask = new PFindIsobaricTask(this.pFindResultReader, this.metaPar.getSpectraFile(), resultFolderFile,
-				((MetaParameterPFind) this.metaPar).getIsobaricTag(), ((MetaParameterPFind) this.metaPar).getIsobaric(),
+		PFindIsobaricTask pfindIsobaricTask = new PFindIsobaricTask(this.pFindResultReader,
+				this.metaPar.getSpectraFile(), resultFolderFile, ((MetaParameterPFind) this.metaPar).getIsobaricTag(),
+				((MetaParameterPFind) this.metaPar).getIsobaric(),
 				((MetaParameterPFind) this.metaPar).getIsoCorFactor(),
 				((MetaParameterPFind) this.metaPar).isCombineLabel(), metadata);
 
@@ -1138,8 +1157,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		}
 
 		LOGGER.info(getTaskName() + ": peptide and protein isobaric quantification finished");
-		System.out
-				.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide and protein isobaric quantification finished");
+		System.out.println(format.format(new Date()) + "\t" + getTaskName()
+				+ ": peptide and protein isobaric quantification finished");
 
 		return true;
 	}
@@ -1147,7 +1166,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 	protected String getVersion() {
 		return MetaParaIOMQ.version;
 	}
-	
+
 	protected boolean exportReport() {
 
 		bar2.setString(getTaskName() + ": exporting report");
@@ -1246,7 +1265,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 			return false;
 		}
-		
+
 		task.run();
 
 		try {
@@ -1270,7 +1289,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 	protected boolean exportSummary(MetaReportTask task) {
 
-		this.final_summary_txt = new File(this.resultFolderFile, "final_summary.tsv");
+		this.final_summary_txt = new File(this.metaPar.getResult(), "final_summary.tsv");
 		try {
 
 			PrintWriter countWriter = new PrintWriter(this.final_summary_txt);
@@ -1363,8 +1382,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(getTaskName() + ": error in writing PSM information to " + final_summary_txt.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing PSM information to "
-					+ final_summary_txt.getName());
+			System.err.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in writing PSM information to " + final_summary_txt.getName());
 		}
 
 		if (!final_summary_txt.exists() || final_summary_txt.length() == 0) {
@@ -1373,7 +1392,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		} else {
 			boolean finish = false;
 			File report_ID_summary = new File(reportHtmlDir, "report_ID_summary.html");
-			if (summaryMetaFile!=null && summaryMetaFile.exists()) {
+			if (summaryMetaFile != null && summaryMetaFile.exists()) {
 				finish = task.addTask(MetaReportTask.summary, final_summary_txt, report_ID_summary, summaryMetaFile);
 			} else {
 				finish = task.addTask(MetaReportTask.summary, final_summary_txt, report_ID_summary);
@@ -1388,7 +1407,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		if (!taxonomy) {
 			return false;
 		}
-		
+
 		setProgress(92);
 
 		boolean function = false;
@@ -1396,12 +1415,12 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			function = this.exportProteinFunction(task);
 		} catch (IOException | DocumentException e) {
 			LOGGER.error(getTaskName() + ": error in output functional annotation result", e);
-			System.err.println(
-					format.format(new Date()) + "\t" + getTaskName() + ": error in output functional annotation result");
+			System.err.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in output functional annotation result");
 		}
 
 		setProgress(98);
-		
+
 		if (!function) {
 			return false;
 		}
@@ -1427,27 +1446,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			}
 		}
 
-		BufferedReader quanPepReader = null;
-		try {
-			quanPepReader = new BufferedReader(new FileReader(this.quan_pep_file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in reading peptides from " + this.quan_pep_file.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in reading peptides from "
-					+ this.quan_pep_file.getName());
-		}
-
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(this.final_pep_txt);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in writing peptides to " + this.final_pep_txt.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing peptides to "
-					+ this.final_pep_txt.getName());
-		}
-
-		try {
+		try (BufferedReader quanPepReader = new BufferedReader(new FileReader(this.quan_pep_file));
+				PrintWriter writer = new PrintWriter(this.final_pep_txt)) {
 
 			String line = quanPepReader.readLine();
 			String[] title = line.split("\t");
@@ -1648,14 +1648,19 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading peptides from " + this.quan_pep_file.getName(), e);
+			LOGGER.error(getTaskName() + ": error in reading peptides from " + this.quan_pep_file.getName(), e);
+			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in reading peptides from "
+					+ this.quan_pep_file.getName());
 		}
 
 		LOGGER.info(getTaskName() + ": peptide report has been exported to " + final_pep_txt);
-		System.out.println(
-				format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to " + final_pep_txt);
+		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": peptide report has been exported to "
+				+ final_pep_txt);
 
 		if (!final_pep_txt.exists() || final_pep_txt.length() == 0) {
+			LOGGER.error(getTaskName() + ": error in writing the peptides to " + this.final_pep_txt);
+			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in writing the peptides to "
+					+ this.final_pep_txt);
 			return false;
 		}
 
@@ -1683,27 +1688,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			}
 		}
 
-		BufferedReader quanProReader = null;
-		try {
-			quanProReader = new BufferedReader(new FileReader(this.quan_pro_file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.quan_pro_file.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": error in reading quantified proteins from " + this.quan_pro_file.getName());
-		}
-
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(this.final_pro_txt);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": error in writing final protein result to " + this.final_pro_txt.getName());
-		}
-
-		try {
+		try (BufferedReader quanProReader = new BufferedReader(new FileReader(this.quan_pro_file));
+				PrintWriter writer = new PrintWriter(this.final_pro_txt)) {
 
 			String line = quanProReader.readLine();
 			String[] title = line.split("\t");
@@ -1732,7 +1718,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			int[] fileIds = new int[expNames.length];
 
 			if (((MetaParameterPFind) this.metaPar).getQuanMode().equals(MetaConstants.labelFree)) {
-				
+
 				for (int i = 0; i < expNames.length; i++) {
 					for (int j = 0; j < title.length; j++) {
 						if (expNames[i].equals(title[j])) {
@@ -1915,12 +1901,18 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			}
 
 			writer.close();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(), e);
+			LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.quan_pro_file.getName(),
+					e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": error in writing final protein result to " + this.final_pro_txt.getName());
+					+ ": error in reading quantified proteins from " + this.quan_pro_file.getName());
+		}
+
+		if (final_pro_txt == null || final_pro_txt.length() == 0) {
+			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt);
+			System.err.println(format.format(new Date()) + "\t" + getTaskName()
+					+ ": error in writing final protein result to " + this.final_pro_txt);
 		}
 
 		LOGGER.info(getTaskName() + ": protein report has been exported to " + final_pro_txt.getName());
@@ -1940,18 +1932,10 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			taxFile.mkdir();
 		}
 
-		BufferedReader quanPepReader = null;
-		try {
-			quanPepReader = new BufferedReader(new FileReader(this.quan_pep_file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading peptides from " + this.quan_pep_file.getName(), e);
-		}
-
 		HashMap<String, double[]> pepIntensityMap = new HashMap<String, double[]>();
-		
 		String[] expNames = null;
-		try {
+		try (BufferedReader quanPepReader = new BufferedReader(new FileReader(this.quan_pep_file))) {
+
 			String line = quanPepReader.readLine();
 			String[] title = line.split("\t");
 			int seqId = -1;
@@ -1988,10 +1972,12 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 				pepIntensityMap.put(cs[seqId], intensity);
 			}
 			quanPepReader.close();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading peptides from " + this.quan_pep_file.getName(), e);
+			LOGGER.error("Error in reading peptides from " + this.quan_pep_file, e);
+			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": error in reading peptides from "
+					+ this.quan_pep_file);
+			return false;
 		}
 
 		boolean executeBuiltin = false;
@@ -2107,7 +2093,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		}
 
 		setProgress(88);
-		
+
 		HashMap<String, ArrayList<PeptideResult>> baseSeqMap = this.pFindResultReader.getBasePeptideMap();
 		TaxonomyDatabase td = new TaxonomyDatabase(msv.getTaxonAll());
 		HashSet<String> sequenceSet = new HashSet<String>();
@@ -2268,7 +2254,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 					File report_taxonomy_summary = new File(this.reportHtmlDir, "report_taxonomy_summary.html");
 					if (!report_taxonomy_summary.exists() || report_taxonomy_summary.length() == 0) {
 						if (summaryMetaFile.exists()) {
-							finish = task.addTask(MetaReportTask.taxon, refinedTaxon, report_taxonomy_summary, summaryMetaFile);
+							finish = task.addTask(MetaReportTask.taxon, refinedTaxon, report_taxonomy_summary,
+									summaryMetaFile);
 						} else {
 							finish = task.addTask(MetaReportTask.taxon, refinedTaxon, report_taxonomy_summary);
 						}
@@ -2276,7 +2263,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 				}
 			}
 		}
-		
+
 		setProgress(90);
 
 		if (mptp.isUnipept() && executeUnipept) {
@@ -2434,6 +2421,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			return true;
 
 		} else {
+			LOGGER.error(getTaskName() + ": taxonomy analysis failed");
+			System.err.println(format.format(new Date()) + "\t" + getTaskName() + ": taxonomy analysis failed");
 			return false;
 		}
 	}
@@ -2470,20 +2459,10 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 				promap.put(pro, proteins[i]);
 			}
 
-			BufferedReader quanProReader = null;
-			try {
-				quanProReader = new BufferedReader(new FileReader(this.final_pro_txt));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.quan_pro_file.getName(),
-						e);
-				System.err.println(format.format(new Date()) + "\t" + getTaskName()
-						+ ": error in reading quantified proteins from " + this.quan_pro_file.getName());
-			}
-
 			ArrayList<MetaProtein> list = new ArrayList<MetaProtein>();
 			String[] fileNames = null;
-			try {
+			try (BufferedReader quanProReader = new BufferedReader(new FileReader(this.final_pro_txt))) {
+
 				String line = quanProReader.readLine();
 				String[] title = line.split("\t");
 				int id = -1;
@@ -2531,13 +2510,11 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 					}
 				}
 				quanProReader.close();
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.quan_pro_file.getName(),
-						e);
+				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.quan_pro_file, e);
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
-						+ ": error in reading quantified proteins from " + this.quan_pro_file.getName());
+						+ ": error in reading quantified proteins from " + this.quan_pro_file);
 			}
 
 			setProgress(94);
@@ -2800,6 +2777,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			LOGGER.error(getTaskName() + ": error in proteins functional annotations, task failed", e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in proteins functional annotations, task failed");
+			return null;
 		}
 
 		MetaProteinXMLWriter2 writer = new MetaProteinXMLWriter2(final_pro_xml_file.getAbsolutePath(),
@@ -2834,8 +2812,8 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 		private int barStart;
 		private int barEnd;
 
-		public WatchServiceLoop(WatchService watchService, FileFilter filter, int totalCount, int currentCount, int barStart,
-				int barEnd) {
+		public WatchServiceLoop(WatchService watchService, FileFilter filter, int totalCount, int currentCount,
+				int barStart, int barEnd) {
 			this.watchService = watchService;
 			this.filter = filter;
 			this.totalCount = totalCount;
@@ -2844,6 +2822,7 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 			this.barEnd = barEnd;
 		}
 
+		@SuppressWarnings("unchecked")
 		@Override
 		public void run() {
 
@@ -2863,13 +2842,14 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 							currentCount++;
 							int percentage = (int) ((double) currentCount / (double) totalCount
 									* (double) (barEnd - barStart));
-							
+
 							MetaIdenPFindTask.this.setProgress(barStart + percentage);
 
 							System.out.println(format.format(new Date()) + "\t" + getTaskName()
 									+ ": WatchService find one finished task at " + fileName.toFile());
 
-							LOGGER.info(getTaskName() + ": WatchService find one finished task at " + fileName.toFile());
+							LOGGER.info(
+									getTaskName() + ": WatchService find one finished task at " + fileName.toFile());
 						}
 					}
 					// Reset the key and continue the loop
@@ -2903,6 +2883,6 @@ public class MetaIdenPFindTask extends MetaAbstractTask {
 	}
 
 	public static void main(String[] args) {
-		
+
 	}
 }

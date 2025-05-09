@@ -53,17 +53,9 @@ public class MetaParaIOPFind {
 			exportBlank(json);
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -191,155 +183,155 @@ public class MetaParaIOPFind {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaLabTask.version);
+
+			jw.key("workflowType").value(MetaLabWorkflowType.MaxQuantWorkflow.name());
+
+			MetaData metadata = new MetaData();
+
+			String[] rawFiles = metadata.getRawFiles();
+			String[] expNames = metadata.getExpNames();
+
+			jw.key("rawExpName").array();
+			for (int i = 0; i < rawFiles.length; i++) {
+				jw.object().key("path").value(rawFiles[i]).key("experiment").value(expNames[i]).endObject();
+			}
+			jw.endArray();
+
+			int metaTypeCount = metadata.getMetaTypeCount();
+			jw.key("metaCount").value(metaTypeCount);
+
+			jw.key("metainfo").array();
+			String[][] metainfo = metadata.getMetaInfo();
+			for (int i = 0; i < metainfo.length; i++) {
+				jw.object();
+				for (int j = 0; j < metainfo[i].length; j++) {
+					jw.key("meta " + (j + 1)).value(metainfo[i][j]);
+				}
+				jw.endObject();
+			}
+			jw.endArray();
+
+			String[] labelTitle = metadata.getLabelTitle();
+			jw.key("labelTitle").array();
+			for (int i = 0; i < labelTitle.length; i++) {
+				jw.object().key("label").value(labelTitle[i]).endObject();
+			}
+			jw.endArray();
+
+			jw.key("labelExpName").array();
+			String[] labelExpName = metadata.getLabelExpNames();
+			for (int i = 0; i < expNames.length; i++) {
+				for (int j = 0; j < labelTitle.length; j++) {
+					jw.object().key(expNames[i] + " " + labelTitle[j]).value(labelExpName[i * labelTitle.length + j])
+							.endObject();
+				}
+			}
+			jw.endArray();
+
+			String[] isobaricRefs = metadata.getIsobaricReference();
+			jw.key("isobaricRefs").array();
+			for (int i = 0; i < isobaricRefs.length; i++) {
+				jw.object().key("refName").value(isobaricRefs[i]).endObject();
+			}
+			jw.endArray();
+
+			boolean[] selectRefs = metadata.getSelectRef();
+			jw.key("selectRefs").array();
+			for (int i = 0; i < selectRefs.length; i++) {
+				jw.object().key("select").value(selectRefs[i]).endObject();
+			}
+			jw.endArray();
+
+			jw.key("result").value("");
+
+			jw.key("microDb").value("");
+
+			jw.key("hostDb").value("");
+
+			jw.key("appendHostDb").value(false);
+
+			jw.key("MS2ScanMode").value(MetaConstants.FTMS);
+
+			jw.key("coreCount").value(1);
+
+			jw.key("threadCount").value(1);
+
+			jw.key("isMetaWorkflow").value(true);
+
+			jw.key("fixMods").array();
+			jw.object().key("name").value("Carbamidomethyl[C] 0").endObject();
+			jw.endArray();
+
+			jw.key("variMods").array();
+			jw.object().key("name").value("Oxidation[M] 0").endObject();
+			jw.object().key("name").value("Acetyl[ProteinN-term] 0").endObject();
+			jw.endArray();
+
+			jw.key("enzyme").value("Trypsin");
+
+			jw.key("missCleavages").value(2);
+
+			jw.key("digestMode").value(0);
+
+			jw.key("quanMode").value(MetaConstants.labelFree);
+
+			jw.key("combineLabel").value(false);
+
+			jw.key("isobaricTag").value("");
+
+			jw.key("isobaric").array();
+			jw.endArray();
+
+			jw.key("refChannelId").value(-1);
+
+			MetaSsdbCreatePar mscp = MetaSsdbCreatePar.getDefault();
+			jw.key("ssdb").value(mscp.isSsdb());
+			jw.key("cluster").value(mscp.isCluster());
+			jw.key("ssOpen").value(mscp.isOpen());
+			jw.key("xtandemFDR").value(mscp.getXtandemFDR());
+			jw.key("xtandemEvalue").value(mscp.getXtandemEvalue());
+
+			MetaOpenPar osp = MetaOpenPar.getDefault();
+			jw.key("isOpenSearch").value(osp.isOpenSearch());
+			jw.key("openPsmFDR").value(osp.getOpenPsmFDR());
+			jw.key("openProFDR").value(osp.getOpenProFDR());
+			jw.key("mbr").value(osp.isMatchBetweenRuns());
+
+			MetaPep2TaxaPar mptp = MetaPep2TaxaPar.getDefault();
+			jw.key("buildIn").value(mptp.isBuildIn());
+			jw.key("unipept").value(mptp.isUnipept());
+
+			HashSet<RootType> usedRootTypes = mptp.getUsedRootTypes();
+			jw.key("usedRoots").array();
+			for (RootType rt : usedRootTypes) {
+				jw.object().key("root").value(rt).endObject();
+			}
+			jw.endArray();
+
+			TaxonomyRanks ignoreBlankRank = mptp.getIgnoreBlankRank();
+			jw.key("ignoreBlankRank").value(ignoreBlankRank);
+
+			HashSet<String> excludeTaxa = mptp.getExcludeTaxa();
+			jw.key("excludeTaxa").array();
+			for (String et : excludeTaxa) {
+				jw.object().key("excludeTaxon").value(et).endObject();
+			}
+			jw.endArray();
+
+			jw.key("leastPepCount").value(mptp.getLeastPepCount());
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaLabTask.version);
-
-		jw.key("workflowType").value(MetaLabWorkflowType.MaxQuantWorkflow.name());
-
-		MetaData metadata = new MetaData();
-
-		String[] rawFiles = metadata.getRawFiles();
-		String[] expNames = metadata.getExpNames();
-
-		jw.key("rawExpName").array();
-		for (int i = 0; i < rawFiles.length; i++) {
-			jw.object().key("path").value(rawFiles[i]).key("experiment").value(expNames[i]).endObject();
-		}
-		jw.endArray();
-
-		int metaTypeCount = metadata.getMetaTypeCount();
-		jw.key("metaCount").value(metaTypeCount);
-
-		jw.key("metainfo").array();
-		String[][] metainfo = metadata.getMetaInfo();
-		for (int i = 0; i < metainfo.length; i++) {
-			jw.object();
-			for (int j = 0; j < metainfo[i].length; j++) {
-				jw.key("meta " + (j + 1)).value(metainfo[i][j]);
-			}
-			jw.endObject();
-		}
-		jw.endArray();
-
-		String[] labelTitle = metadata.getLabelTitle();
-		jw.key("labelTitle").array();
-		for (int i = 0; i < labelTitle.length; i++) {
-			jw.object().key("label").value(labelTitle[i]).endObject();
-		}
-		jw.endArray();
-
-		jw.key("labelExpName").array();
-		String[] labelExpName = metadata.getLabelExpNames();
-		for (int i = 0; i < expNames.length; i++) {
-			for (int j = 0; j < labelTitle.length; j++) {
-				jw.object().key(expNames[i] + " " + labelTitle[j]).value(labelExpName[i * labelTitle.length + j])
-						.endObject();
-			}
-		}
-		jw.endArray();
-
-		String[] isobaricRefs = metadata.getIsobaricReference();
-		jw.key("isobaricRefs").array();
-		for (int i = 0; i < isobaricRefs.length; i++) {
-			jw.object().key("refName").value(isobaricRefs[i]).endObject();
-		}
-		jw.endArray();
-
-		boolean[] selectRefs = metadata.getSelectRef();
-		jw.key("selectRefs").array();
-		for (int i = 0; i < selectRefs.length; i++) {
-			jw.object().key("select").value(selectRefs[i]).endObject();
-		}
-		jw.endArray();
-
-		jw.key("result").value("");
-
-		jw.key("microDb").value("");
-
-		jw.key("hostDb").value("");
-
-		jw.key("appendHostDb").value(false);
-
-		jw.key("MS2ScanMode").value(MetaConstants.FTMS);
-
-		jw.key("coreCount").value(1);
-
-		jw.key("threadCount").value(1);
-
-		jw.key("isMetaWorkflow").value(true);
-
-		jw.key("fixMods").array();
-		jw.object().key("name").value("Carbamidomethyl[C] 0").endObject();
-		jw.endArray();
-
-		jw.key("variMods").array();
-		jw.object().key("name").value("Oxidation[M] 0").endObject();
-		jw.object().key("name").value("Acetyl[ProteinN-term] 0").endObject();
-		jw.endArray();
-
-		jw.key("enzyme").value("Trypsin");
-
-		jw.key("missCleavages").value(2);
-
-		jw.key("digestMode").value(0);
-
-		jw.key("quanMode").value(MetaConstants.labelFree);
-
-		jw.key("combineLabel").value(false);
-
-		jw.key("isobaricTag").value("");
-
-		jw.key("isobaric").array();
-		jw.endArray();
-
-		jw.key("refChannelId").value(-1);
-
-		MetaSsdbCreatePar mscp = MetaSsdbCreatePar.getDefault();
-		jw.key("ssdb").value(mscp.isSsdb());
-		jw.key("cluster").value(mscp.isCluster());
-		jw.key("ssOpen").value(mscp.isOpen());
-		jw.key("xtandemFDR").value(mscp.getXtandemFDR());
-		jw.key("xtandemEvalue").value(mscp.getXtandemEvalue());
-
-		MetaOpenPar osp = MetaOpenPar.getDefault();
-		jw.key("isOpenSearch").value(osp.isOpenSearch());
-		jw.key("openPsmFDR").value(osp.getOpenPsmFDR());
-		jw.key("openProFDR").value(osp.getOpenProFDR());
-		jw.key("mbr").value(osp.isMatchBetweenRuns());
-
-		MetaPep2TaxaPar mptp = MetaPep2TaxaPar.getDefault();
-		jw.key("buildIn").value(mptp.isBuildIn());
-		jw.key("unipept").value(mptp.isUnipept());
-
-		HashSet<RootType> usedRootTypes = mptp.getUsedRootTypes();
-		jw.key("usedRoots").array();
-		for (RootType rt : usedRootTypes) {
-			jw.object().key("root").value(rt).endObject();
-		}
-		jw.endArray();
-
-		TaxonomyRanks ignoreBlankRank = mptp.getIgnoreBlankRank();
-		jw.key("ignoreBlankRank").value(ignoreBlankRank);
-
-		HashSet<String> excludeTaxa = mptp.getExcludeTaxa();
-		jw.key("excludeTaxa").array();
-		for (String et : excludeTaxa) {
-			jw.object().key("excludeTaxon").value(et).endObject();
-		}
-		jw.endArray();
-
-		jw.key("leastPepCount").value(mptp.getLeastPepCount());
-
-		jw.endObject();
-
-		writer.close();
 	}
 
 	public static void export(MetaParameterPFind par, String out) {
@@ -351,198 +343,197 @@ public class MetaParaIOPFind {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaLabTask.version);
+
+			String workflowType = par.getWorkflowType().name();
+			jw.key("workflowType").value(workflowType);
+
+			MetaData metadata = par.getMetadata();
+
+			String[] rawFiles = metadata.getRawFiles();
+			String[] expNames = metadata.getExpNames();
+			int[] fractions = metadata.getFractions();
+			int[] replicates = metadata.getReplicates();
+
+			jw.key("rawExpName").array();
+			for (int i = 0; i < rawFiles.length; i++) {
+				jw.object().key("path").value(rawFiles[i]).key("experiment").value(expNames[i]).key("fraction")
+						.value(fractions[i]).key("replicate").value(replicates[i]).endObject();
+			}
+			jw.endArray();
+
+			int metaTypeCount = metadata.getMetaTypeCount();
+			jw.key("metaCount").value(metaTypeCount);
+
+			jw.key("metainfo").array();
+			String[][] metainfo = metadata.getMetaInfo();
+			for (int i = 0; i < metainfo.length; i++) {
+				jw.object();
+				for (int j = 0; j < metainfo[i].length; j++) {
+					if (metainfo[i][j] == null) {
+						metainfo[i][j] = "";
+					}
+					jw.key("meta " + (j + 1)).value(metainfo[i][j]);
+				}
+				jw.endObject();
+			}
+			jw.endArray();
+
+			String[] labelTitle = metadata.getLabelTitle();
+			jw.key("labelTitle").array();
+			for (int i = 0; i < labelTitle.length; i++) {
+				jw.object().key("label").value(labelTitle[i]).endObject();
+			}
+			jw.endArray();
+
+			jw.key("labelExpName").array();
+			String[] labelExpName = metadata.getLabelExpNames();
+			for (int i = 0; i < expNames.length; i++) {
+				for (int j = 0; j < labelTitle.length; j++) {
+					if (labelExpName[i * labelTitle.length + j] == null) {
+						labelExpName[i * labelTitle.length + j] = "";
+					}
+					jw.object().key(expNames[i] + " " + labelTitle[j]).value(labelExpName[i * labelTitle.length + j])
+							.endObject();
+				}
+			}
+			jw.endArray();
+
+			String[] isobaricRefs = metadata.getIsobaricReference();
+			jw.key("isobaricRefs").array();
+			for (int i = 0; i < isobaricRefs.length; i++) {
+				jw.object().key("refName").value(isobaricRefs[i]).endObject();
+			}
+			jw.endArray();
+
+			boolean[] selectRefs = metadata.getSelectRef();
+			jw.key("selectRefs").array();
+			for (int i = 0; i < selectRefs.length; i++) {
+				jw.object().key("select").value(selectRefs[i]).endObject();
+			}
+			jw.endArray();
+
+			jw.key("refChannelId").value(metadata.getRefChannelId());
+
+			String result = par.getResult();
+			jw.key("result").value(result);
+
+			String microDb = par.getMicroDb();
+			jw.key("microDb").value(microDb);
+
+			String hostDb = par.getHostDB();
+			jw.key("hostDb").value(hostDb);
+
+			boolean appendHostDb = par.isAppendHostDb();
+			jw.key("appendHostDb").value(appendHostDb);
+
+			String ms2ScanMode = par.getMs2ScanMode();
+			jw.key("MS2ScanMode").value(ms2ScanMode);
+
+			int coreCount = par.getCoreCount();
+			jw.key("coreCount").value(coreCount);
+
+			int threadCount = par.getThreadCount();
+			jw.key("threadCount").value(threadCount);
+
+			boolean isMetaWorkflow = par.isMetaWorkflow();
+			jw.key("isMetaWorkflow").value(isMetaWorkflow);
+
+			String[] fixMods = par.getFixMods();
+			jw.key("fixMods").array();
+			for (String fm : fixMods) {
+				jw.object().key("name").value(fm).endObject();
+			}
+			jw.endArray();
+
+			String[] variMods = par.getVariMods();
+			jw.key("variMods").array();
+			for (String vm : variMods) {
+				jw.object().key("name").value(vm).endObject();
+			}
+			jw.endArray();
+
+			String enzyme = par.getEnzyme();
+			jw.key("enzyme").value(enzyme);
+
+			int missCleavages = par.getMissCleavages();
+			jw.key("missCleavages").value(missCleavages);
+
+			int digestMode = par.getDigestMode();
+			jw.key("digestMode").value(digestMode);
+
+			String quantMode = par.getQuanMode();
+			jw.key("quanMode").value(quantMode);
+
+			boolean combineLabel = par.isCombineLabel();
+			jw.key("combineLabel").value(combineLabel);
+
+			IsobaricTag isobaricTag = par.getIsobaricTag();
+			if (isobaricTag != null) {
+				jw.key("isobaricTag").value(isobaricTag.toString());
+			} else {
+				jw.key("isobaricTag").value("");
+			}
+
+			MaxquantModification[] isobaric = par.getIsobaric();
+			double[][] isoCorFactor = par.getIsoCorFactor();
+			jw.key("isobaric").array();
+			for (int i = 0; i < isobaric.length; i++) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(isobaric[i].getTitle());
+				for (int j = 0; j < 4; j++) {
+					sb.append("_").append(isoCorFactor[i][j]);
+				}
+				jw.object().key("name").value(sb.toString()).endObject();
+			}
+			jw.endArray();
+
+			MetaSsdbCreatePar mscp = par.getMscp();
+			jw.key("ssdb").value(mscp.isSsdb());
+			jw.key("cluster").value(mscp.isCluster());
+			jw.key("ssOpen").value(mscp.isOpen());
+			jw.key("xtandemFDR").value(mscp.getXtandemFDR());
+			jw.key("xtandemEvalue").value(mscp.getXtandemEvalue());
+
+			MetaOpenPar osp = par.getMop();
+			jw.key("isOpenSearch").value(osp.isOpenSearch());
+			jw.key("openPsmFDR").value(osp.getOpenPsmFDR());
+			jw.key("openProFDR").value(osp.getOpenProFDR());
+			jw.key("mbr").value(osp.isMatchBetweenRuns());
+
+			MetaPep2TaxaPar mptp = par.getPtp();
+			jw.key("buildIn").value(mptp.isBuildIn());
+			jw.key("unipept").value(mptp.isUnipept());
+
+			HashSet<RootType> usedRootTypes = mptp.getUsedRootTypes();
+			jw.key("usedRoots").array();
+			for (RootType rt : usedRootTypes) {
+				jw.object().key("root").value(rt).endObject();
+			}
+			jw.endArray();
+
+			TaxonomyRanks ignoreBlankRank = mptp.getIgnoreBlankRank();
+			jw.key("ignoreBlankRank").value(ignoreBlankRank);
+
+			HashSet<String> excludeTaxa = mptp.getExcludeTaxa();
+			jw.key("excludeTaxa").array();
+			for (String et : excludeTaxa) {
+				jw.object().key("excludeTaxon").value(et).endObject();
+			}
+			jw.endArray();
+
+			jw.key("leastPepCount").value(mptp.getLeastPepCount());
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaLabTask.version);
-
-		String workflowType = par.getWorkflowType().name();
-		jw.key("workflowType").value(workflowType);
-
-		MetaData metadata = par.getMetadata();
-
-		String[] rawFiles = metadata.getRawFiles();
-		String[] expNames = metadata.getExpNames();
-		int[] fractions = metadata.getFractions();
-		int[] replicates = metadata.getReplicates();
-
-		jw.key("rawExpName").array();
-		for (int i = 0; i < rawFiles.length; i++) {
-			jw.object().key("path").value(rawFiles[i]).key("experiment").value(expNames[i]).key("fraction")
-					.value(fractions[i]).key("replicate").value(replicates[i]).endObject();
-		}
-		jw.endArray();
-
-		int metaTypeCount = metadata.getMetaTypeCount();
-		jw.key("metaCount").value(metaTypeCount);
-
-		jw.key("metainfo").array();
-		String[][] metainfo = metadata.getMetaInfo();
-		for (int i = 0; i < metainfo.length; i++) {
-			jw.object();
-			for (int j = 0; j < metainfo[i].length; j++) {
-				if (metainfo[i][j] == null) {
-					metainfo[i][j] = "";
-				}
-				jw.key("meta " + (j + 1)).value(metainfo[i][j]);
-			}
-			jw.endObject();
-		}
-		jw.endArray();
-
-		String[] labelTitle = metadata.getLabelTitle();
-		jw.key("labelTitle").array();
-		for (int i = 0; i < labelTitle.length; i++) {
-			jw.object().key("label").value(labelTitle[i]).endObject();
-		}
-		jw.endArray();
-
-		jw.key("labelExpName").array();
-		String[] labelExpName = metadata.getLabelExpNames();
-		for (int i = 0; i < expNames.length; i++) {
-			for (int j = 0; j < labelTitle.length; j++) {
-				if (labelExpName[i * labelTitle.length + j] == null) {
-					labelExpName[i * labelTitle.length + j] = "";
-				}
-				jw.object().key(expNames[i] + " " + labelTitle[j]).value(labelExpName[i * labelTitle.length + j])
-						.endObject();
-			}
-		}
-		jw.endArray();
-
-		String[] isobaricRefs = metadata.getIsobaricReference();
-		jw.key("isobaricRefs").array();
-		for (int i = 0; i < isobaricRefs.length; i++) {
-			jw.object().key("refName").value(isobaricRefs[i]).endObject();
-		}
-		jw.endArray();
-
-		boolean[] selectRefs = metadata.getSelectRef();
-		jw.key("selectRefs").array();
-		for (int i = 0; i < selectRefs.length; i++) {
-			jw.object().key("select").value(selectRefs[i]).endObject();
-		}
-		jw.endArray();
-
-		jw.key("refChannelId").value(metadata.getRefChannelId());
-
-		String result = par.getResult();
-		jw.key("result").value(result);
-
-		String microDb = par.getMicroDb();
-		jw.key("microDb").value(microDb);
-
-		String hostDb = par.getHostDB();
-		jw.key("hostDb").value(hostDb);
-
-		boolean appendHostDb = par.isAppendHostDb();
-		jw.key("appendHostDb").value(appendHostDb);
-
-		String ms2ScanMode = par.getMs2ScanMode();
-		jw.key("MS2ScanMode").value(ms2ScanMode);
-
-		int coreCount = par.getCoreCount();
-		jw.key("coreCount").value(coreCount);
-
-		int threadCount = par.getThreadCount();
-		jw.key("threadCount").value(threadCount);
-
-		boolean isMetaWorkflow = par.isMetaWorkflow();
-		jw.key("isMetaWorkflow").value(isMetaWorkflow);
-
-		String[] fixMods = par.getFixMods();
-		jw.key("fixMods").array();
-		for (String fm : fixMods) {
-			jw.object().key("name").value(fm).endObject();
-		}
-		jw.endArray();
-
-		String[] variMods = par.getVariMods();
-		jw.key("variMods").array();
-		for (String vm : variMods) {
-			jw.object().key("name").value(vm).endObject();
-		}
-		jw.endArray();
-
-		String enzyme = par.getEnzyme();
-		jw.key("enzyme").value(enzyme);
-
-		int missCleavages = par.getMissCleavages();
-		jw.key("missCleavages").value(missCleavages);
-
-		int digestMode = par.getDigestMode();
-		jw.key("digestMode").value(digestMode);
-
-		String quantMode = par.getQuanMode();
-		jw.key("quanMode").value(quantMode);
-
-		boolean combineLabel = par.isCombineLabel();
-		jw.key("combineLabel").value(combineLabel);
-
-		IsobaricTag isobaricTag = par.getIsobaricTag();
-		if (isobaricTag != null) {
-			jw.key("isobaricTag").value(isobaricTag.toString());
-		} else {
-			jw.key("isobaricTag").value("");
-		}
-
-		MaxquantModification[] isobaric = par.getIsobaric();
-		double[][] isoCorFactor = par.getIsoCorFactor();
-		jw.key("isobaric").array();
-		for (int i = 0; i < isobaric.length; i++) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(isobaric[i].getTitle());
-			for (int j = 0; j < 4; j++) {
-				sb.append("_").append(isoCorFactor[i][j]);
-			}
-			jw.object().key("name").value(sb.toString()).endObject();
-		}
-		jw.endArray();
-
-		MetaSsdbCreatePar mscp = par.getMscp();
-		jw.key("ssdb").value(mscp.isSsdb());
-		jw.key("cluster").value(mscp.isCluster());
-		jw.key("ssOpen").value(mscp.isOpen());
-		jw.key("xtandemFDR").value(mscp.getXtandemFDR());
-		jw.key("xtandemEvalue").value(mscp.getXtandemEvalue());
-
-		MetaOpenPar osp = par.getMop();
-		jw.key("isOpenSearch").value(osp.isOpenSearch());
-		jw.key("openPsmFDR").value(osp.getOpenPsmFDR());
-		jw.key("openProFDR").value(osp.getOpenProFDR());
-		jw.key("mbr").value(osp.isMatchBetweenRuns());
-
-		MetaPep2TaxaPar mptp = par.getPtp();
-		jw.key("buildIn").value(mptp.isBuildIn());
-		jw.key("unipept").value(mptp.isUnipept());
-
-		HashSet<RootType> usedRootTypes = mptp.getUsedRootTypes();
-		jw.key("usedRoots").array();
-		for (RootType rt : usedRootTypes) {
-			jw.object().key("root").value(rt).endObject();
-		}
-		jw.endArray();
-
-		TaxonomyRanks ignoreBlankRank = mptp.getIgnoreBlankRank();
-		jw.key("ignoreBlankRank").value(ignoreBlankRank);
-
-		HashSet<String> excludeTaxa = mptp.getExcludeTaxa();
-		jw.key("excludeTaxa").array();
-		for (String et : excludeTaxa) {
-			jw.object().key("excludeTaxon").value(et).endObject();
-		}
-		jw.endArray();
-
-		jw.key("leastPepCount").value(mptp.getLeastPepCount());
-
-		jw.endObject();
-
-		writer.close();
 	}
-
 }

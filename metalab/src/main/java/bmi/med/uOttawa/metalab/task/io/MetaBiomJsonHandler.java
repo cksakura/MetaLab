@@ -80,126 +80,126 @@ public class MetaBiomJsonHandler {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+			jw.key("id").value("null");
+			jw.key("format").value("Biological Observation Matrix 0.9.1-dev");
+			jw.key("format_url").value("http://biom-format.org/documentation/format_versions/biom-1.0.html");
+			jw.key("type").value("OTU table");
+			jw.key("generated_by").value("Metalab 1.0");
+			jw.key("date").value(format1.format(date) + "T" + format2.format(date));
+
+			jw.key("rows").array();
+
+			double maxIntensity = 0;
+			int id = 0;
+			for (Integer taxId : intensityMap.keySet()) {
+				if (taxonMap.containsKey(taxId)) {
+
+					id++;
+
+					Taxon taxon = taxonMap.get(taxId);
+					int[] lineage = taxon.getMainParentIds();
+					String[] lineageNames = new String[lineage.length];
+
+					if (taxonMap.containsKey(lineage[0])) {
+						lineageNames[0] = rank[0] + taxonMap.get(lineage[0]).getName();
+					} else {
+						lineageNames[0] = rank[0];
+					}
+
+					for (int i = 1; i < rank.length; i++) {
+						if (taxonMap.containsKey(lineage[i + 1])) {
+							lineageNames[i] = rank[i] + taxonMap.get(lineage[i + 1]).getName();
+						} else {
+							lineageNames[i] = rank[i];
+						}
+					}
+					HashMap<String, String[]> map = new HashMap<String, String[]>();
+					map.put("taxonomy", lineageNames);
+
+					JSONObject jso = new JSONObject(map);
+
+					jw.object();
+					jw.key("id").value("GG_OTU_" + id);
+					jw.key("metadata").value(jso);
+					jw.endObject();
+
+					double[] intensities = intensityMap.get(taxId);
+					for (double inten : intensities) {
+						if (inten > maxIntensity) {
+							maxIntensity = inten;
+						}
+					}
+				}
+			}
+			jw.endArray();
+
+			jw.key("columns").array();
+			for (String name : expNames) {
+				jw.object();
+				jw.key("id").value(name);
+
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("BarcodeSequence", "");
+				map.put("LinkerPrimerSequence", "");
+				map.put("BODY_SITE", "");
+				map.put("Description", "");
+
+				JSONObject jsb = new JSONObject(map);
+
+				jw.key("metadata").value(jsb);
+				jw.endObject();
+			}
+
+			jw.endArray();
+
+			jw.key("matrix_type").value("dense");
+			jw.key("matrix_element_type").value("int");
+
+			int[] shapeNum = new int[] { id, expNames.length };
+			JSONArray shape = new JSONArray(shapeNum);
+			jw.key("shape").value(shape);
+
+			int[][] values = new int[id][expNames.length];
+			if (maxIntensity > Integer.MAX_VALUE) {
+
+				double k = (maxIntensity / (double) Integer.MAX_VALUE + 1) * 1000;
+				int id2 = 0;
+				for (Integer taxId : intensityMap.keySet()) {
+					if (taxonMap.containsKey(taxId)) {
+						double[] intensities = intensityMap.get(taxId);
+						for (int i = 0; i < expNames.length; i++) {
+							values[id2][i] = (int) (intensities[i] / k);
+						}
+						id2++;
+					}
+				}
+
+			} else {
+				int id2 = 0;
+				for (Integer taxId : intensityMap.keySet()) {
+					if (taxonMap.containsKey(taxId)) {
+						double[] intensities = intensityMap.get(taxId);
+						for (int i = 0; i < expNames.length; i++) {
+							values[id2][i] = (int) intensities[i];
+						}
+						id2++;
+					}
+				}
+			}
+
+			JSONArray data = new JSONArray(values);
+			jw.key("data").value(data);
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing Biom result to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-		jw.key("id").value("null");
-		jw.key("format").value("Biological Observation Matrix 0.9.1-dev");
-		jw.key("format_url").value("http://biom-format.org/documentation/format_versions/biom-1.0.html");
-		jw.key("type").value("OTU table");
-		jw.key("generated_by").value("Metalab 1.0");
-		jw.key("date").value(format1.format(date) + "T" + format2.format(date));
-
-		jw.key("rows").array();
-
-		double maxIntensity = 0;
-		int id = 0;
-		for (Integer taxId : intensityMap.keySet()) {
-			if (taxonMap.containsKey(taxId)) {
-
-				id++;
-
-				Taxon taxon = taxonMap.get(taxId);
-				int[] lineage = taxon.getMainParentIds();
-				String[] lineageNames = new String[lineage.length];
-
-				if (taxonMap.containsKey(lineage[0])) {
-					lineageNames[0] = rank[0] + taxonMap.get(lineage[0]).getName();
-				} else {
-					lineageNames[0] = rank[0];
-				}
-
-				for (int i = 1; i < rank.length; i++) {
-					if (taxonMap.containsKey(lineage[i + 1])) {
-						lineageNames[i] = rank[i] + taxonMap.get(lineage[i + 1]).getName();
-					} else {
-						lineageNames[i] = rank[i];
-					}
-				}
-				HashMap<String, String[]> map = new HashMap<String, String[]>();
-				map.put("taxonomy", lineageNames);
-
-				JSONObject jso = new JSONObject(map);
-
-				jw.object();
-				jw.key("id").value("GG_OTU_" + id);
-				jw.key("metadata").value(jso);
-				jw.endObject();
-
-				double[] intensities = intensityMap.get(taxId);
-				for (double inten : intensities) {
-					if (inten > maxIntensity) {
-						maxIntensity = inten;
-					}
-				}
-			}
-		}
-		jw.endArray();
-
-		jw.key("columns").array();
-		for (String name : expNames) {
-			jw.object();
-			jw.key("id").value(name);
-
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("BarcodeSequence", "");
-			map.put("LinkerPrimerSequence", "");
-			map.put("BODY_SITE", "");
-			map.put("Description", "");
-
-			JSONObject jsb = new JSONObject(map);
-
-			jw.key("metadata").value(jsb);
-			jw.endObject();
-		}
-
-		jw.endArray();
-
-		jw.key("matrix_type").value("dense");
-		jw.key("matrix_element_type").value("int");
-
-		int[] shapeNum = new int[] { id, expNames.length };
-		JSONArray shape = new JSONArray(shapeNum);
-		jw.key("shape").value(shape);
-
-		int[][] values = new int[id][expNames.length];
-		if (maxIntensity > Integer.MAX_VALUE) {
-
-			double k = (maxIntensity / (double) Integer.MAX_VALUE + 1) * 1000;
-			int id2 = 0;
-			for (Integer taxId : intensityMap.keySet()) {
-				if (taxonMap.containsKey(taxId)) {
-					double[] intensities = intensityMap.get(taxId);
-					for (int i = 0; i < expNames.length; i++) {
-						values[id2][i] = (int) (intensities[i] / k);
-					}
-					id2++;
-				}
-			}
-
-		} else {
-			int id2 = 0;
-			for (Integer taxId : intensityMap.keySet()) {
-				if (taxonMap.containsKey(taxId)) {
-					double[] intensities = intensityMap.get(taxId);
-					for (int i = 0; i < expNames.length; i++) {
-						values[id2][i] = (int) intensities[i];
-					}
-					id2++;
-				}
-			}
-		}
-
-		JSONArray data = new JSONArray(values);
-		jw.key("data").value(data);
-
-		jw.endObject();
-
-		writer.close();
 	}
 
 	@SuppressWarnings("unused")
@@ -251,124 +251,124 @@ public class MetaBiomJsonHandler {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+			jw.key("id").value("null");
+			jw.key("format").value("Biological Observation Matrix 0.9.1-dev");
+			jw.key("format_url").value("http://biom-format.org/documentation/format_versions/biom-1.0.html");
+			jw.key("type").value("OTU table");
+			jw.key("generated_by").value("Metalab 1.0");
+			jw.key("date").value(format1.format(date) + "T" + format2.format(date));
+
+			jw.key("rows").array();
+
+			double maxCount = 0;
+			int id = 0;
+			for (Integer taxId : taxCountMap.keySet()) {
+				if (taxonMap.containsKey(taxId)) {
+
+					id++;
+
+					Taxon taxon = taxonMap.get(taxId);
+					int[] lineage = taxon.getMainParentIds();
+					String[] lineageNames = new String[lineage.length];
+					if (taxonMap.containsKey(lineage[0])) {
+						lineageNames[0] = rank[0] + taxonMap.get(lineage[0]).getName();
+					} else {
+						lineageNames[0] = rank[0];
+					}
+
+					for (int i = 1; i < rank.length; i++) {
+						if (taxonMap.containsKey(lineage[i + 1])) {
+							lineageNames[i] = rank[i] + taxonMap.get(lineage[i + 1]).getName();
+						} else {
+							lineageNames[i] = rank[i];
+						}
+					}
+					HashMap<String, String[]> map = new HashMap<String, String[]>();
+					map.put("taxonomy", lineageNames);
+
+					JSONObject jso = new JSONObject(map);
+
+					jw.object();
+					jw.key("id").value("GG_OTU_" + id);
+					jw.key("metadata").value(jso);
+					jw.endObject();
+
+					int[] counts = taxCountMap.get(taxId);
+					for (double count : counts) {
+						if (count > maxCount) {
+							maxCount = count;
+						}
+					}
+				}
+			}
+			jw.endArray();
+
+			jw.key("columns").array();
+			for (String name : expNames) {
+				jw.object();
+				jw.key("id").value(name);
+
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("BarcodeSequence", "");
+				map.put("LinkerPrimerSequence", "");
+				map.put("BODY_SITE", "");
+				map.put("Description", "");
+
+				JSONObject jsb = new JSONObject(map);
+
+				jw.key("metadata").value(jsb);
+				jw.endObject();
+			}
+
+			jw.endArray();
+
+			jw.key("matrix_type").value("dense");
+			jw.key("matrix_element_type").value("int");
+
+			int[] shapeNum = new int[] { id, expNames.length };
+			JSONArray shape = new JSONArray(shapeNum);
+			jw.key("shape").value(shape);
+
+			int[][] values = new int[id][expNames.length];
+			if (maxCount > Integer.MAX_VALUE) {
+
+				double k = (maxCount / (double) Integer.MAX_VALUE + 1) * 1000;
+				int id2 = 0;
+				for (Integer taxId : taxCountMap.keySet()) {
+					if (taxonMap.containsKey(taxId)) {
+						int[] counts = taxCountMap.get(taxId);
+						for (int i = 0; i < expNames.length; i++) {
+							values[id2][i] = (int) (counts[i] / k);
+						}
+						id2++;
+					}
+				}
+
+			} else {
+				int id2 = 0;
+				for (Integer taxId : intensityMap.keySet()) {
+					if (taxonMap.containsKey(taxId)) {
+						int[] counts = taxCountMap.get(taxId);
+						for (int i = 0; i < expNames.length; i++) {
+							values[id2][i] = (int) counts[i];
+						}
+						id2++;
+					}
+				}
+			}
+
+			JSONArray data = new JSONArray(values);
+			jw.key("data").value(data);
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing Biom result to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-		jw.key("id").value("null");
-		jw.key("format").value("Biological Observation Matrix 0.9.1-dev");
-		jw.key("format_url").value("http://biom-format.org/documentation/format_versions/biom-1.0.html");
-		jw.key("type").value("OTU table");
-		jw.key("generated_by").value("Metalab 1.0");
-		jw.key("date").value(format1.format(date) + "T" + format2.format(date));
-
-		jw.key("rows").array();
-
-		double maxCount = 0;
-		int id = 0;
-		for (Integer taxId : taxCountMap.keySet()) {
-			if (taxonMap.containsKey(taxId)) {
-
-				id++;
-
-				Taxon taxon = taxonMap.get(taxId);
-				int[] lineage = taxon.getMainParentIds();
-				String[] lineageNames = new String[lineage.length];
-				if (taxonMap.containsKey(lineage[0])) {
-					lineageNames[0] = rank[0] + taxonMap.get(lineage[0]).getName();
-				} else {
-					lineageNames[0] = rank[0];
-				}
-
-				for (int i = 1; i < rank.length; i++) {
-					if (taxonMap.containsKey(lineage[i + 1])) {
-						lineageNames[i] = rank[i] + taxonMap.get(lineage[i + 1]).getName();
-					} else {
-						lineageNames[i] = rank[i];
-					}
-				}
-				HashMap<String, String[]> map = new HashMap<String, String[]>();
-				map.put("taxonomy", lineageNames);
-
-				JSONObject jso = new JSONObject(map);
-
-				jw.object();
-				jw.key("id").value("GG_OTU_" + id);
-				jw.key("metadata").value(jso);
-				jw.endObject();
-
-				int[] counts = taxCountMap.get(taxId);
-				for (double count : counts) {
-					if (count > maxCount) {
-						maxCount = count;
-					}
-				}
-			}
-		}
-		jw.endArray();
-
-		jw.key("columns").array();
-		for (String name : expNames) {
-			jw.object();
-			jw.key("id").value(name);
-
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("BarcodeSequence", "");
-			map.put("LinkerPrimerSequence", "");
-			map.put("BODY_SITE", "");
-			map.put("Description", "");
-
-			JSONObject jsb = new JSONObject(map);
-
-			jw.key("metadata").value(jsb);
-			jw.endObject();
-		}
-
-		jw.endArray();
-
-		jw.key("matrix_type").value("dense");
-		jw.key("matrix_element_type").value("int");
-
-		int[] shapeNum = new int[] { id, expNames.length };
-		JSONArray shape = new JSONArray(shapeNum);
-		jw.key("shape").value(shape);
-
-		int[][] values = new int[id][expNames.length];
-		if (maxCount > Integer.MAX_VALUE) {
-
-			double k = (maxCount / (double) Integer.MAX_VALUE + 1) * 1000;
-			int id2 = 0;
-			for (Integer taxId : taxCountMap.keySet()) {
-				if (taxonMap.containsKey(taxId)) {
-					int[] counts = taxCountMap.get(taxId);
-					for (int i = 0; i < expNames.length; i++) {
-						values[id2][i] = (int) (counts[i] / k);
-					}
-					id2++;
-				}
-			}
-
-		} else {
-			int id2 = 0;
-			for (Integer taxId : intensityMap.keySet()) {
-				if (taxonMap.containsKey(taxId)) {
-					int[] counts = taxCountMap.get(taxId);
-					for (int i = 0; i < expNames.length; i++) {
-						values[id2][i] = (int) counts[i];
-					}
-					id2++;
-				}
-			}
-		}
-
-		JSONArray data = new JSONArray(values);
-		jw.key("data").value(data);
-
-		jw.endObject();
-
-		writer.close();
 	}
 }

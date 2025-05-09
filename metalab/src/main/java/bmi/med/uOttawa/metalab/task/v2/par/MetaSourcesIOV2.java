@@ -33,17 +33,9 @@ public class MetaSourcesIOV2 {
 			exportBlank(json);
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -99,40 +91,40 @@ public class MetaSourcesIOV2 {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIOMQ.version);
+
+			jw.key("resource").value("Resources\\");
+			jw.key("maxquant").value("Resources\\mq_bin\\MaxQuantCmd.exe");
+			jw.key("xtandem").value("Resources\\tandem\\bin\\tandem.exe");
+			jw.key("ProteomicsTools").value("Resources\\ProteomicsTools\\ProteomicsTools.exe");
+			jw.key("msconvert").value("Resources\\ProteoWizard\\msconvert.exe");
+			jw.key("pfind").value("Resources\\DBReducer\\pFind3\\bin\\pFind.exe");
+			jw.key("DBReducer").value("Resources\\DBReducer\\DBReducer\\DBReducer.exe");
+			jw.key("flashlfq").value("Resources\\FlashLFQ\\CMD.exe");
+
+			File taxonFile = new File("Resources\\pep2taxa\\pep2taxa.gz");
+			if (taxonFile.exists()) {
+				jw.key("pep2tax").value("Resources\\pep2taxa\\pep2taxa.gz");
+			} else {
+				jw.key("pep2tax").value("Resources\\pep2taxa\\pep2taxa.tab");
+			}
+
+			jw.key("function").value("Resources\\function\\func.db");
+			jw.key("funcDef").value("Resources\\function\\func_def.db");
+			jw.key("taxonAll").value("Resources\\taxonomy-all.tab");
+			jw.key("unimod").value("Resources\\unimod.xml");
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIOMQ.version);
-
-		jw.key("resource").value("Resources\\");
-		jw.key("maxquant").value("Resources\\mq_bin\\MaxQuantCmd.exe");
-		jw.key("xtandem").value("Resources\\tandem\\bin\\tandem.exe");
-		jw.key("ProteomicsTools").value("Resources\\ProteomicsTools\\ProteomicsTools.exe");
-		jw.key("msconvert").value("Resources\\ProteoWizard\\msconvert.exe");
-		jw.key("pfind").value("Resources\\DBReducer\\pFind3\\bin\\pFind.exe");
-		jw.key("DBReducer").value("Resources\\DBReducer\\DBReducer\\DBReducer.exe");
-		jw.key("flashlfq").value("Resources\\FlashLFQ\\CMD.exe");
-
-		File taxonFile = new File("Resources\\pep2taxa\\pep2taxa.gz");
-		if (taxonFile.exists()) {
-			jw.key("pep2tax").value("Resources\\pep2taxa\\pep2taxa.gz");
-		} else {
-			jw.key("pep2tax").value("Resources\\pep2taxa\\pep2taxa.tab");
-		}
-
-		jw.key("function").value("Resources\\function\\func.db");
-		jw.key("funcDef").value("Resources\\function\\func_def.db");
-		jw.key("taxonAll").value("Resources\\taxonomy-all.tab");
-		jw.key("unimod").value("Resources\\unimod.xml");
-
-		jw.endObject();
-
-		writer.close();
 	}
 
 	public static void export(MetaSourcesV2 par, String out) {
@@ -144,33 +136,33 @@ public class MetaSourcesIOV2 {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIOMQ.version);
+
+			jw.key("resource").value(par.getResource());
+			jw.key("maxquant").value(par.getMaxquant());
+			jw.key("xtandem").value(par.getXtandem());
+			jw.key("ProteomicsTools").value(par.getProteomicsTools());
+			jw.key("msconvert").value(par.getMsconvert());
+			jw.key("pfind").value(par.getpFind());
+			jw.key("DBReducer").value(par.getDbReducer());
+			jw.key("flashlfq").value(par.getFlashlfq());
+
+			jw.key("pep2tax").value(par.getPep2tax());
+			jw.key("function").value(par.getFunction());
+			jw.key("funcDef").value(par.getFuncDef());
+			jw.key("taxonAll").value(par.getTaxonAll());
+			jw.key("unimod").value(par.getUnimod());
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIOMQ.version);
-
-		jw.key("resource").value(par.getResource());
-		jw.key("maxquant").value(par.getMaxquant());
-		jw.key("xtandem").value(par.getXtandem());
-		jw.key("ProteomicsTools").value(par.getProteomicsTools());
-		jw.key("msconvert").value(par.getMsconvert());
-		jw.key("pfind").value(par.getpFind());
-		jw.key("DBReducer").value(par.getDbReducer());
-		jw.key("flashlfq").value(par.getFlashlfq());
-
-		jw.key("pep2tax").value(par.getPep2tax());
-		jw.key("function").value(par.getFunction());
-		jw.key("funcDef").value(par.getFuncDef());
-		jw.key("taxonAll").value(par.getTaxonAll());
-		jw.key("unimod").value(par.getUnimod());
-
-		jw.endObject();
-
-		writer.close();
 	}
 }

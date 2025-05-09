@@ -302,6 +302,7 @@ public class IGCFuncSqliteSearcher {
 		return usedEcMap;
 	}
 
+	@SuppressWarnings("unused")
 	private void test(String in)
 			throws IOException, NumberFormatException, SQLException, DocumentException {
 		ArrayList<MetaProtein> list = new ArrayList<MetaProtein>();
@@ -342,14 +343,4 @@ public class IGCFuncSqliteSearcher {
 		MetaProteinXMLReader2 funReader = new MetaProteinXMLReader2(new File(folder, "function.xml"));
 		funReader.exportTsv(new File(folder, "function.tsv"));
 	}
-	
-	public static void main(String[] args) throws IOException, NumberFormatException, SQLException, DocumentException {
-		// TODO Auto-generated method stub
-
-		IGCFuncSqliteSearcher sqdb = new IGCFuncSqliteSearcher("D:\\Exported\\exe\\Resources\\function\\func.db",
-				"D:\\Exported\\exe\\Resources\\function\\func_def.db");
-		sqdb.test(
-				"Z:\\Haonan\\isotope label ecoil\\pfind\\Opened\\Haonan_mix_regulardatabase_open\\result\\FlashLFQ_withoutMBR\\final_protein.tsv");
-	}
-
 }

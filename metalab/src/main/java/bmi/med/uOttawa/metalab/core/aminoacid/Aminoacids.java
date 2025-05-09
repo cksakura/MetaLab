@@ -777,6 +777,7 @@ public class Aminoacids {
 			copy = (Aminoacids) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		Aminoacid[] copyed = copy.aas;

@@ -21,14 +21,14 @@ public class Pep2GiDbCallable implements Callable<Object> {
 
 	private Protein protein;
 	private ProteinDigester digester;
-	private PrintWriter[][] tempWriters;
+//	private PrintWriter[][] tempWriters;
 	private HashMap<String, HashSet<String>>[][] maps;
 
 	public Pep2GiDbCallable(Protein protein, ProteinDigester digester, PrintWriter[][] tempWriters,
 			HashMap<String, HashSet<String>>[][] maps) {
 		this.protein = protein;
 		this.digester = digester;
-		this.tempWriters = tempWriters;
+//		this.tempWriters = tempWriters;
 		this.maps = maps;
 	}
 

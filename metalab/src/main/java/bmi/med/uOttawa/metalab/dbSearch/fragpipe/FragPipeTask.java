@@ -55,7 +55,7 @@ public class FragPipeTask {
 			// TODO Auto-generated catch block
 
 			LOGGER.error(taskName + ": can't parse workflow file from " + workflowFile.getAbsolutePath(), e);
-			System.out.println(format.format(new Date()) + "\t" + taskName + ": can't parse workflow file from "
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": can't parse workflow file from "
 					+ workflowFile.getAbsolutePath());
 
 		}
@@ -363,43 +363,5 @@ public class FragPipeTask {
 			LOGGER.error(taskName + ": failed", e);
 			System.out.println(format.format(new Date()) + "\t" + taskName + ": failed");
 		}
-	}
-	
-	public static void main(String[] args) {
-
-		try {
-			ProcessBuilder pb = new ProcessBuilder(new String[] { "cmd.exe", "/c", "start",
-					"Z:\\Kai\\Raw_files\\single_species\\8492\\MetaLab_fragpipe\\Zhibin_20221021_singleStrain_E8\\hap\\hap.workflow.bat" });
-
-			Process p = pb.start();
-			BufferedReader inBr = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line1 = "";
-			while ((line1 = inBr.readLine()) != null) {
-				System.out.println(line1);
-				if (line1.startsWith("Cancelling")) {
-					break;
-				}
-			}
-			inBr.close();
-			// ...
-
-			// Destroy the process
-			p.destroy();
-			System.out.println("432");
-			/*
-			 * // Wait for the process to finish int exitCode = p.waitFor();
-			 * 
-			 * // Check if the process terminated successfully if (exitCode == 0) {
-			 * System.out.println("Process terminated successfully."); } else {
-			 * System.out.println("Process did not terminate successfully. Exit code: " +
-			 * exitCode); }
-			 */
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			// Ensure to destroy the process in case of an exception
-			System.out.println("finallly 447");
-		}
-
 	}
 }

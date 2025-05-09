@@ -373,6 +373,7 @@ public abstract class MetaLabTask extends SwingWorker<Boolean, String> {
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(e);
+			return;
 		}
 
 		if (commandLine.hasOption("help")) {
@@ -420,18 +421,9 @@ public abstract class MetaLabTask extends SwingWorker<Boolean, String> {
 			String par = commandLine.getOptionValue("par");
 			File parafile = new File(par);
 			if (parafile.exists() && parafile.length() > 0) {
-
-				BufferedReader reader = null;
-				try {
-					reader = new BufferedReader(new FileReader(parafile));
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					LOGGER.error("Error in reading MetaLab parameter file " + parafile, e);
-				}
-
 				StringBuilder sb = new StringBuilder();
 				String line = null;
-				try {
+				try (BufferedReader reader = new BufferedReader(new FileReader(parafile))) {
 					while ((line = reader.readLine()) != null) {
 						sb.append(line);
 					}

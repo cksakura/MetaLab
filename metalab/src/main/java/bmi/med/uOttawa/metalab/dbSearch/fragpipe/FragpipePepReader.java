@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,15 +25,15 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 //	protected int subProGroupId = -1;
 	protected int chargeId = -1;
 	protected int lengthId = -1;
-	
+
 	protected String[] fileNames;
 	protected String[] title;
 	protected String line;
-	
+
 	protected int[] intensityId;
 	protected int[] spCountId;
 	protected int[] idenTypeId;
-	
+
 	private HashMap<String, Integer> missMap;
 	private HashMap<String, Double> massMap;
 	private HashMap<String, Double> scoreMap;
@@ -59,7 +58,7 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 		}
 		this.parseTitle();
 	}
-	
+
 	public FragpipePepReader(String in, String[] fileNames) {
 		this(new File(in), fileNames);
 		// TODO Auto-generated constructor stub
@@ -75,7 +74,7 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 			LOGGER.error("Error in reading Fragpipe search result file " + in, e);
 		}
 		this.fileNames = fileNames;
-		
+
 		this.parseTitle();
 	}
 
@@ -84,90 +83,25 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading Fragpipe search result file " + super.getFile(), e);
-		}
 
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Peptide Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Modified Sequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("Protein")) {
-				proteinId = i;
-			} else if (title[i].equals("Mapped Proteins")) {
-//				subProGroupId = i;
-			} else if (title[i].equals("Charges")) {
-				chargeId = i;
-			} else if (title[i].equals("Peptide Length")) {
-				lengthId = i;
-			}
-		}
-
-		if (fileNames == null) {
-			ArrayList<Integer> intenIdList = new ArrayList<Integer>();
-			ArrayList<Integer> spCountIdList = new ArrayList<Integer>();
-			ArrayList<Integer> idenTypeIdList = new ArrayList<Integer>();
-
+			this.title = line.split("\t");
 			for (int i = 0; i < title.length; i++) {
-				if (title[i].endsWith(" Intensity")) {
-					if (!title[i].endsWith(" MaxLFQ Intensity")) {
-						intenIdList.add(i);
-					}
-				} else if (title[i].endsWith(" Spectral Count")) {
-					spCountIdList.add(i);
-				} else if (title[i].endsWith(" Match Type")) {
-					idenTypeIdList.add(i);
+				if (title[i].equals("Peptide Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Modified Sequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("Protein")) {
+					proteinId = i;
+				} else if (title[i].equals("Mapped Proteins")) {
+//					subProGroupId = i;
+				} else if (title[i].equals("Charges")) {
+					chargeId = i;
+				} else if (title[i].equals("Peptide Length")) {
+					lengthId = i;
 				}
 			}
 
-			this.fileNames = new String[intenIdList.size()];
-			this.intensityId = new int[intenIdList.size()];
-			this.spCountId = new int[intenIdList.size()];
-			this.idenTypeId = new int[intenIdList.size()];
-			for (int i = 0; i < fileNames.length; i++) {
-				intensityId[i] = intenIdList.get(i);
-				fileNames[i] = title[intensityId[i]].substring(0,
-						title[intensityId[i]].length() - " Intensity".length());
-
-				spCountId[i] = spCountIdList.get(i);
-				idenTypeId[i] = idenTypeIdList.get(i);
-			}
-		} else {
-			this.intensityId = new int[fileNames.length];
-			this.spCountId = new int[fileNames.length];
-			this.idenTypeId = new int[fileNames.length];
-
-			int findCount = 0;
-
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].endsWith(" Intensity")) {
-					for (int j = 0; j < fileNames.length; j++) {
-						if (title[i].equals(fileNames[j] + " Intensity")) {
-							intensityId[j] = i;
-							findCount++;
-						}
-					}
-				} else if (title[i].endsWith(" Spectral Count")) {
-					for (int j = 0; j < fileNames.length; j++) {
-						if (title[i].equals(fileNames[j] + " Spectral Count")) {
-							spCountId[j] = i;
-							findCount++;
-						}
-					}
-				} else if (title[i].endsWith(" Match Type")) {
-					for (int j = 0; j < fileNames.length; j++) {
-						if (title[i].equals(fileNames[j] + " Match Type")) {
-							idenTypeId[j] = i;
-							findCount++;
-						}
-					}
-				}
-			}
-
-			if (findCount != (this.intensityId.length + this.spCountId.length + this.idenTypeId.length)) {
+			if (fileNames == null) {
 				ArrayList<Integer> intenIdList = new ArrayList<Integer>();
 				ArrayList<Integer> spCountIdList = new ArrayList<Integer>();
 				ArrayList<Integer> idenTypeIdList = new ArrayList<Integer>();
@@ -196,115 +130,180 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 					spCountId[i] = spCountIdList.get(i);
 					idenTypeId[i] = idenTypeIdList.get(i);
 				}
-			}
-		}
+			} else {
+				this.intensityId = new int[fileNames.length];
+				this.spCountId = new int[fileNames.length];
+				this.idenTypeId = new int[fileNames.length];
 
-		this.missMap = new HashMap<String, Integer>();
-		this.scoreMap = new HashMap<String, Double>();
-		this.massMap = new HashMap<String, Double>();
-		this.pepProbMap = new HashMap<String, ArrayList<Double>>();
-		this.pepProbListMap = new HashMap<String, double[]>();
+				int findCount = 0;
 
-		File parentFile = this.getFile().getParentFile();
-		for (int i = 0; i < fileNames.length; i++) {
-			File filei = new File(parentFile, fileNames[i]);
-			if (filei.exists() && filei.isDirectory()) {
-				File peptideFile = new File(filei, "psm.tsv");
-
-				if (peptideFile.exists() && peptideFile.length() > 0) {
-					try (BufferedReader readeri = new BufferedReader(new FileReader(peptideFile))) {
-						String pline = readeri.readLine();
-						String[] title = pline.split("\t");
-						int seqId = -1;
-						int modId = -1;
-						int missId = -1;
-						int scoreId = -1;
-						int probId = -1;
-						int pepMassId = -1;
-
-						for (int j = 0; j < title.length; j++) {
-							if (title[j].equals("Peptide")) {
-								seqId = j;
-							} else if (title[j].equals("Assigned Modifications")) {
-								modId = j;
-							} else if (title[j].equals("Hyperscore")) {
-								scoreId = j;
-							} else if (title[j].equals("PeptideProphet Probability")) {
-								probId = j;
-							} else if (title[j].equals("Calculated Peptide Mass")) {
-								pepMassId = j;
-							} else if (title[j].equals("Number of Missed Cleavages")) {
-								missId = j;
+				for (int i = 0; i < title.length; i++) {
+					if (title[i].endsWith(" Intensity")) {
+						for (int j = 0; j < fileNames.length; j++) {
+							if (title[i].equals(fileNames[j] + " Intensity")) {
+								intensityId[j] = i;
+								findCount++;
 							}
 						}
-
-						while ((line = readeri.readLine()) != null) {
-							String[] cs = line.split("\t");
-							String sequence = cs[seqId];
-							if (modId > -1 && cs[modId].length() > 0) {
-								String[] mods = cs[modId].split(",");
-								HashMap<Integer, String> modsMap = new HashMap<Integer, String>();
-								for (int j = 0; j < mods.length; j++) {
-									int loc = mods[j].lastIndexOf("(");
-
-									String modMass = mods[j].substring(loc + 1, mods[j].lastIndexOf(")"));
-									if (mods[j].startsWith("N-term") || mods[j].startsWith("n-term")) {
-										modsMap.put(0, modMass);
-									} else if (mods[j].startsWith("C-term") || mods[j].startsWith("c-term")) {
-										modsMap.put(sequence.length() + 1, modMass);
-									} else {
-										modsMap.put(Integer.parseInt(mods[j].substring(0, loc - 1)), modMass);
-									}
-								}
-
-								StringBuilder sb = new StringBuilder();
-								if (modsMap.containsKey(0)) {
-									sb.append("n[").append(modsMap.get(0)).append("]");
-								}
-								for (int j = 0; j < sequence.length(); j++) {
-									sb.append(sequence.charAt(j));
-									if (modsMap.containsKey(j + 1)) {
-										sb.append("[").append(modsMap.get(j + 1)).append("]");
-									}
-								}
-								if (modsMap.containsKey(sequence.length() + 1)) {
-									sb.append("c[").append(modsMap.get(0)).append("]");
-								}
-								
-								sequence = sb.toString();
+					} else if (title[i].endsWith(" Spectral Count")) {
+						for (int j = 0; j < fileNames.length; j++) {
+							if (title[i].equals(fileNames[j] + " Spectral Count")) {
+								spCountId[j] = i;
+								findCount++;
 							}
-							
-							double score = scoreId > -1 ? Double.parseDouble(cs[scoreId]) : 0.0;
-							double prob = probId > -1 ? Double.parseDouble(cs[probId]) : 0.0;
-							double pepMass = pepMassId > -1 ? Double.parseDouble(cs[pepMassId]) : 0.0;
-							int miss = missId > -1 ? Integer.parseInt(cs[missId]) : 0;
-							ArrayList<Double> qList;
-							double[] expList;
-							if (pepProbMap.containsKey(sequence)) {
-								qList = pepProbMap.get(sequence);
-								expList = pepProbListMap.get(sequence);
-							} else {
-								qList = new ArrayList<Double>();
-								pepProbMap.put(sequence, qList);
-								expList = new double[fileNames.length];
-								Arrays.fill(expList, 1.0);
-								pepProbListMap.put(sequence, expList);
-							}
-							qList.add(prob);
-							if (prob < expList[i]) {
-								expList[i] = prob;
-							}
-
-							this.scoreMap.put(sequence, score);
-							this.massMap.put(sequence, pepMass);
-							this.missMap.put(sequence, miss);
 						}
-						readeri.close();
-					} catch (Exception e) {
-						LOGGER.error("Error in reading Fragpipe search result file " + peptideFile, e);
+					} else if (title[i].endsWith(" Match Type")) {
+						for (int j = 0; j < fileNames.length; j++) {
+							if (title[i].equals(fileNames[j] + " Match Type")) {
+								idenTypeId[j] = i;
+								findCount++;
+							}
+						}
+					}
+				}
+
+				if (findCount != (this.intensityId.length + this.spCountId.length + this.idenTypeId.length)) {
+					ArrayList<Integer> intenIdList = new ArrayList<Integer>();
+					ArrayList<Integer> spCountIdList = new ArrayList<Integer>();
+					ArrayList<Integer> idenTypeIdList = new ArrayList<Integer>();
+
+					for (int i = 0; i < title.length; i++) {
+						if (title[i].endsWith(" Intensity")) {
+							if (!title[i].endsWith(" MaxLFQ Intensity")) {
+								intenIdList.add(i);
+							}
+						} else if (title[i].endsWith(" Spectral Count")) {
+							spCountIdList.add(i);
+						} else if (title[i].endsWith(" Match Type")) {
+							idenTypeIdList.add(i);
+						}
+					}
+
+					this.fileNames = new String[intenIdList.size()];
+					this.intensityId = new int[intenIdList.size()];
+					this.spCountId = new int[intenIdList.size()];
+					this.idenTypeId = new int[intenIdList.size()];
+					for (int i = 0; i < fileNames.length; i++) {
+						intensityId[i] = intenIdList.get(i);
+						fileNames[i] = title[intensityId[i]].substring(0,
+								title[intensityId[i]].length() - " Intensity".length());
+
+						spCountId[i] = spCountIdList.get(i);
+						idenTypeId[i] = idenTypeIdList.get(i);
 					}
 				}
 			}
+
+			this.missMap = new HashMap<String, Integer>();
+			this.scoreMap = new HashMap<String, Double>();
+			this.massMap = new HashMap<String, Double>();
+			this.pepProbMap = new HashMap<String, ArrayList<Double>>();
+			this.pepProbListMap = new HashMap<String, double[]>();
+
+			File parentFile = this.getFile().getParentFile();
+			for (int i = 0; i < fileNames.length; i++) {
+				File filei = new File(parentFile, fileNames[i]);
+				if (filei.exists() && filei.isDirectory()) {
+					File peptideFile = new File(filei, "psm.tsv");
+
+					if (peptideFile.exists() && peptideFile.length() > 0) {
+						try (BufferedReader readeri = new BufferedReader(new FileReader(peptideFile))) {
+							String pline = readeri.readLine();
+							String[] title = pline.split("\t");
+							int seqId = -1;
+							int modId = -1;
+							int missId = -1;
+							int scoreId = -1;
+							int probId = -1;
+							int pepMassId = -1;
+
+							for (int j = 0; j < title.length; j++) {
+								if (title[j].equals("Peptide")) {
+									seqId = j;
+								} else if (title[j].equals("Assigned Modifications")) {
+									modId = j;
+								} else if (title[j].equals("Hyperscore")) {
+									scoreId = j;
+								} else if (title[j].equals("PeptideProphet Probability")) {
+									probId = j;
+								} else if (title[j].equals("Calculated Peptide Mass")) {
+									pepMassId = j;
+								} else if (title[j].equals("Number of Missed Cleavages")) {
+									missId = j;
+								}
+							}
+
+							while ((line = readeri.readLine()) != null) {
+								String[] cs = line.split("\t");
+								String sequence = cs[seqId];
+								if (modId > -1 && cs[modId].length() > 0) {
+									String[] mods = cs[modId].split(",");
+									HashMap<Integer, String> modsMap = new HashMap<Integer, String>();
+									for (int j = 0; j < mods.length; j++) {
+										int loc = mods[j].lastIndexOf("(");
+
+										String modMass = mods[j].substring(loc + 1, mods[j].lastIndexOf(")"));
+										if (mods[j].startsWith("N-term") || mods[j].startsWith("n-term")) {
+											modsMap.put(0, modMass);
+										} else if (mods[j].startsWith("C-term") || mods[j].startsWith("c-term")) {
+											modsMap.put(sequence.length() + 1, modMass);
+										} else {
+											modsMap.put(Integer.parseInt(mods[j].substring(0, loc - 1)), modMass);
+										}
+									}
+
+									StringBuilder sb = new StringBuilder();
+									if (modsMap.containsKey(0)) {
+										sb.append("n[").append(modsMap.get(0)).append("]");
+									}
+									for (int j = 0; j < sequence.length(); j++) {
+										sb.append(sequence.charAt(j));
+										if (modsMap.containsKey(j + 1)) {
+											sb.append("[").append(modsMap.get(j + 1)).append("]");
+										}
+									}
+									if (modsMap.containsKey(sequence.length() + 1)) {
+										sb.append("c[").append(modsMap.get(0)).append("]");
+									}
+
+									sequence = sb.toString();
+								}
+
+								double score = scoreId > -1 ? Double.parseDouble(cs[scoreId]) : 0.0;
+								double prob = probId > -1 ? Double.parseDouble(cs[probId]) : 0.0;
+								double pepMass = pepMassId > -1 ? Double.parseDouble(cs[pepMassId]) : 0.0;
+								int miss = missId > -1 ? Integer.parseInt(cs[missId]) : 0;
+								ArrayList<Double> qList;
+								double[] expList;
+								if (pepProbMap.containsKey(sequence)) {
+									qList = pepProbMap.get(sequence);
+									expList = pepProbListMap.get(sequence);
+								} else {
+									qList = new ArrayList<Double>();
+									pepProbMap.put(sequence, qList);
+									expList = new double[fileNames.length];
+									Arrays.fill(expList, 1.0);
+									pepProbListMap.put(sequence, expList);
+								}
+								qList.add(prob);
+								if (prob < expList[i]) {
+									expList[i] = prob;
+								}
+
+								this.scoreMap.put(sequence, score);
+								this.massMap.put(sequence, pepMass);
+								this.missMap.put(sequence, miss);
+							}
+							readeri.close();
+						} catch (Exception e) {
+							LOGGER.error("Error in reading Fragpipe search result file " + peptideFile, e);
+						}
+					}
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading Fragpipe search result file " + super.getFile(), e);
 		}
 	}
 
@@ -443,33 +442,4 @@ public class FragpipePepReader extends AbstractMetaPeptideReader {
 		}
 		return intensityTitles;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		/*
-		String name = "DDA_S48_1, DDA_S48_10, DDA_S48_11, DDA_S48_12, DDA_S48_13, DDA_S48_14, DDA_S48_15, "
-				+ "DDA_S48_16, DDA_S48_17, DDA_S48_18, DDA_S48_19, DDA_S48_2, DDA_S48_20, DDA_S48_21, "
-				+ "DDA_S48_3, DDA_S48_4, DDA_S48_5, DDA_S48_6, DDA_S48_7, DDA_S48_8, DDA_S48_9";
-		String[] cs = name.split(", ");
-		System.out.println(cs.length);
-		*/
-		FragpipePepReader reader = new FragpipePepReader(
-				"Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\DDA30\\MetaLab_DDA\\MetaLab\\mag_result\\combined_modified_peptide.tsv");
-		FragpipePeptide[] peps = reader.getMetaPeptides();
-		System.out.println(peps.length);
-		System.out.println(Arrays.toString(peps[0].getIndividualPEP()));
-		System.out.println(Arrays.toString(peps[0].getIdenType()));
-		System.out.println(Arrays.toString(peps[0].getIntensity()));
-		System.out.println(peps[0].getPEP());
-		HashSet<String> proSet = new HashSet<String>();
-		for(int i=0;i<peps.length;i++) {
-			String[] pros = peps[i].getProteins();
-			for(int j=0;j<pros.length;j++) {
-				proSet.add(pros[j]);
-			}
-		}
-		System.out.println(proSet.size());
-		
-	}
-
 }

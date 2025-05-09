@@ -74,6 +74,7 @@ public class DiaSerialTask {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void prepareDB(String[] genomes) {
 
 		LOGGER.info(taskName + ": checking spectral library start");

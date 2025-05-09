@@ -69,61 +69,9 @@ public class FragpipeProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading Fragpipe protein quantification result file " + super.getFile(), e);
-		}
 
-		this.title = line.split("\t");
-		if (fileNames == null) {
-			ArrayList<Integer> idList = new ArrayList<Integer>();
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].equals("Protein")) {
-					proteinId = i;
-				} else if (title[i].equals("Protein Probability")) {
-					scoreId = i;
-				} else if (title[i].equals("Combined Total Peptides")) {
-					pepCountId = i;
-				} else if (title[i].equals("Combined Spectral Count")) {
-					psmCountId = i;
-				} else if (title[i].equals("Indistinguishable Proteins")) {
-					groupId = i;
-				} else if (title[i].endsWith(" Intensity")) {
-					idList.add(i);
-				}
-			}
-			this.intensityId = new int[idList.size()];
-			this.fileNames = new String[idList.size()];
-			for (int i = 0; i < fileNames.length; i++) {
-				intensityId[i] = idList.get(i);
-				fileNames[i] = title[intensityId[i]].substring(0,
-						title[intensityId[i]].length() - " Intensity".length());
-			}
-		} else {
-			this.intensityId = new int[fileNames.length];
-			int findCount = 0;
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].equals("Protein")) {
-					proteinId = i;
-				} else if (title[i].equals("Protein Probability")) {
-					scoreId = i;
-				} else if (title[i].equals("Combined Total Peptides")) {
-					pepCountId = i;
-				} else if (title[i].equals("Combined Spectral Count")) {
-					psmCountId = i;
-				} else if (title[i].equals("Indistinguishable Proteins")) {
-					groupId = i;
-				} else if (title[i].endsWith(" Intensity")) {
-					for (int j = 0; j < fileNames.length; j++) {
-						if (title[i].equals(fileNames[j] + " Intensity")) {
-							intensityId[j] = i;
-							findCount++;
-						}
-					}
-				}
-			}
-
-			if (findCount != this.intensityId.length) {
+			this.title = line.split("\t");
+			if (fileNames == null) {
 				ArrayList<Integer> idList = new ArrayList<Integer>();
 				for (int i = 0; i < title.length; i++) {
 					if (title[i].equals("Protein")) {
@@ -147,7 +95,59 @@ public class FragpipeProReader extends AbstractMetaProteinReader {
 					fileNames[i] = title[intensityId[i]].substring(0,
 							title[intensityId[i]].length() - " Intensity".length());
 				}
+			} else {
+				this.intensityId = new int[fileNames.length];
+				int findCount = 0;
+				for (int i = 0; i < title.length; i++) {
+					if (title[i].equals("Protein")) {
+						proteinId = i;
+					} else if (title[i].equals("Protein Probability")) {
+						scoreId = i;
+					} else if (title[i].equals("Combined Total Peptides")) {
+						pepCountId = i;
+					} else if (title[i].equals("Combined Spectral Count")) {
+						psmCountId = i;
+					} else if (title[i].equals("Indistinguishable Proteins")) {
+						groupId = i;
+					} else if (title[i].endsWith(" Intensity")) {
+						for (int j = 0; j < fileNames.length; j++) {
+							if (title[i].equals(fileNames[j] + " Intensity")) {
+								intensityId[j] = i;
+								findCount++;
+							}
+						}
+					}
+				}
+
+				if (findCount != this.intensityId.length) {
+					ArrayList<Integer> idList = new ArrayList<Integer>();
+					for (int i = 0; i < title.length; i++) {
+						if (title[i].equals("Protein")) {
+							proteinId = i;
+						} else if (title[i].equals("Protein Probability")) {
+							scoreId = i;
+						} else if (title[i].equals("Combined Total Peptides")) {
+							pepCountId = i;
+						} else if (title[i].equals("Combined Spectral Count")) {
+							psmCountId = i;
+						} else if (title[i].equals("Indistinguishable Proteins")) {
+							groupId = i;
+						} else if (title[i].endsWith(" Intensity")) {
+							idList.add(i);
+						}
+					}
+					this.intensityId = new int[idList.size()];
+					this.fileNames = new String[idList.size()];
+					for (int i = 0; i < fileNames.length; i++) {
+						intensityId[i] = idList.get(i);
+						fileNames[i] = title[intensityId[i]].substring(0,
+								title[intensityId[i]].length() - " Intensity".length());
+					}
+				}
 			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			LOGGER.error("Error in reading Fragpipe protein quantification result file " + super.getFile(), e);
 		}
 	}
 
@@ -234,21 +234,5 @@ public class FragpipeProReader extends AbstractMetaProteinReader {
 	public String[] getIntensityTitle() {
 		// TODO Auto-generated method stub
 		return fileNames;
-	}
-
-	public static void main(String[] args) {
-		FragpipeProReader reader = new FragpipeProReader("Z:\\Kai\\Raw_files\\For_Kai_MouseGut\\MetaLab_dda_fragpipe_mgnify\\mag_result"
-				+ "\\combined_protein.tsv",
-				new String[] { "DDA_DC1_1_2240_1", "DDA_DC2_1_2217_1", "DDA_DC3_1_2199_1", "DDA_DF10_1_1_2215_1",
-						"DDA_DF10_2_1_2219_1", "DDA_DF10_3_1_2227_1" });
-		MetaProtein[] pros = reader.getMetaProteins();
-		System.out.println(pros.length);
-		int count = 0;
-		for(int i=0;i<pros.length;i++) {
-			if(pros[i].getProteinId()>1) {
-				count++;
-			}
-		}
-		System.out.println(count);
 	}
 }

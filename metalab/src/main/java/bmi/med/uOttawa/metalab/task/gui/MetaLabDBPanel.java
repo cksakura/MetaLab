@@ -14,6 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.logging.log4j.LogManager;
+
 import bmi.med.uOttawa.metalab.task.par.MetaParameter;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
@@ -46,13 +48,12 @@ public class MetaLabDBPanel extends JPanel {
 		chckbxCombine = new JCheckBox("Append host database to the generated sample-specific database");
 		chckbxCombine.setBackground(new Color(255, 208, 199));
 	}
-	
+
 	/**
 	 * Create the panel.
 	 */
 	public MetaLabDBPanel(MetaParameter par) {
 		setBackground(new Color(255, 208, 199));
-
 		setLayout(new MigLayout("", "[120][20][590:1390:1710,grow][20][50]", "[30][30][30]"));
 
 		textFieldMicroDb = new JTextField(par.getMicroDb());

@@ -8,7 +8,6 @@ import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -43,6 +42,7 @@ public class UnipeptRequester {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptide " + sequence + " to proteins by " + pept2prot, e);
+			return null;
 		}
 		HttpURLConnection con = null;
 		try {
@@ -50,6 +50,7 @@ public class UnipeptRequester {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptide " + sequence + " to proteins by " + pept2prot, e);
+			return null;
 		}
 
 		// add reuqest header
@@ -127,6 +128,7 @@ public class UnipeptRequester {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptides to proteins by " + pept2prot, e);
+			return null;
 		}
 		HttpURLConnection con = null;
 		try {
@@ -134,6 +136,7 @@ public class UnipeptRequester {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptides to proteins by " + pept2prot, e);
+			return null;
 		}
 
 		// add reuqest header
@@ -242,6 +245,7 @@ public class UnipeptRequester {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptide " + sequence + " to LCA by " + pept2lca, e);
+			return null;
 		}
 		HttpURLConnection con = null;
 		try {
@@ -249,6 +253,7 @@ public class UnipeptRequester {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptide " + sequence + " to LCA by " + pept2lca, e);
+			return null;
 		}
 
 		// add reuqest header
@@ -315,6 +320,7 @@ public class UnipeptRequester {
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptides to LCA by " + pept2lca, e);
+			return null;
 		}
 		HttpURLConnection con = null;
 		try {
@@ -322,6 +328,7 @@ public class UnipeptRequester {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in matching peptides to LCA by " + pept2lca, e);
+			return null;
 		}
 
 		// add reuqest header
@@ -389,29 +396,24 @@ public class UnipeptRequester {
 		return map;
 	}
 
+	@SuppressWarnings("unused")
 	private static void test(String in) {
-		try(BufferedReader reader = new BufferedReader(new FileReader(in))){
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
 			String line = reader.readLine();
 			ArrayList<String> list = new ArrayList<String>();
-			
-			while((line=reader.readLine())!=null) {
+
+			while ((line = reader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				list.add(cs[0]);
 			}
 			reader.close();
-			
+
 			String[] sequences = list.toArray(String[]::new);
 			HashMap<String, UnipLCAResult> lcaResultMap = UnipeptRequester.pept2lca(sequences);
-			System.out.println(sequences.length+"\t"+lcaResultMap.size());
-			
-		}catch(IOException e) {
-			
+			System.out.println(sequences.length + "\t" + lcaResultMap.size());
+
+		} catch (IOException e) {
+
 		}
-	}
-	
-	public static void main(String[] args) {
-		
-		
-		UnipeptRequester.test("Z:\\Kai\\20240226\\202302_OVX_peptide_intensity.txt");
 	}
 }

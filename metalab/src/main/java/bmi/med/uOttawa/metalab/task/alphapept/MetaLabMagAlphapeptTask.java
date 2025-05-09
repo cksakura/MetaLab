@@ -766,9 +766,130 @@ public class MetaLabMagAlphapeptTask extends MagHapPFindTask {
 		LOGGER.info(getTaskName() + ": exporting protein report started");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": exporting protein report started");
 
-		PrintWriter proWriter = null;
-		try {
-			proWriter = new PrintWriter(this.final_pro_txt);
+		try (PrintWriter proWriter = new PrintWriter(this.final_pro_txt)) {
+			StringBuilder titlesb = new StringBuilder();
+			titlesb.append("Protein IDs").append("\t");
+			titlesb.append("Majority protein IDs").append("\t");
+			titlesb.append("Peptide counts (all)").append("\t");
+			titlesb.append("Peptide counts (razor)").append("\t");
+			titlesb.append("Number of proteins").append("\t");
+			titlesb.append("Peptides").append("\t");
+			titlesb.append("Score").append("\t");
+			titlesb.append("Intensity").append("\t");
+
+			for (int i = 0; i < expNames.length; i++) {
+				titlesb.append("Intensity " + expNames[i]).append("\t");
+			}
+
+			titlesb.append("Reverse").append("\t");
+			titlesb.append("Potential contaminant").append("\t");
+			titlesb.append("id").append("\t");
+			titlesb.append("Peptide IDs").append("\t");
+			titlesb.append("Peptide is razor");
+
+			proWriter.println(titlesb);
+
+			for (int i = 0; i < pros.length; i++) {
+				String pro = pros[i].getName();
+				if (proSameSetMap.containsKey(pro)) {
+
+					HashSet<String> allPepSet = allProPepMap.get(pro);
+					HashSet<String> razorPepSet = razorProPepMap.get(pro);
+
+					if (allPepSet == null || razorPepSet == null) {
+						continue;
+					}
+
+					HashSet<String> sameSet = proSameSetMap.get(pro);
+					int proCount = 1 + sameSet.size();
+					int[] pepCountAll = new int[proCount];
+					int[] pepCountRazor = new int[proCount];
+
+					pepCountAll[0] = allProPepMap.get(pro).size();
+					pepCountRazor[0] = razorProPepMap.get(pro).size();
+
+					String[] samePros = sameSet.toArray(new String[sameSet.size()]);
+					for (int j = 0; j < samePros.length; j++) {
+						if (razorProPepMap.containsKey(samePros[j])) {
+							pepCountRazor[j + 1] = razorProPepMap.get(samePros[j]).size();
+						} else {
+							pepCountRazor[j + 1] = 0;
+						}
+						if (allProPepMap.containsKey(samePros[j])) {
+							pepCountAll[j + 1] = allProPepMap.get(samePros[j]).size();
+						} else {
+							pepCountAll[j + 1] = 0;
+						}
+					}
+					StringBuilder sameSb = new StringBuilder();
+					StringBuilder pepCountAllSb = new StringBuilder();
+					StringBuilder pepCountRazorSb = new StringBuilder();
+
+					sameSb.append(pro);
+					pepCountAllSb.append(pepCountAll[0]);
+					pepCountRazorSb.append(pepCountRazor[0]);
+					int usedProCount = 1;
+
+					for (int j = 0; j < samePros.length; j++) {
+						if (pepCountAll[j + 1] > 0) {
+							sameSb.append(";").append(samePros[j]);
+							pepCountAllSb.append(";").append(pepCountAll[j + 1]);
+							pepCountRazorSb.append(";").append(pepCountRazor[j + 1]);
+							usedProCount++;
+						}
+					}
+
+					StringBuilder sb = new StringBuilder();
+					sb.append(sameSb).append("\t");
+					sb.append(pro).append("\t");
+					sb.append(pepCountAllSb).append("\t");
+					sb.append(pepCountRazorSb).append("\t");
+					sb.append(usedProCount).append("\t");
+					sb.append(allPepSet.size()).append("\t");
+					sb.append(pros[i].getScore()).append("\t");
+
+					double totalIntensity = 0;
+					double[] intensity = pros[i].getIntensities();
+					for (int j = 0; j < intensity.length; j++) {
+						totalIntensity += intensity[j];
+					}
+
+					sb.append(totalIntensity).append("\t");
+					for (int j = 0; j < intensity.length; j++) {
+						sb.append(intensity[j]).append("\t");
+					}
+					sb.append("\t").append("\t");
+					sb.append(pros[i].getGroupId()).append("\t");
+
+					StringBuilder pepIdSb = new StringBuilder();
+					StringBuilder pepRazorSb = new StringBuilder();
+
+					String[] allPeps = allPepSet.toArray(new String[allPepSet.size()]);
+					Arrays.sort(allPeps, new Comparator<String>() {
+
+						@Override
+						public int compare(String o1, String o2) {
+							// TODO Auto-generated method stub
+
+							return pepIdMap.get(o1) - pepIdMap.get(o2);
+						}
+					});
+					for (String pep : allPeps) {
+						pepIdSb.append(pepIdMap.get(pep)).append(";");
+						if (razorPepSet.contains(pep)) {
+							pepRazorSb.append("true;");
+						} else {
+							pepRazorSb.append("false;");
+						}
+					}
+					sb.append(pepIdSb).append("\t");
+					sb.append(pepRazorSb);
+
+					proWriter.println(sb);
+				}
+			}
+
+			proWriter.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(getTaskName() + ": error in writing final protein result to " + this.final_pro_txt.getName(),
@@ -776,130 +897,6 @@ public class MetaLabMagAlphapeptTask extends MagHapPFindTask {
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in writing final protein result to " + this.final_pro_txt.getName());
 		}
-
-		StringBuilder titlesb = new StringBuilder();
-		titlesb.append("Protein IDs").append("\t");
-		titlesb.append("Majority protein IDs").append("\t");
-		titlesb.append("Peptide counts (all)").append("\t");
-		titlesb.append("Peptide counts (razor)").append("\t");
-		titlesb.append("Number of proteins").append("\t");
-		titlesb.append("Peptides").append("\t");
-		titlesb.append("Score").append("\t");
-		titlesb.append("Intensity").append("\t");
-
-		for (int i = 0; i < expNames.length; i++) {
-			titlesb.append("Intensity " + expNames[i]).append("\t");
-		}
-
-		titlesb.append("Reverse").append("\t");
-		titlesb.append("Potential contaminant").append("\t");
-		titlesb.append("id").append("\t");
-		titlesb.append("Peptide IDs").append("\t");
-		titlesb.append("Peptide is razor");
-
-		proWriter.println(titlesb);
-
-		for (int i = 0; i < pros.length; i++) {
-			String pro = pros[i].getName();
-			if (proSameSetMap.containsKey(pro)) {
-
-				HashSet<String> allPepSet = allProPepMap.get(pro);
-				HashSet<String> razorPepSet = razorProPepMap.get(pro);
-
-				if (allPepSet == null || razorPepSet == null) {
-					continue;
-				}
-
-				HashSet<String> sameSet = proSameSetMap.get(pro);
-				int proCount = 1 + sameSet.size();
-				int[] pepCountAll = new int[proCount];
-				int[] pepCountRazor = new int[proCount];
-
-				pepCountAll[0] = allProPepMap.get(pro).size();
-				pepCountRazor[0] = razorProPepMap.get(pro).size();
-
-				String[] samePros = sameSet.toArray(new String[sameSet.size()]);
-				for (int j = 0; j < samePros.length; j++) {
-					if (razorProPepMap.containsKey(samePros[j])) {
-						pepCountRazor[j + 1] = razorProPepMap.get(samePros[j]).size();
-					} else {
-						pepCountRazor[j + 1] = 0;
-					}
-					if (allProPepMap.containsKey(samePros[j])) {
-						pepCountAll[j + 1] = allProPepMap.get(samePros[j]).size();
-					} else {
-						pepCountAll[j + 1] = 0;
-					}
-				}
-				StringBuilder sameSb = new StringBuilder();
-				StringBuilder pepCountAllSb = new StringBuilder();
-				StringBuilder pepCountRazorSb = new StringBuilder();
-
-				sameSb.append(pro);
-				pepCountAllSb.append(pepCountAll[0]);
-				pepCountRazorSb.append(pepCountRazor[0]);
-				int usedProCount = 1;
-
-				for (int j = 0; j < samePros.length; j++) {
-					if (pepCountAll[j + 1] > 0) {
-						sameSb.append(";").append(samePros[j]);
-						pepCountAllSb.append(";").append(pepCountAll[j + 1]);
-						pepCountRazorSb.append(";").append(pepCountRazor[j + 1]);
-						usedProCount++;
-					}
-				}
-
-				StringBuilder sb = new StringBuilder();
-				sb.append(sameSb).append("\t");
-				sb.append(pro).append("\t");
-				sb.append(pepCountAllSb).append("\t");
-				sb.append(pepCountRazorSb).append("\t");
-				sb.append(usedProCount).append("\t");
-				sb.append(allPepSet.size()).append("\t");
-				sb.append(pros[i].getScore()).append("\t");
-
-				double totalIntensity = 0;
-				double[] intensity = pros[i].getIntensities();
-				for (int j = 0; j < intensity.length; j++) {
-					totalIntensity += intensity[j];
-				}
-
-				sb.append(totalIntensity).append("\t");
-				for (int j = 0; j < intensity.length; j++) {
-					sb.append(intensity[j]).append("\t");
-				}
-				sb.append("\t").append("\t");
-				sb.append(pros[i].getGroupId()).append("\t");
-
-				StringBuilder pepIdSb = new StringBuilder();
-				StringBuilder pepRazorSb = new StringBuilder();
-
-				String[] allPeps = allPepSet.toArray(new String[allPepSet.size()]);
-				Arrays.sort(allPeps, new Comparator<String>() {
-
-					@Override
-					public int compare(String o1, String o2) {
-						// TODO Auto-generated method stub
-
-						return pepIdMap.get(o1) - pepIdMap.get(o2);
-					}
-				});
-				for (String pep : allPeps) {
-					pepIdSb.append(pepIdMap.get(pep)).append(";");
-					if (razorPepSet.contains(pep)) {
-						pepRazorSb.append("true;");
-					} else {
-						pepRazorSb.append("false;");
-					}
-				}
-				sb.append(pepIdSb).append("\t");
-				sb.append(pepRazorSb);
-
-				proWriter.println(sb);
-			}
-		}
-
-		proWriter.close();
 
 		LOGGER.info(getTaskName() + ": protein report has been exported to " + final_pro_txt.getName());
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": protein report has been exported to "
@@ -1069,6 +1066,7 @@ public class MetaLabMagAlphapeptTask extends MagHapPFindTask {
 					+ final_pro_xml_file.getName(), e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in reading protein function information from " + final_pro_xml_file.getName());
+			return false;
 		}
 
 		if (proTaxIdMap.size() == 0) {

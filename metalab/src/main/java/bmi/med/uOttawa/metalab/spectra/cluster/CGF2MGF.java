@@ -5,7 +5,6 @@ package bmi.med.uOttawa.metalab.spectra.cluster;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,12 +21,13 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class CGF2MGF {
-	
+
 	private static Logger LOGGER = LogManager.getLogger();
-	
+
 	private static final int maxSpCount = 100000;
 
-	public static int convert2Mgf(String[] fileNames, String cgf, String clusteredMgf, boolean singleFile) throws IOException {
+	public static int convert2Mgf(String[] fileNames, String cgf, String clusteredMgf, boolean singleFile)
+			throws IOException {
 		return convert2Mgf(fileNames, new File(cgf), new File(clusteredMgf), singleFile);
 	}
 
@@ -160,19 +160,10 @@ public class CGF2MGF {
 	 */
 	public static HashMap<String, HashSet<String>> getSpectraMap(String cgf) {
 		HashMap<String, HashSet<String>> specMap = new HashMap<String, HashSet<String>>();
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(cgf));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading cluster file " + cgf, e);
-		}
-
 		Pattern patternTitle = Pattern.compile(".*file=(.+).*\\#id=index=([\\w]+).*title=(.+)");
-
 		boolean begin = false;
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(cgf))) {
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("BEGIN CLUSTER")) {
 					begin = true;
@@ -205,28 +196,12 @@ public class CGF2MGF {
 
 		return specMap;
 	}
-	
+
 	public static int convertSingleFile(String cgf, String mgf) {
 		return convertSingleFile(new File(cgf), new File(mgf));
 	}
-	
+
 	public static int convertSingleFile(File cgf, File mgf) {
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(cgf));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading cluster file " + cgf, e);
-		}
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(mgf);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in writing mgf spectra file " + mgf, e);
-		}
-
 		Pattern patternCluster = Pattern.compile(".*Id=([\\w-]+).*Charge=([\\d]+).*");
 		Pattern patternConsensus = Pattern.compile(".*nSpec=([\\d]+).*SumCharge=([\\d]+).*SumMz=([E\\d\\.]+)");
 
@@ -238,7 +213,8 @@ public class CGF2MGF {
 		int totalSpectraCount = 0;
 		boolean begin = false;
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(cgf));
+				PrintWriter writer = new PrintWriter(mgf)) {
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("BEGIN CLUSTER")) {
 					Matcher matcher = patternCluster.matcher(line);
@@ -272,10 +248,12 @@ public class CGF2MGF {
 					}
 				} else if (line.startsWith("END CONSENSUS")) {
 					begin = false;
-					sb.append("END IONS\n");
-					writer.print(sb);
+					if (sb != null) {
+						sb.append("END IONS\n");
+						writer.print(sb);
+					}
 				} else {
-					if (begin) {
+					if (begin && sb != null) {
 						sb.append(line).append("\n");
 					}
 				}
@@ -291,33 +269,19 @@ public class CGF2MGF {
 
 		return totalSpectraCount;
 	}
-	
+
 	/**
-	 * Used for X!Tandem search, because the result file of X!Tandem is xml format, don't want it boo big
+	 * Used for X!Tandem search, because the result file of X!Tandem is xml format,
+	 * don't want it boo big
+	 * 
 	 * @param cgf
 	 * @param mgf
 	 */
 	public static int convertMultiFile(String cgf, String mgf) {
 		return convertMultiFile(new File(cgf), new File(mgf));
 	}
-	
+
 	public static int convertMultiFile(File cgf, File mgf) {
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(cgf));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading cluster file " + cgf, e);
-		}
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(mgf);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in writing mgf spectra file " + mgf, e);
-		}
-
 		Pattern patternCluster = Pattern.compile(".*Id=([\\w-]+).*Charge=([\\d]+).*");
 		Pattern patternConsensus = Pattern.compile(".*nSpec=([\\d]+).*SumCharge=([\\d]+).*SumMz=([E\\d\\.]+)");
 
@@ -329,7 +293,8 @@ public class CGF2MGF {
 		int totalSpectraCount = 0;
 		boolean begin = false;
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(cgf))) {
+			PrintWriter writer = new PrintWriter(mgf);
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("BEGIN CLUSTER")) {
 					Matcher matcher = patternCluster.matcher(line);
@@ -372,10 +337,13 @@ public class CGF2MGF {
 					}
 				} else if (line.startsWith("END CONSENSUS")) {
 					begin = false;
-					sb.append("END IONS\n");
-					writer.print(sb);
+					if (sb != null) {
+						sb.append("END IONS\n");
+						writer.print(sb);
+					}
+
 				} else {
-					if (begin) {
+					if (begin && sb != null) {
 						sb.append(line).append("\n");
 					}
 				}
@@ -391,24 +359,8 @@ public class CGF2MGF {
 
 		return totalSpectraCount;
 	}
-	
+
 	public static int convertMultiCharge(String cgf, String mgf) {
-
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(cgf));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading cluster file " + cgf, e);
-		}
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(mgf);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in writing mgf spectra file " + mgf, e);
-		}
-
 		Pattern patternCluster = Pattern.compile(".*Id=([\\w-]+).*Charge=([\\d]+).*");
 		Pattern patternConsensus = Pattern.compile(".*nSpec=([\\d]+).*SumCharge=([\\d]+).*SumMz=([E\\d\\.]+)");
 
@@ -420,7 +372,8 @@ public class CGF2MGF {
 		int totalSpectraCount = 0;
 		boolean begin = false;
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(cgf));
+				PrintWriter writer = new PrintWriter(mgf)) {
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("BEGIN CLUSTER")) {
 					Matcher matcher = patternCluster.matcher(line);
@@ -439,7 +392,6 @@ public class CGF2MGF {
 							begin = true;
 
 							int count = Integer.parseInt(matcher.group(1));
-							int totalCharge = Integer.parseInt(matcher.group(2));
 							double totalMz = Double.parseDouble(matcher.group(3));
 
 							premz = totalMz / (double) count;
@@ -455,10 +407,12 @@ public class CGF2MGF {
 					}
 				} else if (line.startsWith("END CONSENSUS")) {
 					begin = false;
-					sb.append("END IONS\n");
-					writer.print(sb);
+					if (sb != null) {
+						sb.append("END IONS\n");
+						writer.print(sb);
+					}
 				} else {
-					if (begin) {
+					if (begin && sb != null) {
 						sb.append(line).append("\n");
 					}
 				}

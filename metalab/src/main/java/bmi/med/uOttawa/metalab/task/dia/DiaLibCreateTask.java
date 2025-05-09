@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import bmi.med.uOttawa.metalab.dbSearch.deepDetect.DeepDetectParameter;
 import bmi.med.uOttawa.metalab.dbSearch.deepDetect.DeepDetectTask;
+import bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNParquetReader;
 import bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNTask;
 import bmi.med.uOttawa.metalab.dbSearch.diann.DiannParameter;
 import bmi.med.uOttawa.metalab.task.MetaLabTask;
@@ -41,7 +42,7 @@ public class DiaLibCreateTask extends MetaLabTask {
 	private String enzyme;
 	private String libName;
 	private int miss;
-	
+
 	public static final int fromLibrary = 0;
 	public static final int fromProtein = 1;
 	public static final int fromPeptide = 2;
@@ -96,7 +97,7 @@ public class DiaLibCreateTask extends MetaLabTask {
 		diannPar.setMissed_cleavages(miss);
 
 		File destLibFile = new File(libFile, libName + ".speclib");
-		File tsvFile = new File(libFile, libName + ".tsv");
+		File parquetFile = new File(libFile, libName + ".parquet");
 
 		if (taskType == fromLibrary) {
 			if (!destLibFile.exists()) {
@@ -142,9 +143,9 @@ public class DiaLibCreateTask extends MetaLabTask {
 					} else {
 						pepScoreMap.put(cs[1], score);
 					}
-					if(pepProMap.containsKey(cs[1])) {
+					if (pepProMap.containsKey(cs[1])) {
 						pepProMap.get(cs[1]).add(cs[0]);
-					}else {
+					} else {
 						HashSet<String> proSet = new HashSet<String>();
 						proSet.add(cs[0]);
 						pepProMap.put(cs[1], proSet);
@@ -300,41 +301,16 @@ public class DiaLibCreateTask extends MetaLabTask {
 			return false;
 		}
 
-		if (!tsvFile.exists()) {
-			diaNNTask.addTask(diannPar, destLibFile.getAbsolutePath(), tsvFile.getAbsolutePath());
+		if (!parquetFile.exists()) {
+			diaNNTask.addTask(diannPar, destLibFile.getAbsolutePath(), parquetFile.getAbsolutePath());
 			diaNNTask.run(1);
 		}
 
-		if (!tsvFile.exists()) {
+		if (!parquetFile.exists()) {
 			return false;
 		}
 
-		HashSet<String> pepSet = new HashSet<String>();
-		try (BufferedReader reader = new BufferedReader(new FileReader(tsvFile))) {
-
-			String pline = reader.readLine();
-			String[] title = pline.split("\t");
-			int seqid = -1;
-			for (int i = 0; i < title.length; i++) {
-				if (title[i].equals("PeptideSequence")) {
-					seqid = i;
-				}
-			}
-
-			if (seqid == -1) {
-				return false;
-			}
-
-			while ((pline = reader.readLine()) != null) {
-				String[] cs = pline.split("\t");
-				pepSet.add(cs[seqid]);
-			}
-
-		} catch (IOException e) {
-			LOGGER.error(taskName + ": error in reading " + filePath, e);
-			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in reading " + filePath);
-		}
-
+		HashSet<String> pepSet = DiaNNParquetReader.getPeptideSet(parquetFile.getAbsolutePath());
 		File infoFile = new File(libFile, libName + "_info.txt");
 		try (PrintWriter writer = new PrintWriter(infoFile)) {
 			writer.println("Data set size:\t" + pepSet.size());
@@ -351,7 +327,7 @@ public class DiaLibCreateTask extends MetaLabTask {
 		magDbItem.addPepLib(libName, pepSet.size(), enzyme, miss);
 
 		return true;
-	}	
+	}
 
 	@Override
 	public void forceStop() {
@@ -361,7 +337,6 @@ public class DiaLibCreateTask extends MetaLabTask {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

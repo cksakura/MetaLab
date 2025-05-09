@@ -35,9 +35,4 @@ public class DataListClusterable implements Clusterable {
 		// TODO Auto-generated method stub
 		return point;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 }

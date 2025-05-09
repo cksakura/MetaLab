@@ -34,39 +34,38 @@ public class DiannPgMatrixReader extends FlashLfqQuanProReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			String fileName = this.getFile().getName();
+			if (fileName.endsWith("tsv") || fileName.endsWith("TSV")) {
+				this.title = line.split("\t");
+				this.isCsv = false;
+			} else if (fileName.endsWith("csv") || fileName.endsWith("CSV")) {
+				this.title = line.split(",");
+				this.isCsv = true;
+			} else {
+
+			}
+
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Protein.Group") || title[i].equals("ProteinGroup")) {
+					proteinId = i;
+				} else if (title[i].endsWith(".d") || title[i].endsWith(".dia") || title[i].endsWith(".raw")) {
+					int id = title[i].lastIndexOf("\\");
+					if (id >= 0 && id < title[i].length() - 1) {
+						String fileNameI = title[i].substring(id + 1);
+						intensityTitleIdMap.put(fileNameI, i);
+						intensityTitleList.add(fileNameI);
+					} else {
+						intensityTitleIdMap.put(title[i], i);
+						intensityTitleList.add(title[i]);
+					}
+				}
+			}
+
+			this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
-
-		String fileName = this.getFile().getName();
-		if (fileName.endsWith("tsv") || fileName.endsWith("TSV")) {
-			this.title = line.split("\t");
-			this.isCsv = false;
-		} else if (fileName.endsWith("csv") || fileName.endsWith("CSV")) {
-			this.title = line.split(",");
-			this.isCsv = true;
-		} else {
-
-		}
-
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Protein.Group") || title[i].equals("ProteinGroup")) {
-				proteinId = i;
-			} else if (title[i].endsWith(".d") || title[i].endsWith(".dia") || title[i].endsWith(".raw")) {
-				int id = title[i].lastIndexOf("\\");
-				if (id >= 0 && id < title[i].length() - 1) {
-					String fileNameI = title[i].substring(id + 1);
-					intensityTitleIdMap.put(fileNameI, i);
-					intensityTitleList.add(fileNameI);
-				} else {
-					intensityTitleIdMap.put(title[i], i);
-					intensityTitleList.add(title[i]);
-				}
-			}
-		}
-
-		this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 	}
 
 	protected FlashLfqQuanProtein parse() {

@@ -42,7 +42,7 @@ public class DiaPredictedLibTask {
 		this.diannPar = diannPar;
 		this.deepDetectPar = diannPar.getDeepPredictPar();
 	}
-	
+
 	public DiaPredictedLibTask(DiaNNTask diaNNTask, DiannParameter diannPar) {
 		this.diaNNTask = diaNNTask;
 		this.diannPar = diannPar;
@@ -74,11 +74,11 @@ public class DiaPredictedLibTask {
 		libTsvReader.close();
 		tempWriter.close();
 	}
-	
+
 	public void generateLibrary(String fasta, String lib) {
 		generateLibrary(new File(fasta), new File(lib), true);
 	}
-	
+
 	public void generateLibrary(File fasta, File lib, boolean keepTsv) {
 
 		if (lib.exists() && lib.length() > 0) {
@@ -126,7 +126,7 @@ public class DiaPredictedLibTask {
 
 			return;
 		}
-		
+
 		HashMap<String, ArrayList<String>> pepProMap = new HashMap<String, ArrayList<String>>(100000);
 
 		File tempFasta = new File(parentFile, name + ".temp.fasta");
@@ -221,7 +221,7 @@ public class DiaPredictedLibTask {
 					+ ": converting spectra library from speclib file " + tempLib2 + " to tsv file failed");
 			return;
 		}
-		
+
 		File preLib = new File(parentFile, name + ".speclib.tsv");
 		PrintWriter preLibWriter = null;
 		BufferedReader tempTsvReader = null;
@@ -348,7 +348,7 @@ public class DiaPredictedLibTask {
 		System.out.println(
 				format.format(new Date()) + "\t" + taskName + ": generating library for " + name + " finished");
 	}
-	
+
 	public void combine(String[] genomes, String libDir, String output, double threshold) {
 		for (int i = 0; i < genomes.length; i++) {
 			File libTsvFile = new File(libDir, genomes[i] + ".speclib.tsv");
@@ -419,87 +419,84 @@ public class DiaPredictedLibTask {
 		}
 
 		File combineLibTsv = new File(output + ".tsv");
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(combineLibTsv);
+
+		try (PrintWriter writer = new PrintWriter(combineLibTsv)) {
+			HashSet<String> transitSet = new HashSet<String>();
+			for (int i = 0; i < genomes.length; i++) {
+				File libFile = new File(libDir, genomes[i] + ".speclib.tsv");
+				if (!libFile.exists()) {
+					LOGGER.info(taskName + ": spectra library for " + genomes[i] + " not found");
+					System.out.println(format.format(new Date()) + "\t" + taskName + ": spectra library for "
+							+ genomes[i] + " not found");
+					writer.close();
+					return;
+				}
+
+				try (BufferedReader reader = new BufferedReader(new FileReader(libFile))) {
+					String line = reader.readLine();
+					String[] title = line.split("\t");
+					int transitId = -1;
+					int seqId = -1;
+					int proId = -1;
+					for (int j = 0; j < title.length; j++) {
+						if (title[j].equals("transition_name")) {
+							transitId = j;
+						} else if (title[j].equals("PeptideSequence")) {
+							seqId = j;
+						} else if (title[j].equals("ProteinGroup")) {
+							proId = j;
+						}
+					}
+
+					L: while ((line = reader.readLine()) != null) {
+						String[] cs = line.split("\t");
+
+						if (!transitSet.contains(cs[transitId])) {
+							transitSet.add(cs[transitId]);
+							StringBuilder sb = new StringBuilder();
+							HashSet<String> proset = null;
+							for (int j = 0; j < cs.length; j++) {
+								if (j == seqId) {
+									proset = pepProMap.get(cs[j]);
+									if (proset == null) {
+										continue L;
+									}
+									sb.append(cs[j]).append("\t");
+								} else if (j == proId) {
+									String pro = "";
+									if (proset != null) {
+										for (String proRef : proset) {
+											pro += proRef;
+											pro += ";";
+										}
+									}
+
+									sb.append(pro.length() > 1 ? pro.substring(0, pro.length() - 1) : pro).append("\t");
+								} else {
+									sb.append(cs[j]).append("\t");
+								}
+							}
+
+							writer.println(sb);
+						}
+					}
+
+					reader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					LOGGER.info(taskName + ": error in reading spectra library files", e);
+					System.out.println(
+							format.format(new Date()) + "\t" + taskName + ": error in reading spectra library files");
+				}
+			}
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error(taskName + ": error in writing spectra library file " + output, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing spectra library file " + output);
 		}
-
-		HashSet<String> transitSet = new HashSet<String>();
-		for (int i = 0; i < genomes.length; i++) {
-			File libFile = new File(libDir, genomes[i] + ".speclib.tsv");
-			if (!libFile.exists()) {
-				LOGGER.info(taskName + ": spectra library for " + genomes[i] + " not found");
-				System.out.println(format.format(new Date()) + "\t" + taskName + ": spectra library for " + genomes[i]
-						+ " not found");
-				return;
-			}
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new FileReader(libFile));
-				String line = reader.readLine();
-
-				String[] title = line.split("\t");
-				int transitId = -1;
-				int seqId = -1;
-				int proId = -1;
-				for (int j = 0; j < title.length; j++) {
-					if (title[j].equals("transition_name")) {
-						transitId = j;
-					} else if (title[j].equals("PeptideSequence")) {
-						seqId = j;
-					} else if (title[j].equals("ProteinGroup")) {
-						proId = j;
-					}
-				}
-
-				L: while ((line = reader.readLine()) != null) {
-					String[] cs = line.split("\t");
-
-					if (!transitSet.contains(cs[transitId])) {
-						transitSet.add(cs[transitId]);
-						StringBuilder sb = new StringBuilder();
-						HashSet<String> proset = null;
-						for (int j = 0; j < cs.length; j++) {
-							if (j == seqId) {
-								proset = pepProMap.get(cs[j]);
-								if (proset == null) {
-									continue L;
-								}
-								sb.append(cs[j]).append("\t");
-							} else if (j == proId) {
-								String pro = "";
-								if (proset != null) {
-									for (String proRef : proset) {
-										pro += proRef;
-										pro += ";";
-									}
-								}
-
-								sb.append(pro.length() > 1 ? pro.substring(0, pro.length() - 1) : pro).append("\t");
-							} else {
-								sb.append(cs[j]).append("\t");
-							}
-						}
-
-						writer.println(sb);
-					}
-				}
-
-				reader.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				LOGGER.info(taskName + ": error in reading spectra library files", e);
-				System.out.println(
-						format.format(new Date()) + "\t" + taskName + ": error in reading spectra library files");
-			}
-		}
-
-		writer.close();
 
 		File finalLib = new File(combineLibTsv.getAbsolutePath() + ".speclib");
 
@@ -542,6 +539,9 @@ public class DiaPredictedLibTask {
 			LOGGER.error(taskName + ": error in writing spectra library file " + output, e);
 			System.out.println(
 					format.format(new Date()) + "\t" + taskName + ": error in writing spectra library file " + output);
+		}
+		if (writer == null) {
+			return;
 		}
 
 		ExecutorService executor = Executors.newFixedThreadPool(diannPar.getThreads());
@@ -748,11 +748,11 @@ public class DiaPredictedLibTask {
 		LOGGER.info(taskName + ": combining spectra library finished");
 		System.out.println(format.format(new Date()) + "\t" + taskName + ": combining spectra library finished");
 	}
-	
+
 	public void addTask(String fasta) {
 		addTask(new File(fasta));
 	}
-	
+
 	public void addTask(File fasta) {
 		File parentFile = fasta.getParentFile();
 		String name = fasta.getName();
@@ -768,114 +768,4 @@ public class DiaPredictedLibTask {
 			deepDetectTask.addTask(par);
 		}
 	}
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-		DiaNNTask diaNNtask = new DiaNNTask("D:\\Exported\\Resources\\DIA-NN\\1.8\\DiaNN.exe");
-		DeepDetectTask deepTask = new DeepDetectTask("D:\\Exported\\Resources\\DeepDetect\\DeepDetect.exe");
-										
-		DiaPredictedLibTask task = new DiaPredictedLibTask(diaNNtask, deepTask, new DiannParameter());
-		
-		try {
-/*
-			DiaNNResultReader reader1 = new DiaNNResultReader("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\hap",
-					"hap", "K*,R*");
-			PrintWriter genomeWriter = new PrintWriter(
-					"Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\hap\\mags\\mags.tsv");
-
-			int count = 0;
-			HashSet<String> genomeSet1 = new HashSet<String>();
-			for (int i = 0; i < reader1.getDiaNNPrecursors().length; i++) {
-				boolean target = false;
-				DiaNNPrecursor diapp = reader1.getDiaNNPrecursors()[i];
-				if (reader1.getDiaNNPrecursors()[i].getDecoyEvi() == 0) {
-					String[] pros = diapp.getProGroups();
-					for (int j = 0; j < pros.length; j++) {
-						String genome = pros[j].substring(0, pros[j].indexOf("_"));
-						genomeSet1.add(genome);
-
-						if (genome.equals("MGYG000001321") || genome.equals("MGYG000004253")) {
-							target = true;
-						}
-					}
-				}
-
-				if (target) {
-					count++;
-				}
-			}
-
-			System.out.println(genomeSet1.size() + "\t" + count+"\t"+reader1.getDiaNNPrecursors().length);
-			for (String genome : genomeSet1) {
-				genomeWriter.println(genome);
-			}
-			genomeWriter.close();
-*/
-			BufferedReader genomeReader = new BufferedReader(
-					new FileReader("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\hap\\mags\\mags.tsv"));
-			String line = null;
-			ArrayList<String> list = new ArrayList<String>();
-			while ((line = genomeReader.readLine()) != null) {
-				list.add(line);
-			}
-			genomeReader.close();
-
-			String[] genomes = list.toArray(new String[list.size()]);
-
-//			task.combine(genomes, "Z:\\Kai\\Database\\human_gut\\original_db",
-//					"Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\MetaLab\\hap\\combine\\genomes.speclib", 0.1);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-/**		
-		try {
-			task.refineLibrary("Z:\\Kai\\Database\\human_gut\\rib_elon.predicted.tsv",
-					"Z:\\Kai\\Database\\human_gut\\rib_elon.speclib.tsv", 0.9);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/		
-//		task.generateLibrary(new File("Z:\\Kai\\Database\\human_gut\\uniprot.Homo_sapiens.fasta"), 
-//				new File("Z:\\Kai\\Database\\human_gut\\uniprot.Homo_sapiens.speclib"), true);
-		/*								
-				
-		task.run(new File("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\MGYG000001321.faa"), 
-				new File("Z:\\Kai\\Raw_files\\single_strain_dia\\29098\\MGYG000001321.speclib"),
-				new File("Z:\\Kai\\Database\\human_gut\\eggNOG\\MGYG000001321_eggNOG.tsv"));
-		
-		
-		
-		task.run(new File("Z:\\Kai\\Raw_files\\single_strain_dia\\25986\\MGYG000001353.faa"), 
-				new File("Z:\\Kai\\Raw_files\\single_strain_dia\\25986\\MGYG000001353.speclib"),
-				new File("Z:\\Kai\\Database\\human_gut\\eggNOG\\MGYG000001353_eggNOG.tsv"));
-*/
-//task.combine(new String[] { "MGYG000001321", "MGYG000001346", "MGYG000001353" },
-//		"Z:\\Kai\\Raw_files\\single_strain_dia", "Z:\\Kai\\Raw_files\\single_strain_dia\\combine.tsv");
-		
-//File[] annoFiles = (new File("Z:\\Kai\\Database\\human_gut\\eggNOG")).listFiles();
-//task.run(new File("Z:\\Kai\\Database\\human_gut\\rib_elon.fasta"),
-//		new File("Z:\\Kai\\Database\\human_gut\\rib_elon.speclib"), annoFiles);
-		
-//diaNNtask.addTask(new DiannParameter(),
-//		new String[] { "Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\Haonan_20230120_A8492_DIA_1.raw.dia"},
-//		"Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\DIA_MGYG000001346_predict_pep\\8492_MGYG000001346_predict_pep.tsv",
-//		"Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.speclib");
-
-		
-//		diaNNtask.addTask(new DiannParameter(), "Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.faa", 
-//				"Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.templete.speclib", true);
-//		diaNNtask.addTask(new DiannParameter(), "Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.templete.predicted.speclib", 
-//				"Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.templete.predicted.speclib.tsv");
-//diaNNtask.addTask(new DiannParameter(),
-//		"Z:\\Kai\\Raw_files\\single_strain_dia\\8492\\MGYG000001346.speclib.tsv");
-//diaNNtask.run(1);
-
-	}
-
 }

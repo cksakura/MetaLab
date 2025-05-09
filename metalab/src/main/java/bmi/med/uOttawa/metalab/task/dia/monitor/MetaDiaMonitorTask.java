@@ -9,10 +9,11 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNParquetReader;
 import bmi.med.uOttawa.metalab.dbSearch.diann.DiaNNTask;
 import bmi.med.uOttawa.metalab.dbSearch.diann.DiannParameter;
 import bmi.med.uOttawa.metalab.task.dia.DiaLibSearchPar;
-import bmi.med.uOttawa.metalab.task.dia.DiaModelTask;
+import bmi.med.uOttawa.metalab.task.dia.DiaPyTorchModelTask;
 import bmi.med.uOttawa.metalab.task.dia.MetaDiaTask;
 import bmi.med.uOttawa.metalab.task.dia.monitor.par.MetaParameterDiaRT;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaParameterDia;
@@ -32,7 +33,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -88,6 +88,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 		setTaskCount();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected Boolean doInBackground() throws IOException {
 
@@ -447,7 +448,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				}
 			});
 
-			File round1TsvFile = new File(firstFile, "firstSearch.tsv");
+			File round1TsvFile = new File(firstFile, "firstSearch.parquet");
 			if (!round1TsvFile.exists()) {
 
 				LOGGER.info(getTaskName() + ": search raw files " + fileName + " round 1 started");
@@ -459,7 +460,8 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				diaLibSearchPar.setDiaFiles(new String[] { diaFile.getAbsolutePath() });
 				diaLibSearchPar.setThreadCount(batchThreadCount);
 				diaLibSearchPar.setMbr(false);
-
+				diaLibSearchPar.setqValue(0.01);
+				
 				DiannParameter diannPar = new DiannParameter();
 				diannPar.setThreads(batchThreadCount);
 				diannPar.setMatrices(false);
@@ -505,7 +507,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				modelFolderFile.mkdirs();
 			}
 
-			File rankedPepFile = new File(modelFolderFile, "model_pep_rank.tsv");
+			File rankedPepFile = new File(modelFolderFile, "pep_rank.tsv");
 			if (!rankedPepFile.exists()) {
 
 				LOGGER.info(getTaskName() + ": creating model for " + fileName + " started");
@@ -541,10 +543,10 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 							+ ": error in combining the grouped quantitative information");
 				}
 				int batchThreadCount = threadCount / maxTaskCount + 1;
-				DiaModelTask diaModelTask = new DiaModelTask((MetaParameterDia) metaPar, (MetaSourcesDia) msv, bar1,
-						pepIntenMap, "model", DiaModelTask.RNN, modelFolderFile, batchThreadCount);
+				DiaPyTorchModelTask diaModelTask = new DiaPyTorchModelTask((MetaParameterDia) metaPar,
+						(MetaSourcesDia) msv, bar1, pepIntenMap, modelFolderFile, batchThreadCount);
 				diaModelTask.execute();
-				
+
 				SwingUtilities.invokeLater(() -> {
 					for (int i = 0; i < resultTableModel.getRowCount(); i++) {
 						String fileNameI = (String) resultTableModel.getValueAt(i, 0);
@@ -608,21 +610,9 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 
 			File round1DbFile = new File(firstFile, "firstSearch.fasta");
 			if (!round1DbFile.exists() || round1DbFile.length() == 0) {
-				HashSet<String> pepSet1 = new HashSet<String>();
-				try (BufferedReader reader = new BufferedReader(new FileReader(round1TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet1.add(cs[seqId]);
-					}
-					reader.close();
+				HashSet<String> pepSet1 = null;
+				try {
+					pepSet1 = DiaNNParquetReader.getPeptideSet(round1TsvFile.getAbsolutePath());
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round1TsvFile, e);
 					System.err.println(
@@ -630,7 +620,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 					return null;
 				}
 				int batchThreadCount = threadCount / maxTaskCount + 1;
-				HashSet<String> genomeSet1 = getGenomeSet(firstFile, 0.85, pepSet1, batchThreadCount);
+				HashSet<String> genomeSet1 = getGenomeSet(firstFile, 1.0, pepSet1, 5, false, batchThreadCount);
 
 				LOGGER.info(getTaskName() + ": generating database for " + fileName + ", " + pepSet1.size()
 						+ " peptide sequences were identified, " + genomeSet1.size() + " MAGs were used in this step");
@@ -638,7 +628,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 						+ fileName + ", " + pepSet1.size() + " peptide sequences were identified, " + genomeSet1.size()
 						+ " MAGs were used in this step");
 
-				dbFromModelPeptide(modelPath, genomeSet1, pepSet1, round1DbFile, 1500000);
+				dbFromModelPeptide(modelPath, genomeSet1, pepSet1, initialLibPepSet, round1DbFile, 2500000);
 			}
 
 			File secondFile = new File(resultFolderFile, "secondSearch");
@@ -656,7 +646,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				}
 			});
 
-			File round2TsvFile = new File(secondFile, "secondSearch.tsv");
+			File round2TsvFile = new File(secondFile, "secondSearch.parquet");
 			if (!round2TsvFile.exists()) {
 
 				LOGGER.info(getTaskName() + ": search raw files " + fileName + " round 2 started");
@@ -693,7 +683,8 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				diaLibSearchPar.setDiaFiles(new String[] { diaFile.getAbsolutePath() });
 				diaLibSearchPar.setThreadCount(batchThreadCount);
 				diaLibSearchPar.setMbr(false);
-
+				diaLibSearchPar.setqValue(0.01);
+				
 				DiannParameter diannPar = new DiannParameter();
 				diannPar.setThreads(batchThreadCount);
 				diannPar.setMatrices(false);
@@ -740,57 +731,33 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 			if (!round2DbFile.exists() || round2DbFile.length() == 0) {
 
 				HashSet<String> pepSet2 = new HashSet<String>();
-				try (BufferedReader reader = new BufferedReader(new FileReader(round1TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet2.add(cs[seqId]);
-					}
-					reader.close();
+				try {
+					pepSet2.addAll(DiaNNParquetReader.getPeptideSet(round1TsvFile.getAbsolutePath()));
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round1TsvFile, e);
 					System.err.println(
 							format.format(new Date()) + "\t" + getTaskName() + ": error in reading " + round1TsvFile);
 					return null;
 				}
-				try (BufferedReader reader = new BufferedReader(new FileReader(round2TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet2.add(cs[seqId]);
-					}
-					reader.close();
+				try {
+					pepSet2.addAll(DiaNNParquetReader.getPeptideSet(round2TsvFile.getAbsolutePath()));
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round2TsvFile, e);
 					System.err.println(
 							format.format(new Date()) + "\t" + getTaskName() + ": error in reading " + round2TsvFile);
 					return null;
 				}
-				int batchThreadCount = threadCount / maxTaskCount + 1;
-				HashSet<String> genomeSet2 = getGenomeSet(secondFile, 0.9, pepSet2, batchThreadCount);
 
-				HashSet<String> excludeSet = new HashSet<String>();
+				int batchThreadCount = threadCount / maxTaskCount + 1;
+				HashSet<String> genomeSet2 = getGenomeSet(secondFile, 1.0, pepSet2, 5, false, batchThreadCount);
+
 				try (BufferedReader firstLibReader = new BufferedReader(
 						new FileReader(new File(firstFile, "firstSearch.fasta")))) {
 
 					String pline = null;
 					while ((pline = firstLibReader.readLine()) != null) {
 						if (!pline.startsWith(">")) {
-							excludeSet.add(pline);
+							initialLibPepSet.add(pline);
 						}
 					}
 					firstLibReader.close();
@@ -802,23 +769,14 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 					return null;
 				}
 
-				excludeSet.retainAll(initialLibPepSet);
-				Iterator<String> it = excludeSet.iterator();
-				while (it.hasNext()) {
-					String pep = it.next();
-					if (pepSet2.contains(pep)) {
-						it.remove();
-					}
-				}
-
 				LOGGER.info(getTaskName() + ": generating database for " + fileName + ", " + pepSet2.size()
 						+ " peptide sequences were identified, " + genomeSet2.size()
-						+ " MAGs were used in this step, the size of the excluded set is " + excludeSet.size());
+						+ " MAGs were used in this step, the size of the excluded set is " + initialLibPepSet.size());
 				System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": generating database for "
 						+ fileName + ", " + pepSet2.size() + " peptide sequences were identified, " + genomeSet2.size()
-						+ " MAGs were used in this step, the size of the excluded set is " + excludeSet.size());
+						+ " MAGs were used in this step, the size of the excluded set is " + initialLibPepSet.size());
 
-				dbFromModelPeptide(modelPath, genomeSet2, pepSet2, excludeSet, round2DbFile, 2000000);
+				dbFromModelPeptide(modelPath, genomeSet2, pepSet2, initialLibPepSet, round2DbFile, 2000000);
 			}
 
 			File thirdFile = new File(resultFolderFile, "thirdSearch");
@@ -868,6 +826,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				DiaLibSearchPar diaLibSearchPar = new DiaLibSearchPar();
 				diaLibSearchPar.setThreadCount(batchThreadCount);
 				diaLibSearchPar.setMbr(false);
+				diaLibSearchPar.setqValue(0.01);
 
 				DiannParameter diannPar = new DiannParameter();
 				diannPar.setThreads(batchThreadCount);
@@ -914,79 +873,38 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 			if (!round3DbFile.exists() || round3DbFile.length() == 0) {
 
 				HashSet<String> pepSet3 = new HashSet<String>();
-				try (BufferedReader reader = new BufferedReader(new FileReader(round1TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet3.add(cs[seqId]);
-					}
-					reader.close();
+				try {
+					pepSet3.addAll(DiaNNParquetReader.getPeptideSet(round1TsvFile.getAbsolutePath()));
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round1TsvFile, e);
 					System.err.println(
 							format.format(new Date()) + "\t" + getTaskName() + ": error in reading " + round1TsvFile);
-					return null;
 				}
-				try (BufferedReader reader = new BufferedReader(new FileReader(round2TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet3.add(cs[seqId]);
-					}
-					reader.close();
+				try {
+					pepSet3.addAll(DiaNNParquetReader.getPeptideSet(round2TsvFile.getAbsolutePath()));
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round2TsvFile, e);
 					System.err.println(
 							format.format(new Date()) + "\t" + getTaskName() + ": error in reading " + round2TsvFile);
-					return null;
 				}
-				try (BufferedReader reader = new BufferedReader(new FileReader(round3TsvFile))) {
-					String pline = reader.readLine();
-					String[] title = pline.split("\t");
-					int seqId = -1;
-					for (int j = 0; j < title.length; j++) {
-						if (title[j].equals("Stripped.Sequence")) {
-							seqId = j;
-						}
-					}
-					while ((pline = reader.readLine()) != null) {
-						String[] cs = pline.split("\t");
-						pepSet3.add(cs[seqId]);
-					}
-					reader.close();
+				try {
+					pepSet3.addAll(DiaNNParquetReader.getPeptideSet(round3TsvFile.getAbsolutePath()));
 				} catch (Exception e) {
 					LOGGER.error(getTaskName() + ": error in reading " + round3TsvFile, e);
 					System.err.println(
 							format.format(new Date()) + "\t" + getTaskName() + ": error in reading " + round3TsvFile);
-					return null;
 				}
-				int batchThreadCount = threadCount / maxTaskCount + 1;
-				HashSet<String> genomeSet3 = getGenomeSet(thirdFile, 0.95, pepSet3, batchThreadCount);
 
-				HashSet<String> excludeSet = new HashSet<String>();
-				HashSet<String> firstSet = new HashSet<String>();
+				int batchThreadCount = threadCount / maxTaskCount + 1;
+				HashSet<String> genomeSet3 = getGenomeSet(thirdFile, 1.0, pepSet3, 5, false, batchThreadCount);
+
 				try (BufferedReader firstLibReader = new BufferedReader(
 						new FileReader(new File(firstFile, "firstSearch.fasta")))) {
 
 					String pline = null;
 					while ((pline = firstLibReader.readLine()) != null) {
 						if (!pline.startsWith(">")) {
-							excludeSet.add(pline);
-							firstSet.add(pline);
+							initialLibPepSet.add(pline);
 						}
 					}
 					firstLibReader.close();
@@ -997,16 +915,13 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 							+ ": error in reading fasta file from " + firstFile);
 					return null;
 				}
-
-				HashSet<String> secondSet = new HashSet<String>();
 				try (BufferedReader secondLibReader = new BufferedReader(
 						new FileReader(new File(secondFile, "secondSearch.fasta")))) {
 
 					String pline = null;
 					while ((pline = secondLibReader.readLine()) != null) {
 						if (!pline.startsWith(">")) {
-							excludeSet.add(pline);
-							secondSet.add(pline);
+							initialLibPepSet.add(pline);
 						}
 					}
 					secondLibReader.close();
@@ -1018,24 +933,13 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 					return null;
 				}
 
-				firstSet.retainAll(secondSet);
-				excludeSet.retainAll(initialLibPepSet);
-				excludeSet.addAll(firstSet);
-				Iterator<String> it = excludeSet.iterator();
-				while (it.hasNext()) {
-					String pep = it.next();
-					if (pepSet3.contains(pep)) {
-						it.remove();
-					}
-				}
-
 				LOGGER.info(getTaskName() + ": generating database for " + fileName + ", " + genomeSet3.size()
-						+ " MAGs were used in this step, the size of the excluded set is " + excludeSet.size());
+						+ " MAGs were used in this step, the size of the excluded set is " + initialLibPepSet.size());
 				System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": generating database for "
 						+ fileName + ", " + genomeSet3.size()
-						+ " MAGs were used in this step, the size of the excluded set is " + excludeSet.size());
+						+ " MAGs were used in this step, the size of the excluded set is " + initialLibPepSet.size());
 
-				dbFromModelPeptide(modelPath, genomeSet3, pepSet3, excludeSet, round3DbFile, 2500000);
+				dbFromModelPeptide(modelPath, genomeSet3, pepSet3, initialLibPepSet, round3DbFile, 2500000);
 			}
 
 			SwingUtilities.invokeLater(() -> {
@@ -1048,7 +952,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				}
 			});
 
-			File lastTsvFile = new File(resultFolderFile, "lastSearch.tsv");
+			File lastTsvFile = new File(resultFolderFile, "lastSearch.parquet");
 			if (!lastTsvFile.exists()) {
 
 				LOGGER.info(getTaskName() + ": search raw files " + fileName + " the last round started");
@@ -1082,6 +986,7 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				DiaLibSearchPar diaLibSearchPar = new DiaLibSearchPar();
 				diaLibSearchPar.setThreadCount(batchThreadCount);
 				diaLibSearchPar.setMbr(false);
+				diaLibSearchPar.setqValue(0.01);
 
 				DiannParameter diannPar = new DiannParameter();
 				diannPar.setThreads(batchThreadCount);
@@ -1135,7 +1040,14 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				}
 			}
 
-			setProgress((int) ((double) count / (double) this.rawListModel.size() * 70.0));
+			LOGGER.info(getTaskName() + ": " + destFiles.length + " files are finished, the total number of file is "
+					+ this.rawListModel.size());
+			System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": " + destFiles.length
+					+ " files are finished, the total number of file is " + this.rawListModel.size());
+
+			if (count <= this.rawListModel.size()) {
+				setProgress((int) ((double) count / (double) this.rawListModel.size() * 100.0));
+			}
 
 			return diaFile.getAbsolutePath();
 
@@ -1173,8 +1085,6 @@ public class MetaDiaMonitorTask extends MetaDiaTask {
 				Thread.sleep(1000); // Wait for 1 second before checking again
 			}
 
-//			Path destinationPath = destinationFolder.resolve(file.getFileName());
-//			Files.copy(file, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 			return process(new File(filePath.toAbsolutePath().toString()));
 
 		} catch (IOException | InterruptedException e) {

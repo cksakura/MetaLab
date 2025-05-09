@@ -68,7 +68,9 @@ public class MetaLabPFindMainFrame extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-					frame.LOGGER.error(e);
+					if (frame != null) {
+						frame.LOGGER.error(e);
+					}
 				}
 			}
 		});
@@ -117,21 +119,18 @@ public class MetaLabPFindMainFrame extends JFrame {
 				tabbedPane.setSelectedIndex(0);
 			}
 		}
-/*
-		{
-			MetaParameter par = MetaParameterIO.parse(parameter);
-			MetaParameterV2 parV2 = par.getWorkflowType() == MetaLabWorkflowType.MSFraggerWorkflow
-					? MetaParaIOV2.parse(parameter)
-					: new MetaParameterV2();
-			parV2.setWorkflowType(MetaLabWorkflowType.MSFraggerWorkflow.name());
-			MetaLabPFindMainPanel msfraggerPanel = new MetaLabPFindMainPanel(parV2, msv2);
-
-			tabbedPane.addTab("<html><br/>MSFragger<br/>workflow<br/></html>", null, msfraggerPanel, null);
-			if (par.getWorkflowType() == MetaLabWorkflowType.MSFraggerWorkflow) {
-				tabbedPane.setSelectedIndex(1);
-			}
-		}
-*/
+		/*
+		 * { MetaParameter par = MetaParameterIO.parse(parameter); MetaParameterV2 parV2
+		 * = par.getWorkflowType() == MetaLabWorkflowType.MSFraggerWorkflow ?
+		 * MetaParaIOV2.parse(parameter) : new MetaParameterV2();
+		 * parV2.setWorkflowType(MetaLabWorkflowType.MSFraggerWorkflow.name());
+		 * MetaLabPFindMainPanel msfraggerPanel = new MetaLabPFindMainPanel(parV2,
+		 * msv2);
+		 * 
+		 * tabbedPane.addTab("<html><br/>MSFragger<br/>workflow<br/></html>", null,
+		 * msfraggerPanel, null); if (par.getWorkflowType() ==
+		 * MetaLabWorkflowType.MSFraggerWorkflow) { tabbedPane.setSelectedIndex(1); } }
+		 */
 		{
 			MetaParameter par = MetaParameterIO.parse(parameter);
 			MetaParameterPFind parV3 = par.getWorkflowType() == MetaLabWorkflowType.pFindWorkflow
@@ -225,17 +224,16 @@ public class MetaLabPFindMainFrame extends JFrame {
 					tabbedPane.setSelectedIndex(0);
 
 					break;
-/*
-				case MSFraggerWorkflow:
-
-					tabbedPane.remove(1);
-					MetaLabPFindMainPanel msfraggerPanel = new MetaLabPFindMainPanel((MetaParameterV2) loadPar, msv2);
-					tabbedPane.insertTab("<html><br/>MSFragger<br/>workflow<br/></html>", null, msfraggerPanel, null,
-							1);
-					tabbedPane.setSelectedIndex(1);
-
-					break;
-*/
+				/*
+				 * case MSFraggerWorkflow:
+				 * 
+				 * tabbedPane.remove(1); MetaLabPFindMainPanel msfraggerPanel = new
+				 * MetaLabPFindMainPanel((MetaParameterV2) loadPar, msv2);
+				 * tabbedPane.insertTab("<html><br/>MSFragger<br/>workflow<br/></html>", null,
+				 * msfraggerPanel, null, 1); tabbedPane.setSelectedIndex(1);
+				 * 
+				 * break;
+				 */
 				case pFindWorkflow:
 
 					tabbedPane.remove(1);
@@ -343,8 +341,8 @@ public class MetaLabPFindMainFrame extends JFrame {
 		menuBar.add(mnSetting);
 
 		JMenuItem mntmResource = new JMenuItem("Resource");
-		mntmResource.setIcon(
-				new ImageIcon(MetaLabPFindMainFrame.class.getResource("/toolbarButtonGraphics/general/Bookmarks16.gif")));
+		mntmResource.setIcon(new ImageIcon(
+				MetaLabPFindMainFrame.class.getResource("/toolbarButtonGraphics/general/Bookmarks16.gif")));
 		mntmResource.addActionListener(l -> {
 			MetaLabSourcePathDialog dialog = new MetaLabSourcePathDialog(msv2, resources, this);
 			dialog.setAlwaysOnTop(true);

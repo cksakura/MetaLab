@@ -55,45 +55,45 @@ public class MaxquantModHandler {
 			Document document = null;
 			try {
 				document = reader.read(file);
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					String des = modification.attributeValue("description");
+					String comp = modification.attributeValue("composition");
+					String position = modification.element("position").getText();
+					String type = modification.element("type").getText();
+					double mass = this.getMass4Comp(comp);
+
+					List<Element> siteList = modification.elements("modification_site");
+					String[] sites = new String[siteList.size()];
+					for (int i = 0; i < sites.length; i++) {
+						sites[i] = siteList.get(i).attributeValue("site");
+					}
+
+					MaxquantModification mm = new MaxquantModification(title, des, position, comp, sites, mass);
+					list0.add(mm);
+					if (type.equals("Label")) {
+						list1.add(mm);
+					} else if (type.equals("IsobaricLabel")) {
+
+						Element tmtElement = siteList.get(0);
+						Element diagnostics = tmtElement.element("diagnostic_collection");
+						Element tagElement = diagnostics.element("diagnostic");
+						String tmtComp = tagElement.attributeValue("composition");
+						double tmtMass = this.getMass4Comp(tmtComp);
+
+						mm.setTmtComp(tmtComp);
+						mm.setTmtMass(tmtMass);
+
+						list2.add(mm);
+					}
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				String des = modification.attributeValue("description");
-				String comp = modification.attributeValue("composition");
-				String position = modification.element("position").getText();
-				String type = modification.element("type").getText();
-				double mass = this.getMass4Comp(comp);
-
-				List<Element> siteList = modification.elements("modification_site");
-				String[] sites = new String[siteList.size()];
-				for (int i = 0; i < sites.length; i++) {
-					sites[i] = siteList.get(i).attributeValue("site");
-				}
-
-				MaxquantModification mm = new MaxquantModification(title, des, position, comp, sites, mass);
-				list0.add(mm);
-				if (type.equals("Label")) {
-					list1.add(mm);
-				} else if (type.equals("IsobaricLabel")) {
-
-					Element tmtElement = siteList.get(0);
-					Element diagnostics = tmtElement.element("diagnostic_collection");
-					Element tagElement = diagnostics.element("diagnostic");
-					String tmtComp = tagElement.attributeValue("composition");
-					double tmtMass = this.getMass4Comp(tmtComp);
-
-					mm.setTmtComp(tmtComp);
-					mm.setTmtMass(tmtMass);
-
-					list2.add(mm);
-				}
 			}
 		}
 
@@ -115,17 +115,17 @@ public class MaxquantModHandler {
 			Document document = null;
 			try {
 				document = reader.read(file);
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					list.add(title);
+				}
 			} catch (DocumentException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				list.add(title);
 			}
 		}
 
@@ -144,199 +144,14 @@ public class MaxquantModHandler {
 			Document document = null;
 			try {
 				document = reader.read(file);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
-			}
-			Element root = document.getRootElement();
+				Element root = document.getRootElement();
 
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				for (String mod : mods) {
-					if (mod.equals(title)) {
-						String comp = modification.attributeValue("composition");
-						String position = modification.element("position").getText();
-						double mass = getMass4Comp(comp);
-						sb.append(mass).append("@");
-						List<Element> siteList = modification.elements("modification_site");
-						for (int i = 0; i < siteList.size(); i++) {
-							String site = siteList.get(i).attributeValue("site");
-							if (site.equals("-")) {
-								if (position.endsWith("Nterm")) {
-									sb.append("[,");
-								} else if (position.endsWith("Cterm")) {
-									sb.append("],");
-								} else {
-
-								}
-							} else {
-								sb.append(site).append(",");
-							}
-						}
-						break;
-					}
-				}
-			}
-			if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
-				sb.deleteCharAt(sb.length() - 1);
-			}
-		}
-
-		return sb.toString();
-	}
-
-	@SuppressWarnings("unchecked")
-	public String getMod4Tandem(String[] mods, String[] isobaric) {
-
-		StringBuilder sb = new StringBuilder();
-
-		File file = new File(modifications);
-		if (file.exists()) {
-			SAXReader reader = new SAXReader();
-			Document document = null;
-			try {
-				document = reader.read(file);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				for (String mod : mods) {
-					if (mod.equals(title)) {
-						String comp = modification.attributeValue("composition");
-						String position = modification.element("position").getText();
-						double mass = getMass4Comp(comp);
-						sb.append(mass).append("@");
-						List<Element> siteList = modification.elements("modification_site");
-						for (int i = 0; i < siteList.size(); i++) {
-							String site = siteList.get(i).attributeValue("site");
-							if (site.equals("-")) {
-								if (position.endsWith("Nterm")) {
-									sb.append("[,");
-								} else if (position.endsWith("Cterm")) {
-									sb.append("],");
-								} else {
-
-								}
-							} else {
-								sb.append(site).append(",");
-							}
-						}
-						break;
-					}
-				}
-			}
-
-			IsobaricTag[] tags = IsobaricTag.values();
-			IsobaricTag tag = null;
-			boolean nterm = false;
-			boolean lys = false;
-			for (String iso : isobaric) {
-				int sp = iso.indexOf("-");
-				String name = iso.substring(0, sp);
-
-				if (tag == null) {
-					for (int i = 0; i < tags.length; i++) {
-						if (tags[i].getName().equals(name)) {
-							if (tag == null) {
-								tag = tags[i];
-							}
-						}
-					}
-					if (tag == null) {
-						LOGGER.info("Isobaric tags " + "\"" + name + "\""
-								+ " is unknown, isobaric quantification will not be performed.");
-					}
-				} else {
-					if (!tag.getName().equals(name)) {
-						LOGGER.info("Multiple isobaric tags " + "\"" + tag.getName() + "\"" + "\"" + name + "\""
-								+ " are found, isobaric quantification will not be performed.");
-					}
-				}
-
-				String loc = iso.substring(sp + 1);
-				if (loc.startsWith("Nter")) {
-					nterm = true;
-				}
-				if (loc.startsWith("Lys")) {
-					lys = true;
-				}
-			}
-
-			if (tag != null) {
-				double isomass = tag.getMass();
-				if (nterm) {
-					sb.append(isomass).append("@[,");
-				}
-				if (lys) {
-					sb.append(isomass).append("@K,");
-				}
-			}
-
-			if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
-				sb.deleteCharAt(sb.length() - 1);
-			}
-		}
-
-		return sb.toString();
-	}
-
-	@SuppressWarnings("unchecked")
-	public String getMod4Tandem(String[] mods, String[][] labels) {
-
-		StringBuilder sb = new StringBuilder();
-
-		File file = new File(modifications);
-		if (file.exists()) {
-			SAXReader reader = new SAXReader();
-			Document document = null;
-			try {
-				document = reader.read(file);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
-			}
-			Element root = document.getRootElement();
-
-			Iterator<Element> it = root.elementIterator();
-			while (it.hasNext()) {
-				Element modification = it.next();
-				String title = modification.attributeValue("title");
-				for (String mod : mods) {
-					if (mod.equals(title)) {
-						String comp = modification.attributeValue("composition");
-						String position = modification.element("position").getText();
-						double mass = getMass4Comp(comp);
-						sb.append(mass).append("@");
-						List<Element> siteList = modification.elements("modification_site");
-						for (int i = 0; i < siteList.size(); i++) {
-							String site = siteList.get(i).attributeValue("site");
-							if (site.equals("-")) {
-								if (position.endsWith("Nterm")) {
-									sb.append("[,");
-								} else if (position.endsWith("Cterm")) {
-									sb.append("],");
-								} else {
-
-								}
-							} else {
-								sb.append(site).append(",");
-							}
-						}
-						break;
-					}
-				}
-				for (String label : labels[0]) {
-					if (label.equals(title)) {
-						String type = modification.element("type").getText();
-						if (type.equals("Label")) {
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					for (String mod : mods) {
+						if (mod.equals(title)) {
 							String comp = modification.attributeValue("composition");
 							String position = modification.element("position").getText();
 							double mass = getMass4Comp(comp);
@@ -360,10 +175,195 @@ public class MaxquantModHandler {
 						}
 					}
 				}
+				if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
+					sb.deleteCharAt(sb.length() - 1);
+				}
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
 			}
+		}
 
-			if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
-				sb.deleteCharAt(sb.length() - 1);
+		return sb.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getMod4Tandem(String[] mods, String[] isobaric) {
+
+		StringBuilder sb = new StringBuilder();
+
+		File file = new File(modifications);
+		if (file.exists()) {
+			SAXReader reader = new SAXReader();
+			Document document = null;
+			try {
+				document = reader.read(file);
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					for (String mod : mods) {
+						if (mod.equals(title)) {
+							String comp = modification.attributeValue("composition");
+							String position = modification.element("position").getText();
+							double mass = getMass4Comp(comp);
+							sb.append(mass).append("@");
+							List<Element> siteList = modification.elements("modification_site");
+							for (int i = 0; i < siteList.size(); i++) {
+								String site = siteList.get(i).attributeValue("site");
+								if (site.equals("-")) {
+									if (position.endsWith("Nterm")) {
+										sb.append("[,");
+									} else if (position.endsWith("Cterm")) {
+										sb.append("],");
+									} else {
+
+									}
+								} else {
+									sb.append(site).append(",");
+								}
+							}
+							break;
+						}
+					}
+				}
+
+				IsobaricTag[] tags = IsobaricTag.values();
+				IsobaricTag tag = null;
+				boolean nterm = false;
+				boolean lys = false;
+				for (String iso : isobaric) {
+					int sp = iso.indexOf("-");
+					String name = iso.substring(0, sp);
+
+					if (tag == null) {
+						for (int i = 0; i < tags.length; i++) {
+							if (tags[i].getName().equals(name)) {
+								if (tag == null) {
+									tag = tags[i];
+								}
+							}
+						}
+						if (tag == null) {
+							LOGGER.info("Isobaric tags " + "\"" + name + "\""
+									+ " is unknown, isobaric quantification will not be performed.");
+						}
+					} else {
+						if (!tag.getName().equals(name)) {
+							LOGGER.info("Multiple isobaric tags " + "\"" + tag.getName() + "\"" + "\"" + name + "\""
+									+ " are found, isobaric quantification will not be performed.");
+						}
+					}
+
+					String loc = iso.substring(sp + 1);
+					if (loc.startsWith("Nter")) {
+						nterm = true;
+					}
+					if (loc.startsWith("Lys")) {
+						lys = true;
+					}
+				}
+
+				if (tag != null) {
+					double isomass = tag.getMass();
+					if (nterm) {
+						sb.append(isomass).append("@[,");
+					}
+					if (lys) {
+						sb.append(isomass).append("@K,");
+					}
+				}
+
+				if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
+					sb.deleteCharAt(sb.length() - 1);
+				}
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
+			}
+		}
+
+		return sb.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getMod4Tandem(String[] mods, String[][] labels) {
+
+		StringBuilder sb = new StringBuilder();
+
+		File file = new File(modifications);
+		if (file.exists()) {
+			SAXReader reader = new SAXReader();
+			Document document = null;
+			try {
+				document = reader.read(file);
+				Element root = document.getRootElement();
+
+				Iterator<Element> it = root.elementIterator();
+				while (it.hasNext()) {
+					Element modification = it.next();
+					String title = modification.attributeValue("title");
+					for (String mod : mods) {
+						if (mod.equals(title)) {
+							String comp = modification.attributeValue("composition");
+							String position = modification.element("position").getText();
+							double mass = getMass4Comp(comp);
+							sb.append(mass).append("@");
+							List<Element> siteList = modification.elements("modification_site");
+							for (int i = 0; i < siteList.size(); i++) {
+								String site = siteList.get(i).attributeValue("site");
+								if (site.equals("-")) {
+									if (position.endsWith("Nterm")) {
+										sb.append("[,");
+									} else if (position.endsWith("Cterm")) {
+										sb.append("],");
+									} else {
+
+									}
+								} else {
+									sb.append(site).append(",");
+								}
+							}
+							break;
+						}
+					}
+					for (String label : labels[0]) {
+						if (label.equals(title)) {
+							String type = modification.element("type").getText();
+							if (type.equals("Label")) {
+								String comp = modification.attributeValue("composition");
+								String position = modification.element("position").getText();
+								double mass = getMass4Comp(comp);
+								sb.append(mass).append("@");
+								List<Element> siteList = modification.elements("modification_site");
+								for (int i = 0; i < siteList.size(); i++) {
+									String site = siteList.get(i).attributeValue("site");
+									if (site.equals("-")) {
+										if (position.endsWith("Nterm")) {
+											sb.append("[,");
+										} else if (position.endsWith("Cterm")) {
+											sb.append("],");
+										} else {
+
+										}
+									} else {
+										sb.append(site).append(",");
+									}
+								}
+								break;
+							}
+						}
+					}
+				}
+
+				if (sb.length() > 0 && sb.charAt(sb.length() - 1) == ',') {
+					sb.deleteCharAt(sb.length() - 1);
+				}
+			} catch (DocumentException e) {
+				// TODO Auto-generated catch block
+				LOGGER.error("Error in parsing MaxQuant parameter file " + modifications, e);
 			}
 		}
 
@@ -396,6 +396,7 @@ public class MaxquantModHandler {
 
 	}
 
+	@SuppressWarnings("unused")
 	private void export(String out) throws FileNotFoundException {
 		PrintWriter writer = new PrintWriter(out);
 		MaxquantModification[][] mods = this.getModifications();
@@ -412,13 +413,4 @@ public class MaxquantModHandler {
 		writer.println("export default isobaricData;");
 		writer.close();
 	}
-
-	public static void main(String[] args) throws DocumentException, FileNotFoundException {
-		// TODO Auto-generated method stub
-
-		MaxquantModHandler handler = new MaxquantModHandler(
-				"D:\\MetaLab\\Project\\Resources\\mq_bin\\conf\\modifications.xml");
-		handler.export("Z:\\Kai\\isobaric.js");
-	}
-
 }

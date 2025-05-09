@@ -42,12 +42,14 @@ public class PredictSpectraReader {
 				ps = new PredictSpectra(pepinfo, charge);
 				start = true;
 			} else if (line.startsWith("END IONS")) {
-				this.spmap.put(ps.getPepinfo(), ps);
+				if (ps != null) {
+					this.spmap.put(ps.getPepinfo(), ps);
+				}
 				start = false;
 			} else {
 				if (start) {
 					String[] cs = line.split("[\\s]");
-					if (cs.length == 3) {
+					if (cs.length == 3 && ps != null) {
 						ps.addIon(cs[2], Double.parseDouble(cs[0]), Double.parseDouble(cs[1]));
 					}
 				}
@@ -61,6 +63,5 @@ public class PredictSpectraReader {
 	public HashMap<String, PredictSpectra> getSpmap() {
 		return spmap;
 	}
-	
-	
+
 }

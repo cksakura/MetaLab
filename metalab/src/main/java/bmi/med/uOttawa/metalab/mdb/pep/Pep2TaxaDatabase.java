@@ -57,6 +57,7 @@ public class Pep2TaxaDatabase {
 		this.tdb = tdb;
 	}
 	
+	@SuppressWarnings("unused")
 	private void pept2LcaSingle(String sequence) {
 		BufferedReader reader = null;
 		if (pep2Taxa.endsWith("tab")) {
@@ -66,6 +67,7 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -74,7 +76,12 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return;
 			}
+		} else {
+			LOGGER.error("Unknown file type " + pep2Taxa);
+			System.err.println(format.format(new Date()) + "\t" + "Unknown file type " + pep2Taxa);
+			return;
 		}
 
 		String line = null;
@@ -114,6 +121,7 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -122,8 +130,11 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else {
+			LOGGER.error("Unknown file type " + pep2Taxa);
+			System.err.println(format.format(new Date()) + "\t" + "Unknown file type " + pep2Taxa);
 			return null;
 		}
 
@@ -156,7 +167,7 @@ public class Pep2TaxaDatabase {
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-			System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+			System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
 		}
 
 		return null;
@@ -174,7 +185,8 @@ public class Pep2TaxaDatabase {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -182,7 +194,8 @@ public class Pep2TaxaDatabase {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else {
 			return map;
@@ -213,7 +226,7 @@ public class Pep2TaxaDatabase {
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-			System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+			System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
 		}
 
 		return map;
@@ -245,7 +258,8 @@ public class Pep2TaxaDatabase {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -253,7 +267,8 @@ public class Pep2TaxaDatabase {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
+				return null;
 			}
 		} else {
 			return taxaListMap;
@@ -307,7 +322,7 @@ public class Pep2TaxaDatabase {
 		} catch (NumberFormatException | IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
-			System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+			System.err.println(format.format(new Date()) + "\t" + "Error in reading pep2tax database " + pep2Taxa);
 		}
 
 		return taxaListMap;
@@ -346,6 +361,7 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				return;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -354,6 +370,7 @@ public class Pep2TaxaDatabase {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
 				System.err.println(format.format(new Date())+"\t"+"Error in reading pep2tax database " + pep2Taxa);
+				return;
 			}
 		} else {
 			return;
@@ -413,30 +430,16 @@ public class Pep2TaxaDatabase {
 	}
 
 	public static void performTxtFormat(String in, String titleCellName, String output, String pep2tax, String taxdb) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(in));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String[] title = null;
-		try {
-			title = reader.readLine().split("\t");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		int seqId = -1;
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals(titleCellName)) {
-				seqId = i;
-			}
-		}
-
 		HashSet<String> set = new HashSet<String>();
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+			String[] title = reader.readLine().split("\t");
+			int seqId = -1;
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals(titleCellName)) {
+					seqId = i;
+				}
+			}
 			while ((line = reader.readLine()) != null) {
 				String[] content = line.split("\t");
 				set.add(content[seqId]);
@@ -458,43 +461,27 @@ public class Pep2TaxaDatabase {
 		rootSet.add(RootType.Viroids);
 		rootSet.add(RootType.Viruses);
 
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(output);
+		try (PrintWriter writer = new PrintWriter(output)) {
+			Pep2TaxaDatabase db = new Pep2TaxaDatabase(pep2tax, new TaxonomyDatabase(taxdb));
+			db.pept2lca(set, TaxonomyRanks.Family, rootSet, exclude, writer);
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing result to " + output, e);
 		}
-		Pep2TaxaDatabase db = new Pep2TaxaDatabase(pep2tax, new TaxonomyDatabase(taxdb));
-		db.pept2lca(set, TaxonomyRanks.Family, rootSet, exclude, writer);
-		writer.close();
 	}
 
 	public static void performTxtFormat2(String in, String titleCellName, String output, String pep2tax, String taxdb) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(in));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String[] title = null;
-		try {
-			title = reader.readLine().split("\t");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		int seqId = -1;
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals(titleCellName)) {
-				seqId = i;
-			}
-		}
-
 		HashSet<String> set = new HashSet<String>();
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+			String[] title = reader.readLine().split("\t");
+			int seqId = -1;
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals(titleCellName)) {
+					seqId = i;
+				}
+			}
 			while ((line = reader.readLine()) != null) {
 				String[] content = line.split("\t");
 				set.add(content[seqId]);
@@ -505,55 +492,53 @@ public class Pep2TaxaDatabase {
 			e.printStackTrace();
 		}
 
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(output);
+		try (PrintWriter writer = new PrintWriter(output)) {
+			StringBuilder titlesb = new StringBuilder();
+			titlesb.append("Peptide id,");
+			titlesb.append("Sequence,");
+			titlesb.append("Species id,");
+			titlesb.append("Taxon identifier,");
+			titlesb.append("Superkingdom,");
+			titlesb.append("kingdom,");
+			titlesb.append("Phylum,");
+			titlesb.append("Class,");
+			titlesb.append("Order,");
+			titlesb.append("Family,");
+			titlesb.append("Genus,");
+			titlesb.append("Species");
+			writer.println(titlesb.toString());
+
+			Pep2TaxaDatabase db = new Pep2TaxaDatabase(pep2tax, new TaxonomyDatabase(taxdb));
+
+			HashMap<String, ArrayList<Taxon>> taxaListMap = db.pept2TaxaList(set);
+			String[] sequences = taxaListMap.keySet().toArray(new String[taxaListMap.size()]);
+			Arrays.sort(sequences);
+
+			for (int i = 0; i < sequences.length; i++) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(i + 1).append(",").append(sequences[i]).append(",");
+				ArrayList<Taxon> taxa = taxaListMap.get(sequences[i]);
+				for (int j = 0; j < taxa.size(); j++) {
+					if (j > 0) {
+						sb.append(",,");
+					}
+					Taxon taxon = taxa.get(j);
+					int taxId = taxon.getId();
+					String[] lineage = taxon.getLineage();
+					sb.append(j + 1).append(",");
+					sb.append(taxId).append(",");
+					for (String node : lineage) {
+						sb.append(node).append(",");
+					}
+					sb.append("\n");
+				}
+				writer.print(sb.toString());
+			}
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing result to " + output, e);
 		}
-		StringBuilder titlesb = new StringBuilder();
-		titlesb.append("Peptide id,");
-		titlesb.append("Sequence,");
-		titlesb.append("Species id,");
-		titlesb.append("Taxon identifier,");
-		titlesb.append("Superkingdom,");
-		titlesb.append("kingdom,");
-		titlesb.append("Phylum,");
-		titlesb.append("Class,");
-		titlesb.append("Order,");
-		titlesb.append("Family,");
-		titlesb.append("Genus,");
-		titlesb.append("Species");
-		writer.println(titlesb.toString());
-
-		Pep2TaxaDatabase db = new Pep2TaxaDatabase(pep2tax, new TaxonomyDatabase(taxdb));
-
-		HashMap<String, ArrayList<Taxon>> taxaListMap = db.pept2TaxaList(set);
-		String[] sequences = taxaListMap.keySet().toArray(new String[taxaListMap.size()]);
-		Arrays.sort(sequences);
-
-		for (int i = 0; i < sequences.length; i++) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(i + 1).append(",").append(sequences[i]).append(",");
-			ArrayList<Taxon> taxa = taxaListMap.get(sequences[i]);
-			for (int j = 0; j < taxa.size(); j++) {
-				if (j > 0) {
-					sb.append(",,");
-				}
-				Taxon taxon = taxa.get(j);
-				int taxId = taxon.getId();
-				String[] lineage = taxon.getLineage();
-				sb.append(j + 1).append(",");
-				sb.append(taxId).append(",");
-				for (String node : lineage) {
-					sb.append(node).append(",");
-				}
-				sb.append("\n");
-			}
-			writer.print(sb.toString());
-		}
-		writer.close();
 	}
 
 	public void taxonContainTest(HashSet<String> pepset, int taxid, Appendable appendable) {
@@ -565,6 +550,7 @@ public class Pep2TaxaDatabase {
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
+				return;
 			}
 		} else if (pep2Taxa.endsWith("gz")) {
 			try {
@@ -572,6 +558,7 @@ public class Pep2TaxaDatabase {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading pep2tax database " + pep2Taxa, e);
+				return;
 			}
 		} else {
 			return;

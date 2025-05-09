@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -16,15 +15,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -37,11 +33,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import bmi.med.uOttawa.metalab.core.taxonomy.TaxonomyRanks;
 
 public class MagSqliteTask {
-	
+
 	private static String taskName = "SQL database create task";
 	private static final Logger LOGGER = LogManager.getLogger(MagSqliteTask.class);
 	private static SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
-	
+
 	public static void create(File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -66,8 +62,7 @@ public class MagSqliteTask {
 		}
 	}
 
-	public static void createFuncTable(String funcDir, File sqldb)
-			throws NumberFormatException, IOException {
+	public static void createFuncTable(String funcDir, File sqldb) throws NumberFormatException, IOException {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
 		File[] files = (new File(funcDir)).listFiles();
@@ -80,6 +75,7 @@ public class MagSqliteTask {
 				LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 				System.err.println(format.format(new Date()) + "\t" + taskName
 						+ ": error in connecting to the SQL database in " + sqldb);
+				return;
 			}
 
 			StringBuilder titlesb = new StringBuilder("CREATE TABLE IF NOT EXISTS Function (\n");
@@ -182,9 +178,8 @@ public class MagSqliteTask {
 			}
 		}
 	}
-	
-	public static void createPeptideTable(String pepDir, File sqldb)
-			throws NumberFormatException, IOException {
+
+	public static void createPeptideTable(String pepDir, File sqldb) throws NumberFormatException, IOException {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
 		File[] files = (new File(pepDir)).listFiles();
@@ -197,6 +192,7 @@ public class MagSqliteTask {
 				LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 				System.err.println(format.format(new Date()) + "\t" + taskName
 						+ ": error in connecting to the SQL database in " + sqldb);
+				return;
 			}
 
 			try (Statement stmt = conn.createStatement()) {
@@ -299,7 +295,7 @@ public class MagSqliteTask {
 			}
 		}
 	}
-	
+
 	private static void createPepProTables(Connection conn, int tableId) throws SQLException {
 		String createProteinsTable = "CREATE TABLE IF NOT EXISTS Proteins" + tableId + " ("
 				+ "protein_id INTEGER PRIMARY KEY," + "protein_name VARCHAR(255) NOT NULL)";
@@ -323,9 +319,10 @@ public class MagSqliteTask {
 			stmt.close();
 		}
 	}
-	
-	private static void insertBatch(Connection conn, HashMap<String, Integer> proteinMap, HashMap<String, Integer> peptideMap,
-			HashMap<String, Float> peptideProteinMap, int tableId) throws SQLException {
+
+	private static void insertBatch(Connection conn, HashMap<String, Integer> proteinMap,
+			HashMap<String, Integer> peptideMap, HashMap<String, Float> peptideProteinMap, int tableId)
+			throws SQLException {
 		long start = System.currentTimeMillis();
 		// Insert Proteins
 
@@ -396,9 +393,8 @@ public class MagSqliteTask {
 
 		System.out.println("Insert peppro using " + (end - start) / 60000 + " min");
 	}
-	
-	public static void createPeptideSeparateTable(String pepDir, File sqldb)
-			throws NumberFormatException, IOException {
+
+	public static void createPeptideSeparateTable(String pepDir, File sqldb) throws NumberFormatException, IOException {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
 		File[] files = (new File(pepDir)).listFiles();
@@ -472,79 +468,73 @@ public class MagSqliteTask {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void createPeptideShardTable(String pepDir, File sqldb)
-			throws NumberFormatException, IOException {
+
+	public static void createPeptideShardTable(String pepDir, File sqldb) throws NumberFormatException, IOException {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
 		File[] files = (new File(pepDir)).listFiles();
 		if (files.length > 0) {
 
-			int count = 0;
-			ExecutorService executor = Executors.newFixedThreadPool(12);
 			for (File file : files) {
-//				executor.execute(() -> {
-				
-				 try (Connection conn = DriverManager.getConnection(url)) {
+				try (Connection conn = DriverManager.getConnection(url)) {
 
-			            // Ensure the connection is not in read-only mode
-			            if (conn.isReadOnly()) {
-			                conn.setReadOnly(false);
-			            }
+					// Ensure the connection is not in read-only mode
+					if (conn.isReadOnly()) {
+						conn.setReadOnly(false);
+					}
 
-			            // Start a transaction
-			            conn.setAutoCommit(false);
+					// Start a transaction
+					conn.setAutoCommit(false);
 
-			            // Loop through the list of values and set them to the prepared statement
-			            String fileName = file.getName();
-						String genome = fileName.substring(0, fileName.indexOf("."));
-						StringBuilder titlesb = new StringBuilder("CREATE TABLE IF NOT EXISTS " + genome + " (\n");
-						titlesb.append(" pro TEXT NOT NULL,\n");
-						titlesb.append(" pep TEXT NOT NULL,\n");
-						titlesb.append(" score TEXT NOT NULL);");
+					// Loop through the list of values and set them to the prepared statement
+					String fileName = file.getName();
+					String genome = fileName.substring(0, fileName.indexOf("."));
+					StringBuilder titlesb = new StringBuilder("CREATE TABLE IF NOT EXISTS " + genome + " (\n");
+					titlesb.append(" pro TEXT NOT NULL,\n");
+					titlesb.append(" pep TEXT NOT NULL,\n");
+					titlesb.append(" score TEXT NOT NULL);");
 
-						try (Statement stmt = conn.createStatement()) {
-							stmt.executeUpdate(titlesb.toString());
-							stmt.close();
-						} catch (SQLException e) {
-							LOGGER.error(taskName + ": error in creating the peptide table to the SQL database in " + sqldb,
-									e);
-							System.err.println(format.format(new Date()) + "\t" + taskName
-									+ ": error in creating the peptide table to the SQL database in " + sqldb);
-						}
-						
-						String sql = "INSERT INTO " + genome + "(pro, pep, score) VALUES(?, ?, ?)";
+					try (Statement stmt = conn.createStatement()) {
+						stmt.executeUpdate(titlesb.toString());
+						stmt.close();
+					} catch (SQLException e) {
+						LOGGER.error(taskName + ": error in creating the peptide table to the SQL database in " + sqldb,
+								e);
+						System.err.println(format.format(new Date()) + "\t" + taskName
+								+ ": error in creating the peptide table to the SQL database in " + sqldb);
+					}
 
-						PreparedStatement pstmt = conn.prepareStatement(sql);
-						try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-							String pline = reader.readLine();
-							while ((pline = reader.readLine()) != null) {
-								String[] cs = pline.split("\t");
-								for (int i = 0; i < cs.length; i++) {
-									pstmt.setString(i + 1, cs[i]);
-								}
-								pstmt.addBatch();
+					String sql = "INSERT INTO " + genome + "(pro, pep, score) VALUES(?, ?, ?)";
+
+					PreparedStatement pstmt = conn.prepareStatement(sql);
+					try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+						String pline = reader.readLine();
+						while ((pline = reader.readLine()) != null) {
+							String[] cs = pline.split("\t");
+							for (int i = 0; i < cs.length; i++) {
+								pstmt.setString(i + 1, cs[i]);
 							}
-							reader.close();
-						} catch (IOException e) {
-
+							pstmt.addBatch();
 						}
-			            pstmt.executeBatch();
-			            // Execute the insert statement
+						reader.close();
+					} catch (IOException e) {
 
-			            // Commit the transaction
-			            conn.commit();
-			            System.out.println("Records inserted successfully!");
-			            conn.close();
-			        } catch (SQLException e) {
-			            e.printStackTrace();
-			        }
+					}
+					pstmt.executeBatch();
+					// Execute the insert statement
+
+					// Commit the transaction
+					conn.commit();
+					System.out.println("Records inserted successfully!");
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-	
-	public static void createTaxaTable(String taxDbFile, File sqldb)
-			throws NumberFormatException, IOException {
+
+	public static void createTaxaTable(String taxDbFile, File sqldb) throws NumberFormatException, IOException {
 		// SQLite connection string
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
 
@@ -621,6 +611,7 @@ public class MagSqliteTask {
 			LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 			System.err.println(format.format(new Date()) + "\t" + taskName
 					+ ": error in connecting to the SQL database in " + sqldb);
+			return;
 		}
 
 		try (Statement stmt = conn.createStatement()) {
@@ -664,7 +655,7 @@ public class MagSqliteTask {
 					+ ": error in closing the connect to the SQL database in " + sqldb);
 		}
 	}
-	
+
 	public static String[][] queryProteinEggnog(HashSet<String> proSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -675,6 +666,7 @@ public class MagSqliteTask {
 			LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 			System.err.println(format.format(new Date()) + "\t" + taskName
 					+ ": error in connecting to the SQL database in " + sqldb);
+			return null;
 		}
 
 		StringBuilder sql = new StringBuilder("SELECT protein, eggNOG_OGs FROM Function WHERE protein IN (");
@@ -708,7 +700,7 @@ public class MagSqliteTask {
 
 		return contents;
 	}
-	
+
 	public static ConcurrentHashMap<String, String> queryProteinEggnog(HashSet<String> proSet, File sqldb,
 			int threadCount) {
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -777,7 +769,7 @@ public class MagSqliteTask {
 
 		return proEggNogMap;
 	}
-	
+
 	public static String[][] queryProFunc(HashSet<String> proSet, File sqldb, int threadCount) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -788,6 +780,7 @@ public class MagSqliteTask {
 			LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 			System.err.println(format.format(new Date()) + "\t" + taskName
 					+ ": error in connecting to the SQL database in " + sqldb);
+			return null;
 		}
 
 		ArrayList<String> nameList = new ArrayList<String>();
@@ -878,7 +871,8 @@ public class MagSqliteTask {
 		String[][] contents = proFuncMap.values().toArray(new String[proFuncMap.size()][]);
 		return contents;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public static String[][] queryProFunc(HashSet<String> proSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -889,6 +883,7 @@ public class MagSqliteTask {
 			LOGGER.error(taskName + ": error in connecting to the SQL database in " + sqldb, e);
 			System.err.println(format.format(new Date()) + "\t" + taskName
 					+ ": error in connecting to the SQL database in " + sqldb);
+			return null;
 		}
 
 		ArrayList<String> nameList = new ArrayList<String>();
@@ -996,7 +991,7 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
 	public static String[][] queryPeptide(HashSet<String> pepSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1005,20 +1000,17 @@ public class MagSqliteTask {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
-/*		
-		try (Statement stmt = conn.createStatement()) {
-			stmt.executeUpdate("CREATE INDEX idx_pep ON Peptide (pep);");
-			conn.close();
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-*/		
-		ArrayList<String[]> list  = new ArrayList<String[]>(10000000);
-
+		/*
+		 * try (Statement stmt = conn.createStatement()) {
+		 * stmt.executeUpdate("CREATE INDEX idx_pep ON Peptide (pep);"); conn.close(); }
+		 * catch (SQLException e) { System.out.println(e.getMessage()); }
+		 */
+		ArrayList<String[]> list = new ArrayList<String[]>(10000000);
 
 		StringBuilder sql = new StringBuilder("SELECT pro, pep, score FROM Peptide WHERE pep IN (");
-		
+
 		for (int i = 0; i < pepSet.size(); i++) {
 			sql.append("?");
 			if (i < pepSet.size() - 1) {
@@ -1026,7 +1018,7 @@ public class MagSqliteTask {
 			}
 		}
 		sql.append(");");
-		
+
 		try (PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
 
 			int index = 1;
@@ -1037,16 +1029,16 @@ public class MagSqliteTask {
 
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
-					
+
 					String proid = rs.getString("pro");
 					String pep = rs.getString("pep");
 					String score = rs.getString("score");
-					String[] content = new String[] {proid, pep, score};
+					String[] content = new String[] { proid, pep, score };
 					list.add(content);
-					
+
 				}
 			}
-	
+
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1055,7 +1047,7 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
 	public static String[][] queryPeptideTempTable(HashSet<String> pepSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1064,6 +1056,7 @@ public class MagSqliteTask {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 
 		ArrayList<String[]> list = new ArrayList<String[]>(10000000);
@@ -1107,7 +1100,7 @@ public class MagSqliteTask {
 
 			// Process the results
 			while (rs.next()) {
-				String sequence = rs.getString("Sequence");
+//				String sequence = rs.getString("Sequence");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1128,26 +1121,26 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
 	private static List<List<String>> chunkify(HashSet<String> set, int chunkSize) {
-        List<List<String>> chunks = new ArrayList<>();
-        List<String> currentChunk = new ArrayList<>(chunkSize);
-        
-        for (String item : set) {
-            currentChunk.add(item);
-            if (currentChunk.size() == chunkSize) {
-                chunks.add(new ArrayList<>(currentChunk));
-                currentChunk.clear();
-            }
-        }
+		List<List<String>> chunks = new ArrayList<>();
+		List<String> currentChunk = new ArrayList<>(chunkSize);
 
-        if (!currentChunk.isEmpty()) {
-            chunks.add(currentChunk);
-        }
+		for (String item : set) {
+			currentChunk.add(item);
+			if (currentChunk.size() == chunkSize) {
+				chunks.add(new ArrayList<>(currentChunk));
+				currentChunk.clear();
+			}
+		}
 
-        return chunks;
-    }
-	
+		if (!currentChunk.isEmpty()) {
+			chunks.add(currentChunk);
+		}
+
+		return chunks;
+	}
+
 	public static String[][] queryPeptideShard(HashSet<String> pepSet, File sqldb, String outputDir) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1197,24 +1190,23 @@ public class MagSqliteTask {
 		for (String ppmName : ppmList) {
 			executor.execute(() -> {
 				long start = System.currentTimeMillis();
-			
+
 				String pepName = ppmName.replace("PeptideProteinMatches", "Peptides");
 				String proName = ppmName.replace("PeptideProteinMatches", "Proteins");
 				StringBuilder pep2ProQuery = new StringBuilder(
 						"SELECT p.peptide_sequence, pr.protein_id, pr.protein_name, ppm.score " + "FROM " + ppmName
 								+ " ppm " + "JOIN " + pepName + " p ON ppm.peptide_id = p.peptide_id " + "JOIN "
 								+ proName + " pr ON ppm.protein_id = pr.protein_id " + "WHERE p.peptide_sequence IN ");
-				StringBuilder pro2PepQuery = new StringBuilder(
-						"SELECT p.peptide_sequence, pr.protein_name, ppm.score " + "FROM " + ppmName + " ppm " + "JOIN "
-								+ pepName + " p ON ppm.peptide_id = p.peptide_id " + "JOIN " + proName
-								+ " pr ON ppm.protein_id = pr.protein_id " + "WHERE ppm.protein_id IN ");
+				StringBuilder pro2PepQuery = new StringBuilder("SELECT p.peptide_sequence, pr.protein_name, ppm.score "
+						+ "FROM " + ppmName + " ppm " + "JOIN " + pepName + " p ON ppm.peptide_id = p.peptide_id "
+						+ "JOIN " + proName + " pr ON ppm.protein_id = pr.protein_id " + "WHERE ppm.protein_id IN ");
 
 				StringBuilder pep2ProSb = new StringBuilder();
 				StringBuilder pro2PepSb = new StringBuilder();
 				HashSet<String> proIdSet = new HashSet<String>();
 				try (Connection conn = dataSource.getConnection()) {
 
-					System.out.println("start\t"+ppmName);
+					System.out.println("start\t" + ppmName);
 					try (PreparedStatement pstmt = conn.prepareStatement(pep2ProQuery + "" + pepsql)) {
 						int index = 1;
 						for (String pep : pepSet) {
@@ -1230,15 +1222,15 @@ public class MagSqliteTask {
 						}
 						pstmt.close();
 					}
-					System.out.println(ppmName+" proset\t"+proIdSet.size());
-					
+					System.out.println(ppmName + " proset\t" + proIdSet.size());
+
 					StringBuilder prosql = new StringBuilder("(");
 					for (int i = 0; i < proIdSet.size(); i++) {
 						prosql.append("?,");
 					}
 					prosql.deleteCharAt(prosql.length() - 1);
 					prosql.append(");");
-					
+
 					try (PreparedStatement pstmt = conn.prepareStatement(pro2PepQuery + "" + prosql)) {
 						int index = 1;
 						for (String pro : proIdSet) {
@@ -1259,7 +1251,7 @@ public class MagSqliteTask {
 					e.printStackTrace();
 				}
 				long end = System.currentTimeMillis();
-				
+
 				synchronized (writer[0]) {
 					try {
 						writer[0].write(pep2ProSb.toString());
@@ -1269,7 +1261,7 @@ public class MagSqliteTask {
 								+ ": error in writing the peptide rank information to " + outputDir);
 					}
 				}
-				
+
 				synchronized (writer[1]) {
 					try {
 						writer[1].write(pro2PepSb.toString());
@@ -1279,8 +1271,8 @@ public class MagSqliteTask {
 								+ ": error in writing the peptide rank information to " + outputDir);
 					}
 				}
-				
-				System.out.println(ppmName+"\t"+(end-start)/1000);
+
+				System.out.println(ppmName + "\t" + (end - start) / 1000);
 			});
 		}
 
@@ -1306,7 +1298,7 @@ public class MagSqliteTask {
 
 		return null;
 	}
-	
+
 	public static String[][] queryPeptide2(HashSet<String> pepSet, File sqldb) {
 		ArrayList<String[]> list = new ArrayList<String[]>();
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1338,7 +1330,7 @@ public class MagSqliteTask {
 
 			// Process the results
 			while (rs.next()) {
-	
+
 			}
 
 			conn.close();
@@ -1349,7 +1341,7 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
 	public static String[][] queryProtein(HashSet<String> proSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1358,6 +1350,7 @@ public class MagSqliteTask {
 			conn = DriverManager.getConnection(url);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
 
 		StringBuilder sql = new StringBuilder("SELECT pro, pep, score FROM Peptide WHERE pro IN (");
@@ -1395,7 +1388,7 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
 	public static String[][] queryGenome(HashSet<String> genomeSet, File sqldb) {
 
 		String url = "jdbc:sqlite:" + sqldb.getAbsolutePath().replaceAll("\\\\", "/");
@@ -1405,6 +1398,7 @@ public class MagSqliteTask {
 		} catch (SQLException e) {
 			LOGGER.info(taskName + ": connecting to database " + sqldb, e);
 			System.out.println(format.format(new Date()) + "\t" + taskName + ": connecting to database " + sqldb);
+			return null;
 		}
 
 		StringBuilder sql = new StringBuilder("SELECT genome,");
@@ -1460,9 +1454,9 @@ public class MagSqliteTask {
 		String[][] contents = list.toArray(new String[list.size()][]);
 		return contents;
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void test(String in, File dbFile, String out) {
-		
 
 		HashSet<String> pepSet = new HashSet<String>();
 		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
@@ -1477,7 +1471,7 @@ public class MagSqliteTask {
 			e.printStackTrace();
 		}
 		System.out.println("pepset\t" + pepSet.size());
-		
+
 		long begin = System.currentTimeMillis();
 		MagSqliteTask.queryPeptideShard(pepSet, dbFile, out);
 
@@ -1485,38 +1479,33 @@ public class MagSqliteTask {
 		System.out.println("peptide time\t" + (peptime - begin) / 1000);
 
 		/*
-		HashSet<String> genomeSet = new HashSet<String>();
-		HashSet<String> proSet = new HashSet<String>();
-		try(BufferedReader reader = new BufferedReader(new FileReader(out))){
-			
-			String line = null;
-			while((line=reader.readLine())!=null) {
-				String[] cs = line.split("_");
-				genomeSet.add(cs[0]);
-				proSet.add(line);
-			}
-			reader.close();
-		}catch(IOException e) {
-			
-		}
-		long peptime = System.currentTimeMillis();
-		
-		System.out.println("genomeSet\t" + genomeSet.size());
-		System.out.println("proSet\t" + proSet.size());
-
-		String[][] genomes = MagSqliteTask.queryGenome(genomeSet, dbFile);
-		System.out.println("genomes\t" + genomes.length);
-
-		long genometime = System.currentTimeMillis();
-		System.out.println("genome time\t" + (genometime - peptime) / 60000);
-
-		String[][] proteins = MagSqliteTask.queryProFunc(proSet, dbFile);
-		System.out.println("proteins\t" + proteins.length);
-		long protime = System.currentTimeMillis();
-		System.out.println("genome time\t" + (protime - genometime) / 60000);
-		*/
+		 * HashSet<String> genomeSet = new HashSet<String>(); HashSet<String> proSet =
+		 * new HashSet<String>(); try(BufferedReader reader = new BufferedReader(new
+		 * FileReader(out))){
+		 * 
+		 * String line = null; while((line=reader.readLine())!=null) { String[] cs =
+		 * line.split("_"); genomeSet.add(cs[0]); proSet.add(line); } reader.close();
+		 * }catch(IOException e) {
+		 * 
+		 * } long peptime = System.currentTimeMillis();
+		 * 
+		 * System.out.println("genomeSet\t" + genomeSet.size());
+		 * System.out.println("proSet\t" + proSet.size());
+		 * 
+		 * String[][] genomes = MagSqliteTask.queryGenome(genomeSet, dbFile);
+		 * System.out.println("genomes\t" + genomes.length);
+		 * 
+		 * long genometime = System.currentTimeMillis();
+		 * System.out.println("genome time\t" + (genometime - peptime) / 60000);
+		 * 
+		 * String[][] proteins = MagSqliteTask.queryProFunc(proSet, dbFile);
+		 * System.out.println("proteins\t" + proteins.length); long protime =
+		 * System.currentTimeMillis(); System.out.println("genome time\t" + (protime -
+		 * genometime) / 60000);
+		 */
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void protest(String proin, String db) {
 		HashSet<String> proSet = new HashSet<String>();
 		try (BufferedReader reader = new BufferedReader(new FileReader(proin))) {
@@ -1531,13 +1520,14 @@ public class MagSqliteTask {
 			e.printStackTrace();
 		}
 		System.out.println("proSet\t" + proSet.size());
-		
+
 		long start = System.currentTimeMillis();
 		ConcurrentHashMap<String, String> map = queryProteinEggnog(proSet, new File(db), 12);
 		long end = System.currentTimeMillis();
-		System.out.println("map\t"+map.size()+"\t"+(end-start)/1000);
+		System.out.println("map\t" + map.size() + "\t" + (end - start) / 1000);
 	}
-	
+
+	@SuppressWarnings("unused")
 	private static void noSQLTest(String in, String db, String outputDir) {
 
 		HashSet<String> pepSet = new HashSet<String>();
@@ -1648,39 +1638,5 @@ public class MagSqliteTask {
 		}
 		long end = System.currentTimeMillis();
 		System.out.println("noSQL\t" + (end - begin) / 1000);
-	}
-
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		
-		HashSet<String>gSet = new HashSet<String>();
-		gSet.add("MGYG000002506_00089");
-		gSet.add("MGYG000002477_03842");
-		gSet.add("MGYG000002506_00791");
-		MagSqliteTask.queryProFunc(gSet, new File("Z:\\Kai\\Database\\human-gut\\v2.0.2\\human-gut.db"), 4);
-
-//		MagSqliteTask.create(new File("Z:\\Kai\\Database\\mouse-gut\\v1.0\\mouse-gut.db"));
-//		MagSqliteTask.createTaxaTable("Z:\\Kai\\Database\\mouse-gut\\v1.0\\genomes-all_metadata.tsv",
-//				new File("Z:\\Kai\\Database\\mouse-gut\\v1.0\\mouse-gut.db"));
-//		MagSqliteTask.createFuncTable("Z:\\Kai\\Database\\mouse-gut\\v1.0\\eggNOG",
-//				new File("Z:\\Kai\\Database\\mouse-gut\\v1.0\\mouse-gut.db"));
-//		MagSqliteTask.createPeptideShardTable("Z:\\Kai\\Database\\human-gut\\v2.0.2\\predicted",
-//				new File("Z:\\Kai\\Database\\human-gut\\v2.0.2\\human-gut.db"));
-//		String ss = "Z:\\Kai\\Database\\human-gut\\v2.0.2\\genomes-all_metadata.tsv";
-//		System.out.println(ss.replaceAll("\\\\", "/"));
-//		MagSqliteTask.test("Z:\\Kai\\Raw_files\\p1\\Adrian_20240606_AD2_Plate1_A02\\firstSearch\\firstSearch.tsv", 
-//				new File("E:\\Exported\\Resources\\human-gut.db"),
-//				"Z:\\Kai\\Raw_files\\p1\\Adrian_20240606_AD2_Plate1_A02\\firstSearch");
-		
-//		MagSqliteTask.queryProtein(new HashSet<String>(),
-//				new File("Z:\\Kai\\Database\\human-gut\\v2.0.2\\human-gut.db"));
-//		MagSqliteTask.createPeptideSeparateTable("Z:\\Kai\\Database\\human-gut\\v2.0.2\\predicted", 
-//				new File("Z:\\Kai\\Database\\human-gut\\v2.0.2\\human-gut.db") );
-//		MagSqliteTask.createPeptideSeparateTable(args[0], new File(args[1]));
-		
-//		MagSqliteTask.test(args[0], new File(args[1]), args[3]);
-//		MagSqliteTask.noSQLTest(args[0], args[2], args[3]);
-		
-//		MagSqliteTask.protest("Z:\\Kai\\Raw_files\\p1\\Adrian_20240606_AD2_Plate1_A03\\modelSQL\\pro_intensity.tsv", 
-//				"Z:\\Kai\\Database\\human-gut\\v2.0.2\\human-gut.db");
 	}
 }

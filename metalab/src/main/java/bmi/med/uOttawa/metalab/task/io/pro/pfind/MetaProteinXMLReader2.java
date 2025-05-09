@@ -32,7 +32,8 @@ public class MetaProteinXMLReader2 {
 	private MetaProteinAnnoEggNog[] proteins;
 	private String[] fileNames;
 	private DecimalFormat df2 = FormatTool.getDF2();
-
+	private DecimalFormat dfe4 = FormatTool.getDFE4();
+	
 	private HashMap<String, String[]> usedCogMap;
 	private HashMap<String, String[]> usedNogMap;
 	private HashMap<String, String> usedKeggMap;
@@ -634,11 +635,10 @@ public class MetaProteinXMLReader2 {
 		} else if (this.searchType.equals(MetaConstants.pFindMag) || this.searchType.equals(MetaConstants.fragpipeMAG)
 				|| this.searchType.equals(MetaConstants.fragpipeIGC)) {
 			title.append("Group_ID").append("\t");
-			title.append("Protein_ID").append("\t");
 			title.append("Name").append("\t");
 			title.append("Peptide count").append("\t");
 			title.append("PSM count").append("\t");
-			title.append("Score").append("\t");
+			title.append("pvalue").append("\t");
 		} else if (this.searchType.equals(MetaConstants.alphapeptMAG)) {
 			title.append("Group_ID").append("\t");
 			title.append("Protein_ID").append("\t");
@@ -768,11 +768,10 @@ public class MetaProteinXMLReader2 {
 			} else if (this.searchType.equals(MetaConstants.pFindMag)
 					|| this.searchType.equals(MetaConstants.fragpipeMAG)) {
 				sb.append(protein.getGroupId()).append("\t");
-				sb.append(protein.getProteinId()).append("\t");
 				sb.append(protein.getName()).append("\t");
 				sb.append(protein.getPepCount()).append("\t");
 				sb.append(protein.getPsmCount()).append("\t");
-				sb.append(df2.format(protein.getScore())).append("\t");
+				sb.append(dfe4.format(protein.getScore())).append("\t");
 			} else if (this.searchType.equals(MetaConstants.alphapeptMAG)) {
 				sb.append(protein.getGroupId()).append("\t");
 				sb.append(protein.getProteinId()).append("\t");
@@ -845,7 +844,7 @@ public class MetaProteinXMLReader2 {
 			title.append("Name").append("\t");
 			title.append("Peptide count").append("\t");
 			title.append("PSM count").append("\t");
-			title.append("PEP").append("\t");
+			title.append("pvalue").append("\t");
 		} else if (this.searchType.equals(MetaConstants.alphapeptMAG)) {
 			title.append("Group_ID").append("\t");
 			title.append("Protein_ID").append("\t");
@@ -1007,7 +1006,7 @@ public class MetaProteinXMLReader2 {
 				sb.append(protein.getName()).append("\t");
 				sb.append(protein.getPepCount()).append("\t");
 				sb.append(protein.getPsmCount()).append("\t");
-				sb.append(df2.format(protein.getScore())).append("\t");
+				sb.append(dfe4.format(protein.getScore())).append("\t");
 			} else if (this.searchType.equals(MetaConstants.alphapeptMAG)) {
 				sb.append(protein.getGroupId()).append("\t");
 				sb.append(protein.getProteinId()).append("\t");

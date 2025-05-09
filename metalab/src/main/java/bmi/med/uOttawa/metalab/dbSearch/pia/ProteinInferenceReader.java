@@ -20,10 +20,10 @@ import org.apache.log4j.Logger;
  *
  */
 public class ProteinInferenceReader {
-	
+
 	/** logger for this class */
 	private static final Logger LOGGER = Logger.getLogger(ProteinInferenceReader.class);
-	
+
 	private static String[] proteinTitle = new String[] { "accessions", "score", "#peptides", "#PSMs", "#spectra" };
 
 	private static String[] peptideTitle = new String[] { "sequence", "accessions", "#spectra", "#PSMs sets", "unique",
@@ -47,14 +47,16 @@ public class ProteinInferenceReader {
 			reader = new FileReader(input);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading inferred proteins from "+input, e);
+			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
 			records = CSVFormat.RFC4180.withHeader(proteinTitle).parse(reader);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading inferred proteins from "+input, e);
+			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -78,7 +80,7 @@ public class ProteinInferenceReader {
 		InferedProtein[] proteins = list.toArray(new InferedProtein[list.size()]);
 		return proteins;
 	}
-	
+
 	public static InferedProtein[] getAllProteins1360(String input) throws IOException {
 		return getAllProteins1360(new File(input));
 	}
@@ -91,6 +93,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -98,6 +101,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -142,14 +146,16 @@ public class ProteinInferenceReader {
 			reader = new FileReader(input);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading inferred proteins from "+input, e);
+			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
 			records = CSVFormat.RFC4180.withHeader(proteinTitle).parse(reader);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading inferred proteins from "+input, e);
+			LOGGER.error("Error in reading inferred proteins from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -206,6 +212,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -213,6 +220,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -239,7 +247,7 @@ public class ProteinInferenceReader {
 		InferedPeptide[] peptides = list.toArray(new InferedPeptide[list.size()]);
 		return peptides;
 	}
-	
+
 	public static InferedPeptide[] getAllPeptides1360(String input) throws IOException {
 		return getAllPeptides1360(new File(input));
 	}
@@ -253,6 +261,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -260,6 +269,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -315,7 +325,7 @@ public class ProteinInferenceReader {
 		InferedPeptide[] peptides = list.toArray(new InferedPeptide[list.size()]);
 		return peptides;
 	}
-	
+
 	public static InferedPeptide[] getAllPeptidesNoPercolator(File input) {
 
 		ArrayList<InferedPeptide> list = new ArrayList<InferedPeptide>();
@@ -325,6 +335,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -332,6 +343,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -356,7 +368,7 @@ public class ProteinInferenceReader {
 		InferedPeptide[] peptides = list.toArray(new InferedPeptide[list.size()]);
 		return peptides;
 	}
-	
+
 	public static InferedPeptide[] getAllPeptidesNoPercolator1360(File input) {
 
 		ArrayList<InferedPeptide> list = new ArrayList<InferedPeptide>();
@@ -366,6 +378,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -373,6 +386,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -397,7 +411,7 @@ public class ProteinInferenceReader {
 		InferedPeptide[] peptides = list.toArray(new InferedPeptide[list.size()]);
 		return peptides;
 	}
-	
+
 	public static InferedPeptide[] getAllPeptidesWithMod(String input) {
 		return getAllPeptidesWithMod(new File(input));
 	}
@@ -411,6 +425,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -418,6 +433,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -458,6 +474,7 @@ public class ProteinInferenceReader {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterable<CSVRecord> records = null;
 		try {
@@ -465,6 +482,7 @@ public class ProteinInferenceReader {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading inferred peptides from " + input, e);
+			return null;
 		}
 		Iterator<CSVRecord> it = records.iterator();
 		it.next();
@@ -518,7 +536,7 @@ public class ProteinInferenceReader {
 	public static String[] getPeptideTitle() {
 		return peptideTitle;
 	}
-	
+
 	public static String[] getProteinTitle1360() {
 		return proteinTitle;
 	}

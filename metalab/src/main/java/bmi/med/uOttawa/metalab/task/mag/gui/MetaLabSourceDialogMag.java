@@ -77,7 +77,17 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 			table = new JTable();
 			scrollPane.setViewportView(table);
 
-			objs = new Object[6][];
+			objs = new Object[8][];
+			
+			String msconvert;
+			File msconvertFile = new File(msv.getMsconvert());
+			if (msconvertFile.exists()) {
+				msconvert = msconvertFile.getAbsolutePath();
+			} else {
+				msconvert = msv.getResource() + "\\ProteoWizard\\msconvert.exe";
+			}
+			msv.setMsconvert(msconvert);
+			msconvertFile = new File(msv.getMsconvert());
 
 			String funcDef;
 			File funcDefFile = new File(msv.getFuncDef());
@@ -118,7 +128,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 			}
 			msv.setFlashlfq(flashlfq);
 			lfqFile = new File(msv.getFlashlfq());
-			
+
 			String fragpipe;
 			File fragpipeFile = new File(((MetaSourcesMag) msv).getFragpipe());
 			if (fragpipeFile.exists()) {
@@ -128,7 +138,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 			}
 			((MetaSourcesMag) msv).setFragpipe(fragpipe);
 			fragpipeFile = new File(((MetaSourcesMag) msv).getFragpipe());
-			
+
 			String alphapept;
 			File alphapeptFile = new File(((MetaSourcesMag) msv).getAlphapept());
 			if (alphapeptFile.exists()) {
@@ -139,17 +149,31 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 			((MetaSourcesMag) msv).setAlphapept(alphapept);
 			alphapeptFile = new File(((MetaSourcesMag) msv).getAlphapept());
 
-			objs[0] = new Object[] { "Function definition database", funcDef, funcDefFile.exists(), "..." };
+			String sage;
+			File sageFile = new File(((MetaSourcesMag) msv).getSage());
+			if (sageFile.exists()) {
+				sage = sageFile.getAbsolutePath();
+			} else {
+				sage = msv.getResource() + "\\Sage\\sage.exe";
+			}
+			((MetaSourcesMag) msv).setSage(sage);
+			sageFile = new File(((MetaSourcesMag) msv).getSage());
 
-			objs[1] = new Object[] { "PFind", pfind, pfindFile.exists(), "..." };
-
-			objs[2] = new Object[] { "DBReducer", dbReducer, dbReducerFile.exists(), "..." };
-
-			objs[3] = new Object[] { "FlashLFQ", flashlfq, lfqFile.exists(), "..." };
+			objs[0] = new Object[] { "msconvert", msconvert, msconvertFile.exists(), "..." };
 			
-			objs[4] = new Object[] { "FragPipe", fragpipe, fragpipeFile.exists(), "..." };
-			
-			objs[5] = new Object[] { "Alphapept", alphapept, alphapeptFile.exists(), "..." };
+			objs[1] = new Object[] { "Function definition database", funcDef, funcDefFile.exists(), "..." };
+
+			objs[2] = new Object[] { "PFind", pfind, pfindFile.exists(), "..." };
+
+			objs[3] = new Object[] { "DBReducer", dbReducer, dbReducerFile.exists(), "..." };
+
+			objs[4] = new Object[] { "FlashLFQ", flashlfq, lfqFile.exists(), "..." };
+
+			objs[5] = new Object[] { "FragPipe", fragpipe, fragpipeFile.exists(), "..." };
+
+			objs[6] = new Object[] { "Alphapept", alphapept, alphapeptFile.exists(), "..." };
+
+			objs[7] = new Object[] { "Sage", sage, sageFile.exists(), "..." };
 
 			model = new DefaultTableModel(objs, new Object[] { "Name", "Path", "Status", "Browse" }) {
 
@@ -210,10 +234,18 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 
 	protected void setSources(String sources) {
 
-		objs = new Object[6][];
+		objs = new Object[8][];
 
 		msv.setResource(sources);
-	
+
+		String msconvert = sources + "\\ProteoWizard\\msconvert.exe";
+		File msconvertFile = new File(msconvert);
+		if (msconvertFile.exists()) {
+			msconvert = msconvertFile.getAbsolutePath();
+		}
+		msv.setMsconvert(msconvert);
+		msconvertFile = new File(msv.getMsconvert());
+		
 		String funcDef = sources + "\\function\\func_def.db";
 		File funcDefFile = new File(funcDef);
 		if (funcDefFile.exists()) {
@@ -230,10 +262,10 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 			dbReducer = dbReducerFile.getAbsolutePath();
 			pfind = pfindFile.getAbsolutePath();
 		}
-		
+
 		msv.setDbReducer(dbReducer);
 		msv.setpFind(pfind);
-		
+
 		dbReducerFile = new File(msv.getDbReducer());
 		pfindFile = new File(msv.getpFind());
 
@@ -244,7 +276,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 		}
 		msv.setFlashlfq(flashlfq);
 		lfqFile = new File(msv.getFlashlfq());
-		
+
 		String fragpipe = sources + "\\fragpipe\\bin\\fragpipe.bat";
 		File fragpipeFile = new File(fragpipe);
 		if (fragpipeFile.exists()) {
@@ -252,7 +284,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 		}
 		((MetaSourcesMag) msv).setFragpipe(fragpipe);
 		fragpipeFile = new File(((MetaSourcesMag) msv).getFragpipe());
-		
+
 		String alphapept = sources + "\\AppData\\Local\\anaconda3\\envs\\alphapept\\Scripts\\alphapept.exe";
 		File alphapeptFile = new File(alphapept);
 		if (alphapeptFile.exists()) {
@@ -261,17 +293,29 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 		((MetaSourcesMag) msv).setAlphapept(alphapept);
 		alphapeptFile = new File(((MetaSourcesMag) msv).getAlphapept());
 
-		objs[0] = new Object[] { "Function definition database", funcDef, funcDefFile.exists(), "..." };
+		String sage = sources + "\\sage\\sage.exe";
+		File sageFile = new File(sage);
+		if (sageFile.exists()) {
+			sage = sageFile.getAbsolutePath();
+		}
+		((MetaSourcesMag) msv).setAlphapept(sage);
+		sageFile = new File(((MetaSourcesMag) msv).getSage());
 
-		objs[1] = new Object[] { "pFind", pfind, pfindFile.exists(), "..." };
+		objs[0] = new Object[] { "msconvert", msconvert, msconvertFile.exists(), "..." };
 		
-		objs[2] = new Object[] { "DBReducer", dbReducer, dbReducerFile.exists(), "..." };
+		objs[1] = new Object[] { "Function definition database", funcDef, funcDefFile.exists(), "..." };
 
-		objs[3] = new Object[] { "FlashLFQ", flashlfq, lfqFile.exists(), "..." };
-		
-		objs[4] = new Object[] { "FragPipe", fragpipe, fragpipeFile.exists(), "..." };
-		
-		objs[5] = new Object[] { "Alphapept", alphapept, alphapeptFile.exists(), "..." };
+		objs[2] = new Object[] { "pFind", pfind, pfindFile.exists(), "..." };
+
+		objs[3] = new Object[] { "DBReducer", dbReducer, dbReducerFile.exists(), "..." };
+
+		objs[4] = new Object[] { "FlashLFQ", flashlfq, lfqFile.exists(), "..." };
+
+		objs[5] = new Object[] { "FragPipe", fragpipe, fragpipeFile.exists(), "..." };
+
+		objs[6] = new Object[] { "Alphapept", alphapept, alphapeptFile.exists(), "..." };
+
+		objs[7] = new Object[] { "Sage", sage, sageFile.exists(), "..." };
 
 		model = new DefaultTableModel(objs, new Object[] { "Name", "Path", "Status", "Browse" }) {
 
@@ -440,6 +484,25 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
+							return "msconvert running file";
+						}
+
+						public boolean accept(File f) {
+							if (f.isDirectory()) {
+								return true;
+							} else {
+								if (f.getName().equals("msconvert.exe"))
+									return true;
+								return false;
+							}
+						}
+					});
+					break;
+					
+				case 1:
+					fileChooser = new JFileChooser();
+					fileChooser.addChoosableFileFilter(new FileFilter() {
+						public String getDescription() {
 							return "Function definition database";
 						}
 
@@ -455,7 +518,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					});
 					break;
 
-				case 1:
+				case 2:
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
@@ -474,7 +537,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					});
 					break;
 
-				case 2:
+				case 3:
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
@@ -493,7 +556,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					});
 					break;
 
-				case 3:
+				case 4:
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
@@ -512,7 +575,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					});
 					break;
 
-				case 4:
+				case 5:
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
@@ -531,7 +594,7 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					});
 					break;
 
-				case 5:
+				case 6:
 					fileChooser = new JFileChooser();
 					fileChooser.addChoosableFileFilter(new FileFilter() {
 						public String getDescription() {
@@ -543,6 +606,25 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 								return true;
 							} else {
 								if (f.getName().equals("alphapept.exe"))
+									return true;
+								return false;
+							}
+						}
+					});
+					break;
+
+				case 7:
+					fileChooser = new JFileChooser();
+					fileChooser.addChoosableFileFilter(new FileFilter() {
+						public String getDescription() {
+							return "Sage running file";
+						}
+
+						public boolean accept(File f) {
+							if (f.isDirectory()) {
+								return true;
+							} else {
+								if (f.getName().equals("sage.exe"))
 									return true;
 								return false;
 							}
@@ -563,27 +645,35 @@ public class MetaLabSourceDialogMag extends MetaLabSourceDialogHGM {
 					for (int i = 0; i < model.getRowCount(); i++) {
 						switch (i) {
 						case 0: {
-							msv.setFuncDef((String) model.getValueAt(i, 1));
+							msv.setMsconvert((String) model.getValueAt(i, 1));
 							break;
 						}
 						case 1: {
-							msv.setpFind((String) model.getValueAt(i, 1));
+							msv.setFuncDef((String) model.getValueAt(i, 1));
 							break;
 						}
 						case 2: {
-							msv.setDbReducer((String) model.getValueAt(i, 1));
+							msv.setpFind((String) model.getValueAt(i, 1));
 							break;
 						}
 						case 3: {
-							msv.setFlashlfq((String) model.getValueAt(i, 1));
+							msv.setDbReducer((String) model.getValueAt(i, 1));
 							break;
 						}
 						case 4: {
-							((MetaSourcesMag) msv).setFragpipe((String) model.getValueAt(i, 1));
+							msv.setFlashlfq((String) model.getValueAt(i, 1));
 							break;
 						}
 						case 5: {
+							((MetaSourcesMag) msv).setFragpipe((String) model.getValueAt(i, 1));
+							break;
+						}
+						case 6: {
 							((MetaSourcesMag) msv).setAlphapept((String) model.getValueAt(i, 1));
+							break;
+						}
+						case 7: {
+							((MetaSourcesMag) msv).setSage((String) model.getValueAt(i, 1));
 							break;
 						}
 						default: {

@@ -42,7 +42,7 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 	public MetaLabMagDbPanel(MetaParameter par) {
 		this(par, true);
 	}
-	
+
 	public MetaLabMagDbPanel(MetaParameter par, boolean withHost) {
 		super();
 		if (withHost) {
@@ -168,36 +168,38 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 						latestVersion = magver;
 					}
 				}
-				verComboBox.setSelectedItem(latestVersion);
-				usedMagDbItem.setUsedVersion(latestVersion);
-				String versionString = latestVersion.getCatalogueVersion();
-				File repoFile = usedMagDbItem.getRepositoryFile();
-				File currentFile = new File(repoFile, versionString);
-				if (currentFile.exists()) {
-					File metaFile = new File(currentFile, latestVersion.getTaxName());
-					File eggnogFile = new File(currentFile, latestVersion.getFuncName());
+				if (latestVersion != null) {
+					verComboBox.setSelectedItem(latestVersion);
+					usedMagDbItem.setUsedVersion(latestVersion);
+					String versionString = latestVersion.getCatalogueVersion();
+					File repoFile = usedMagDbItem.getRepositoryFile();
+					File currentFile = new File(repoFile, versionString);
+					if (currentFile.exists()) {
+						File metaFile = new File(currentFile, latestVersion.getTaxName());
+						File eggnogFile = new File(currentFile, latestVersion.getFuncName());
 
-					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
-					textFieldMicroDb.setText(currentFile.getAbsolutePath());
-					textFieldTaxDb.setText(metaFile.getAbsolutePath());
+						textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
+						textFieldMicroDb.setText(currentFile.getAbsolutePath());
+						textFieldTaxDb.setText(metaFile.getAbsolutePath());
 
-					usedMagDbItem.setCurrentFile(currentFile);
-				} else {
-					File metaFile = new File(repoFile, latestVersion.getTaxName());
-					File eggnogFile = new File(repoFile, latestVersion.getFuncName());
+						usedMagDbItem.setCurrentFile(currentFile);
+					} else {
+						File metaFile = new File(repoFile, latestVersion.getTaxName());
+						File eggnogFile = new File(repoFile, latestVersion.getFuncName());
 
-					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
-					textFieldMicroDb.setText(repoFile.getAbsolutePath());
-					textFieldTaxDb.setText(metaFile.getAbsolutePath());
+						textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
+						textFieldMicroDb.setText(repoFile.getAbsolutePath());
+						textFieldTaxDb.setText(metaFile.getAbsolutePath());
 
-					usedMagDbItem.setCurrentFile(repoFile);
+						usedMagDbItem.setCurrentFile(repoFile);
+					}
+
+					File hostDbFile = usedMagDbItem.getHostDbFile();
+					if (hostDbFile != null && hostDbFile.exists()) {
+						textFieldHostDB.setText(hostDbFile.getAbsolutePath());
+					}
+					magPar.setUsedMagDbItem(usedMagDbItem);
 				}
-
-				File hostDbFile = usedMagDbItem.getHostDbFile();
-				if (hostDbFile != null && hostDbFile.exists()) {
-					textFieldHostDB.setText(hostDbFile.getAbsolutePath());
-				}
-				magPar.setUsedMagDbItem(usedMagDbItem);
 			}
 		});
 
@@ -244,13 +246,19 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 
 		lblFuncDb = new JLabel("Functional annotation database");
 		add(lblFuncDb, "cell 8 1");
-		
+
 		btnHostDb = new JButton("Browse");
-		
+
 		if (withHost) {
-			textFieldHostDB.setEditable(false);
+
 			add(textFieldHostDB, "cell 5 2 6 1,growx");
 			textFieldHostDB.setColumns(10);
+			if (par.isAppendHostDb()) {
+				textFieldHostDB.setText(par.getHostDB());
+				textFieldHostDB.setEditable(true);
+			} else {
+				textFieldHostDB.setEditable(false);
+			}
 
 			add(btnHostDb, "cell 11 2");
 			btnHostDb.addActionListener(l -> {
@@ -304,6 +312,7 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 			chckbxCombine.setSelected(par.isAppendHostDb());
 		}
 	}
+
 	public MetaLabMagDbPanel(MetaParameter par, boolean withHost, ItemListener itemListener) {
 		super();
 		if (withHost) {
@@ -430,36 +439,39 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 						latestVersion = magver;
 					}
 				}
-				verComboBox.setSelectedItem(latestVersion);
-				usedMagDbItem.setUsedVersion(latestVersion);
-				String versionString = latestVersion.getCatalogueVersion();
-				File repoFile = usedMagDbItem.getRepositoryFile();
-				File currentFile = new File(repoFile, versionString);
-				if (currentFile.exists()) {
-					File metaFile = new File(currentFile, latestVersion.getTaxName());
-					File eggnogFile = new File(currentFile, latestVersion.getFuncName());
+				if (latestVersion != null) {
 
-					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
-					textFieldMicroDb.setText(currentFile.getAbsolutePath());
-					textFieldTaxDb.setText(metaFile.getAbsolutePath());
+					verComboBox.setSelectedItem(latestVersion);
+					usedMagDbItem.setUsedVersion(latestVersion);
+					String versionString = latestVersion.getCatalogueVersion();
+					File repoFile = usedMagDbItem.getRepositoryFile();
+					File currentFile = new File(repoFile, versionString);
+					if (currentFile.exists()) {
+						File metaFile = new File(currentFile, latestVersion.getTaxName());
+						File eggnogFile = new File(currentFile, latestVersion.getFuncName());
 
-					usedMagDbItem.setCurrentFile(currentFile);
-				} else {
-					File metaFile = new File(repoFile, latestVersion.getTaxName());
-					File eggnogFile = new File(repoFile, latestVersion.getFuncName());
+						textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
+						textFieldMicroDb.setText(currentFile.getAbsolutePath());
+						textFieldTaxDb.setText(metaFile.getAbsolutePath());
 
-					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
-					textFieldMicroDb.setText(repoFile.getAbsolutePath());
-					textFieldTaxDb.setText(metaFile.getAbsolutePath());
+						usedMagDbItem.setCurrentFile(currentFile);
+					} else {
+						File metaFile = new File(repoFile, latestVersion.getTaxName());
+						File eggnogFile = new File(repoFile, latestVersion.getFuncName());
 
-					usedMagDbItem.setCurrentFile(repoFile);
+						textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
+						textFieldMicroDb.setText(repoFile.getAbsolutePath());
+						textFieldTaxDb.setText(metaFile.getAbsolutePath());
+
+						usedMagDbItem.setCurrentFile(repoFile);
+					}
+
+					File hostDbFile = usedMagDbItem.getHostDbFile();
+					if (hostDbFile != null && hostDbFile.exists()) {
+						textFieldHostDB.setText(hostDbFile.getAbsolutePath());
+					}
+					magPar.setUsedMagDbItem(usedMagDbItem);
 				}
-
-				File hostDbFile = usedMagDbItem.getHostDbFile();
-				if (hostDbFile != null && hostDbFile.exists()) {
-					textFieldHostDB.setText(hostDbFile.getAbsolutePath());
-				}
-				magPar.setUsedMagDbItem(usedMagDbItem);
 			}
 		});
 		verComboBox.addItemListener(itemListener);
@@ -506,9 +518,9 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 
 		lblFuncDb = new JLabel("Functional annotation database");
 		add(lblFuncDb, "cell 8 1");
-		
+
 		btnHostDb = new JButton("Browse");
-		
+
 		if (withHost) {
 			textFieldHostDB.setEditable(false);
 			add(textFieldHostDB, "cell 5 2 6 1,growx");
@@ -566,7 +578,7 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 			chckbxCombine.setSelected(par.isAppendHostDb());
 		}
 	}
-	
+
 	public void update(MetaParameter par) {
 		MagDbItem[] magDbItems = ((MetaParameterMag) par).getAvailableMagDbItem();
 		usedMagDbItem = ((MetaParameterMag) par).getUsedMagDbItem();
@@ -609,7 +621,7 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
 					textFieldMicroDb.setText(currentFile.getAbsolutePath());
 					textFieldTaxDb.setText(metaFile.getAbsolutePath());
-					
+
 					usedMagDbItem.setCurrentFile(currentFile);
 				} else {
 					File metaFile = new File(repoFile, latestVersion.getTaxName());
@@ -618,10 +630,10 @@ public class MetaLabMagDbPanel extends MetaLabDBPanel {
 					textFieldFuncDb.setText(eggnogFile.getAbsolutePath());
 					textFieldMicroDb.setText(repoFile.getAbsolutePath());
 					textFieldTaxDb.setText(metaFile.getAbsolutePath());
-					
+
 					usedMagDbItem.setCurrentFile(repoFile);
 				}
-				
+
 				File hostDbFile = usedMagDbItem.getHostDbFile();
 				if (hostDbFile != null && hostDbFile.exists()) {
 					textFieldHostDB.setText(hostDbFile.getAbsolutePath());

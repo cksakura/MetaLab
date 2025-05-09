@@ -5,7 +5,6 @@ package bmi.med.uOttawa.metalab.core.function;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,15 +43,8 @@ public class CategoryFinder {
 
 	private void initial(AbstractParameter par) {
 		this.COGMap = new HashMap<String, String>();
-		BufferedReader cogReader = null;
-		try {
-			cogReader = new BufferedReader(new FileReader(par.getCogCategory()));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading category COG database in " + Category_COG, e);
-		}
-		String line = null;
-		try {
+		try (BufferedReader cogReader = new BufferedReader(new FileReader(par.getCogCategory()))) {
+			String line = null;
 			while ((line = cogReader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				String[] cogs = cs[2].split(";");
@@ -67,14 +59,9 @@ public class CategoryFinder {
 		}
 
 		this.NOGMap = new HashMap<String, String>();
-		BufferedReader nogReader = null;
-		try {
-			nogReader = new BufferedReader(new FileReader(par.getNogCategory()));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading category COG database in " + Category_NOG, e);
-		}
-		try {
+
+		try (BufferedReader nogReader = new BufferedReader(new FileReader(par.getNogCategory()))) {
+			String line = null;
 			while ((line = nogReader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				String[] cogs = cs[2].split(";");
@@ -83,7 +70,6 @@ public class CategoryFinder {
 				}
 			}
 			nogReader.close();
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading category COG database in " + Category_NOG, e);
@@ -92,15 +78,8 @@ public class CategoryFinder {
 
 	private void initial() {
 		this.COGMap = new HashMap<String, String>();
-		BufferedReader cogReader = null;
-		try {
-			cogReader = new BufferedReader(new FileReader(Category_COG));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading category COG database in " + Category_COG, e);
-		}
 		String line = null;
-		try {
+		try (BufferedReader cogReader = new BufferedReader(new FileReader(Category_COG))) {
 			while ((line = cogReader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				String[] cogs = cs[2].split(";");
@@ -115,14 +94,7 @@ public class CategoryFinder {
 		}
 
 		this.NOGMap = new HashMap<String, String>();
-		BufferedReader nogReader = null;
-		try {
-			nogReader = new BufferedReader(new FileReader(Category_NOG));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading category COG database in " + Category_NOG, e);
-		}
-		try {
+		try (BufferedReader nogReader = new BufferedReader(new FileReader(Category_NOG))) {
 			while ((line = nogReader.readLine()) != null) {
 				String[] cs = line.split("\t");
 				String[] cogs = cs[2].split(";");
@@ -146,15 +118,8 @@ public class CategoryFinder {
 		this.COGMap = new HashMap<String, String>();
 
 		if (cogCategory.exists()) {
-			BufferedReader cogReader = null;
-			try {
-				cogReader = new BufferedReader(new FileReader(cogCategory));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading category COG database in " + Category_COG, e);
-			}
 			String line = null;
-			try {
+			try (BufferedReader cogReader = new BufferedReader(new FileReader(cogCategory))) {
 				while ((line = cogReader.readLine()) != null) {
 					String[] cs = line.split("\t");
 					String[] cogs = cs[2].split(";");
@@ -172,15 +137,8 @@ public class CategoryFinder {
 		this.NOGMap = new HashMap<String, String>();
 		File nogCategory = new File(funcDir, "Category_NOG.gc");
 		if (nogCategory.exists()) {
-			BufferedReader nogReader = null;
-			try {
-				nogReader = new BufferedReader(new FileReader(nogCategory));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading category COG database in " + Category_NOG, e);
-			}
 			String line = null;
-			try {
+			try (BufferedReader nogReader = new BufferedReader(new FileReader(nogCategory))) {
 				while ((line = nogReader.readLine()) != null) {
 					String[] cs = line.split("\t");
 					String[] cogs = cs[2].split(";");
@@ -189,7 +147,6 @@ public class CategoryFinder {
 					}
 				}
 				nogReader.close();
-
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				LOGGER.error("Error in reading category COG database in " + Category_NOG, e);

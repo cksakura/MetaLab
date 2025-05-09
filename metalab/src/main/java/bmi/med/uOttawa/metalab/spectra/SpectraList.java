@@ -28,18 +28,18 @@ public class SpectraList {
 	public void addSpectrum(Spectrum spectrum) {
 		this.specMap.put(spectrum.getScannum(), spectrum);
 	}
-	
-	public void setScans(Integer[] scans){
+
+	public void setScans(Integer[] scans) {
 		this.scans = scans;
 	}
-	
+
 	public void complete() {
 		this.scans = specMap.keySet().toArray(new Integer[specMap.size()]);
 		if (scans.length > 0) {
 			Arrays.sort(scans);
 		}
 	}
-	
+
 	public boolean isComplete() {
 		if (this.scans == null)
 			return false;
@@ -64,10 +64,10 @@ public class SpectraList {
 		return splist;
 	}
 
-	public Integer[] getScanList(){
+	public Integer[] getScanList() {
 		return this.scans;
 	}
-	
+
 	public Spectrum getScan(int scanNum) {
 		// TODO Auto-generated method stub
 		if (this.specMap.containsKey(scanNum))
@@ -75,7 +75,7 @@ public class SpectraList {
 		else
 			return null;
 	}
-	
+
 	public Spectrum getNextScan(int currentScanNum) {
 		// TODO Auto-generated method stub
 		int currentId = Arrays.binarySearch(scans, currentScanNum);
@@ -86,7 +86,7 @@ public class SpectraList {
 			return this.specMap.get(scans[nexId]);
 		return null;
 	}
-	
+
 	public Spectrum getPreviousScan(int currentScanNum) {
 		// TODO Auto-generated method stub
 		int currentId = Arrays.binarySearch(scans, currentScanNum);
@@ -97,7 +97,7 @@ public class SpectraList {
 			return this.specMap.get(scans[preId]);
 		return null;
 	}
-	
+
 	public Features getFeaturesRecalCharge(double monoMz, int scanNum, double ppm) {
 		Features finalFeatures = new Features(monoMz, 0, new double[] {});
 		for (int charge = 2; charge <= 5; charge++) {
@@ -108,7 +108,7 @@ public class SpectraList {
 		}
 		return finalFeatures;
 	}
-	
+
 	public Features getFeatures(int charge, double monoMz, int scanNum, double ppm) {
 
 		Spectrum ms1Scan = null;
@@ -120,7 +120,11 @@ public class SpectraList {
 			}
 		}
 
-		double[] idenRtList = new double[]{ms1Scan.getRt()};
+		if (ms1Scan == null) {
+			return null;
+		}
+
+		double[] idenRtList = new double[] { ms1Scan.getRt() };
 		Features feas = new Features(monoMz, charge, idenRtList);
 
 		boolean leftMiss = false;
@@ -180,7 +184,7 @@ public class SpectraList {
 		feas.setInfo();
 		return feas;
 	}
-	
+
 	public Features getFeatures(int charge, double monoMz, Integer[] scans, double[] scores, double ppm) {
 
 		int scanNum = scans[0];
@@ -192,7 +196,9 @@ public class SpectraList {
 				scanNum--;
 			}
 		}
-
+		if (ms1Scan == null) {
+			return null;
+		}
 		double[] idenRtList = new double[scans.length];
 		idenRtList[0] = ms1Scan.getRt();
 
@@ -382,7 +388,9 @@ public class SpectraList {
 				scanNum--;
 			}
 		}
-
+		if (ms1Scan == null) {
+			return null;
+		}
 		double[] idenRtList = new double[scans.length];
 		idenRtList[0] = ms1Scan.getRt();
 
@@ -534,7 +542,7 @@ public class SpectraList {
 		feas.setInfo();
 		return feas;
 	}
-	
+
 	public Feature getFeature(int charge, double monoMass, Spectrum spectrum, double ppm) {
 
 		Feature fea = new Feature(spectrum.getScannum(), charge, monoMass, spectrum.getRt());
@@ -546,7 +554,7 @@ public class SpectraList {
 
 		return fea;
 	}
-	
+
 	private Integer[] validateScans(Integer[] scans, double[] scores, double[] rts) {
 
 		if (rts[rts.length - 1] - rts[0] < 3) {

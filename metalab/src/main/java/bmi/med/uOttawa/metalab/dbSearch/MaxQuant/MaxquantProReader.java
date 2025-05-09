@@ -36,7 +36,7 @@ public class MaxquantProReader extends AbstractMetaProteinReader {
 
 	private int revId = -1;
 	private int contamId = -1;
-	private int pepIdId = -1;
+//	private int pepIdId = -1;
 
 	private String quanMode;
 
@@ -111,53 +111,53 @@ public class MaxquantProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split("\t");
+
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Protein IDs")) {
+					proteinId = i;
+				} else if (title[i].equals("Peptide counts (all)")) {
+					pepCountId = i;
+				} else if (title[i].equals("Peptide counts (razor+unique)")) {
+					pepCountRazorUniqueId = i;
+				} else if (title[i].equals("Peptide counts (unique)")) {
+					pepCountUniqueId = i;
+				} else if (title[i].equals("Q-value")) {
+					evalueId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else if (title[i].equals("Peptide IDs")) {
+//					pepIdId = i;
+				} else if (title[i].startsWith("LFQ intensity ")) {
+					quanMode = MetaConstants.labelFree;
+					intensityTitleList.add(title[i]);
+					intensityTitleIdMap.put(title[i], i);
+				} else if (title[i].equals("Intensity L")) {
+					quanMode = MetaConstants.isotopicLabel;
+					intensityTitleList.add(title[i]);
+					intensityTitleIdMap.put(title[i], i);
+				} else if (title[i].equals("Intensity M")) {
+					quanMode = MetaConstants.isotopicLabel;
+					intensityTitleList.add(title[i]);
+					intensityTitleIdMap.put(title[i], i);
+				} else if (title[i].equals("Intensity H")) {
+					quanMode = MetaConstants.isotopicLabel;
+					intensityTitleList.add(title[i]);
+					intensityTitleIdMap.put(title[i], i);
+				} else if (title[i].startsWith("Reporter intensity corrected ")) {
+					quanMode = MetaConstants.isobaricLabel;
+					intensityTitleList.add(title[i]);
+					intensityTitleIdMap.put(title[i], i);
+				} else if (title[i].startsWith("MS/MS count ")) {
+					ms2CountTitleList.add(title[i]);
+					ms2CountTitleIdMap.put(title[i], i);
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		this.title = line.split("\t");
-
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Protein IDs")) {
-				proteinId = i;
-			} else if (title[i].equals("Peptide counts (all)")) {
-				pepCountId = i;
-			} else if (title[i].equals("Peptide counts (razor+unique)")) {
-				pepCountRazorUniqueId = i;
-			} else if (title[i].equals("Peptide counts (unique)")) {
-				pepCountUniqueId = i;
-			} else if (title[i].equals("Q-value")) {
-				evalueId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else if (title[i].equals("Peptide IDs")) {
-				pepIdId = i;
-			} else if (title[i].startsWith("LFQ intensity ")) {
-				quanMode = MetaConstants.labelFree;
-				intensityTitleList.add(title[i]);
-				intensityTitleIdMap.put(title[i], i);
-			} else if (title[i].equals("Intensity L")) {
-				quanMode = MetaConstants.isotopicLabel;
-				intensityTitleList.add(title[i]);
-				intensityTitleIdMap.put(title[i], i);
-			} else if (title[i].equals("Intensity M")) {
-				quanMode = MetaConstants.isotopicLabel;
-				intensityTitleList.add(title[i]);
-				intensityTitleIdMap.put(title[i], i);
-			} else if (title[i].equals("Intensity H")) {
-				quanMode = MetaConstants.isotopicLabel;
-				intensityTitleList.add(title[i]);
-				intensityTitleIdMap.put(title[i], i);
-			} else if (title[i].startsWith("Reporter intensity corrected ")) {
-				quanMode = MetaConstants.isobaricLabel;
-				intensityTitleList.add(title[i]);
-				intensityTitleIdMap.put(title[i], i);
-			} else if (title[i].startsWith("MS/MS count ")) {
-				ms2CountTitleList.add(title[i]);
-				ms2CountTitleIdMap.put(title[i], i);
-			}
 		}
 
 		if (intensityTitleList.size() == 0) {
@@ -292,34 +292,34 @@ public class MaxquantProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			String[] title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Protein IDs")) {
+					proteinId = i;
+				} else if (title[i].equals("Peptide counts (all)")) {
+					pepCountId = i;
+				} else if (title[i].equals("Peptide counts (razor+unique)")) {
+					pepCountRazorUniqueId = i;
+				} else if (title[i].equals("Peptide counts (unique)")) {
+					pepCountUniqueId = i;
+				} else if (title[i].equals("Q-value")) {
+					evalueId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else {
+					if (intensityTitleIdMap.containsKey(title[i])) {
+						intensityTitleIdMap.put(title[i], i);
+					}
+					if (ms2CountTitleIdMap.containsKey(title[i])) {
+						ms2CountTitleIdMap.put(title[i], i);
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		String[] title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Protein IDs")) {
-				proteinId = i;
-			} else if (title[i].equals("Peptide counts (all)")) {
-				pepCountId = i;
-			} else if (title[i].equals("Peptide counts (razor+unique)")) {
-				pepCountRazorUniqueId = i;
-			} else if (title[i].equals("Peptide counts (unique)")) {
-				pepCountUniqueId = i;
-			} else if (title[i].equals("Q-value")) {
-				evalueId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else {
-				if (intensityTitleIdMap.containsKey(title[i])) {
-					intensityTitleIdMap.put(title[i], i);
-				}
-				if (ms2CountTitleIdMap.containsKey(title[i])) {
-					ms2CountTitleIdMap.put(title[i], i);
-				}
-			}
 		}
 
 		this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
@@ -447,34 +447,34 @@ public class MaxquantProReader extends AbstractMetaProteinReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			String[] title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Protein IDs")) {
+					proteinId = i;
+				} else if (title[i].equals("Peptide counts (all)")) {
+					pepCountId = i;
+				} else if (title[i].equals("Peptide counts (razor+unique)")) {
+					pepCountRazorUniqueId = i;
+				} else if (title[i].equals("Peptide counts (unique)")) {
+					pepCountUniqueId = i;
+				} else if (title[i].equals("Q-value")) {
+					evalueId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else {
+					if (intensityTitleIdMap.containsKey(title[i])) {
+						intensityTitleIdMap.put(title[i], i);
+					}
+					if (ms2CountTitleIdMap.containsKey(title[i])) {
+						ms2CountTitleIdMap.put(title[i], i);
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		String[] title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Protein IDs")) {
-				proteinId = i;
-			} else if (title[i].equals("Peptide counts (all)")) {
-				pepCountId = i;
-			} else if (title[i].equals("Peptide counts (razor+unique)")) {
-				pepCountRazorUniqueId = i;
-			} else if (title[i].equals("Peptide counts (unique)")) {
-				pepCountUniqueId = i;
-			} else if (title[i].equals("Q-value")) {
-				evalueId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else {
-				if (intensityTitleIdMap.containsKey(title[i])) {
-					intensityTitleIdMap.put(title[i], i);
-				}
-				if (ms2CountTitleIdMap.containsKey(title[i])) {
-					ms2CountTitleIdMap.put(title[i], i);
-				}
-			}
 		}
 
 		if (quanMode.equals(MetaConstants.labelFree)) {

@@ -215,7 +215,4 @@ public class ResumableDownloadTask extends SwingWorker<Boolean, Void> {
 		return downloadFileConnection;
 	}
 
-	public static void main(String[] args) {
-
-	}
 }

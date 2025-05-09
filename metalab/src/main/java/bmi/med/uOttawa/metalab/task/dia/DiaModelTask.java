@@ -37,6 +37,11 @@ import bmi.med.uOttawa.metalab.task.mag.MagDbConfigIO;
 import bmi.med.uOttawa.metalab.task.mag.MagDbItem;
 import bmi.med.uOttawa.metalab.task.mag.MagSqliteTask;
 
+/**
+ * @deprecated
+ * @author Kai Cheng
+ *
+ */
 public class DiaModelTask extends MetaLabTask {
 
 	private static String taskName = "Peptide model predict task";
@@ -2068,7 +2073,7 @@ public class DiaModelTask extends MetaLabTask {
 
 		return peptideCount;
 	}
-	
+
 	private void buildModel(File modelFolder, String python, boolean largeScale) {
 
 		File pythonFile = new File(modelFolder, modelName + "_predicted.py");

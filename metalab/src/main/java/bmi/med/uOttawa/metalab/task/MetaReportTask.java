@@ -413,11 +413,13 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType + " report");
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report", e);
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType + " report");
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report", e);
+			return false;
 		}
 
 		int code = response.getStatusLine().getStatusCode();
@@ -556,11 +558,13 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType + " report");
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report", e);
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType + " report");
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report", e);
+			return false;
 		}
 
 		int code = response.getStatusLine().getStatusCode();
@@ -695,11 +699,13 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 			System.out.println(format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType
 					+ " report from server " + server);
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report from server " + server, e);
+			return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println(format.format(new Date()) + "\t" + taskName + ": error in exporting " + taskType
 					+ " report from server " + server);
 			LOGGER.error(taskName + ": error in exporting " + taskType + " report from server " + server, e);
+			return false;
 		}
 
 		int code = response.getStatusLine().getStatusCode();
@@ -913,6 +919,7 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 			System.err.println(
 					format.format(new Date()) + "\t" + taskName + ": writing R script to " + rFile + " failed");
 			LOGGER.error(taskName + ": writing R script to " + rFile + " failed");
+			return;
 		}
 
 		writer.println("rmarkdown::find_pandoc(dir =  .libPaths())");
@@ -923,7 +930,7 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 		writer.println("output_dir = \"" + inputPath.getParent().replaceAll("\\\\", "//") + "//\",");
 		writer.println("output_file = \"" + htmlFile.getName() + "\")");
 		writer.close();
-		
+
 		ExecutorService executor = Executors.newFixedThreadPool(1);
 		executor.submit(new Runnable() {
 
@@ -971,12 +978,4 @@ public class MetaReportTask extends SwingWorker<Boolean, Object> {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args) {
-		MetaReportTask.localTest(MetaReportTask.peptide,
-				new File("Z:\\Kai\\final_peptides.tsv"));
-		MetaReportTask.localTest(MetaReportTask.protein,
-				new File("Z:\\Kai\\final_proteins.tsv"));
-	}
-
 }

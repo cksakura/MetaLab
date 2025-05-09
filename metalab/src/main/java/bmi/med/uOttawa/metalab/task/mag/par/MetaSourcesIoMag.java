@@ -26,17 +26,9 @@ public class MetaSourcesIoMag {
 			exportBlank(json);
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
 		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -61,6 +53,7 @@ public class MetaSourcesIoMag {
 
 		String version = obj.getString("version");
 		String resource = obj.getString("resource");
+		String msconvert = obj.has("msconvert") ? obj.getString("msconvert") : "";
 		String pfind = obj.has("pfind") ? obj.getString("pfind") : "";
 		String dbReducer = obj.has("dbReducer") ? obj.getString("dbReducer") : "";
 		String flashlfq = obj.has("flashlfq") ? obj.getString("flashlfq") : "";
@@ -68,9 +61,10 @@ public class MetaSourcesIoMag {
 		String funcDef = obj.has("funcDef") ? obj.getString("funcDef") : "";
 		String fragpipe = obj.has("fragpipe") ? obj.getString("fragpipe") : "";
 		String alphapept = obj.has("alphapept") ? obj.getString("alphapept") : "";
+		String sage = obj.has("sage") ? obj.getString("sage") : "";
 
-		MetaSourcesMag advancedParV2 = new MetaSourcesMag(version, resource, func, funcDef, flashlfq, pfind, dbReducer,
-				fragpipe, alphapept);
+		MetaSourcesMag advancedParV2 = new MetaSourcesMag(version, resource, msconvert, func, funcDef, flashlfq, pfind,
+				dbReducer, fragpipe, alphapept, sage);
 
 		return advancedParV2;
 	}
@@ -81,31 +75,31 @@ public class MetaSourcesIoMag {
 
 	public static void exportBlank(File out) {
 
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(out);
+		try (PrintWriter writer = new PrintWriter(out)) {
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIOMag.version);
+
+			jw.key("resource").value("Resources\\");
+			jw.key("msconvert").value("Resources\\ProteoWizard\\msconvert.exe");
+			jw.key("pfind").value("Resources\\DBReducer\\pFind3\\bin\\pFind.exe");
+			jw.key("dbReducer").value("Resources\\DBReducer\\DBReducer\\DBReducer.exe");
+			jw.key("flashlfq").value("Resources\\FlashLFQ\\CMD.exe");
+			jw.key("fragpipe").value("Resources\\fragpipe\\bin\\fragpipe.bat");
+			jw.key("alphapept").value("Resources\\alphapept\\python.exe");
+			jw.key("sage").value("Resources\\sage\\sage.exe");
+			jw.key("function").value("Resources\\function\\UHGG_func_anno.db");
+			jw.key("funcDef").value("Resources\\function\\func_def.db");
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
 
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIOMag.version);
-
-		jw.key("resource").value("Resources\\");
-		jw.key("pfind").value("Resources\\DBReducer\\pFind3\\bin\\pFind.exe");
-		jw.key("dbReducer").value("Resources\\DBReducer\\DBReducer\\DBReducer.exe");
-		jw.key("flashlfq").value("Resources\\FlashLFQ\\CMD.exe");
-		jw.key("fragpipe").value("Resources\\fragpipe\\bin\\fragpipe.bat");
-		jw.key("alphapept").value("Resources\\alphapept\\python.exe");
-		jw.key("function").value("Resources\\function\\UHGG_func_anno.db");
-		jw.key("funcDef").value("Resources\\function\\func_def.db");
-
-		jw.endObject();
-
-		writer.close();
 	}
 
 	public static void export(MetaSourcesMag par, String out) {
@@ -114,29 +108,28 @@ public class MetaSourcesIoMag {
 
 	public static void export(MetaSourcesMag par, File out) {
 
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(out);
+		try (PrintWriter writer = new PrintWriter(out)) {
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIOMag.version);
+			jw.key("resource").value(par.getResource());
+			jw.key("msconvert").value(par.getMsconvert());
+			jw.key("pfind").value(par.getpFind());
+			jw.key("dbReducer").value(par.getDbReducer());
+			jw.key("flashlfq").value(par.getFlashlfq());
+			jw.key("fragpipe").value(par.getFragpipe());
+			jw.key("alphapept").value(par.getAlphapept());
+			jw.key("sage").value(par.getSage());
+			jw.key("function").value(par.getFunction());
+			jw.key("funcDef").value(par.getFuncDef());
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIOMag.version);
-		jw.key("resource").value(par.getResource());
-		jw.key("pfind").value(par.getpFind());
-		jw.key("dbReducer").value(par.getDbReducer());
-		jw.key("flashlfq").value(par.getFlashlfq());
-		jw.key("fragpipe").value(par.getFragpipe());
-		jw.key("alphapept").value(par.getAlphapept());
-		jw.key("function").value(par.getFunction());
-		jw.key("funcDef").value(par.getFuncDef());
-
-		jw.endObject();
-
-		writer.close();
 	}
 }

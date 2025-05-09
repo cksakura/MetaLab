@@ -1,9 +1,5 @@
 package bmi.med.uOttawa.metalab.dbSearch.diann;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import bmi.med.uOttawa.metalab.core.enzyme.Enzyme;
@@ -40,13 +36,14 @@ public class DiannParameter {
 	private boolean relaxed_prot_inf = false;
 	private boolean noProInfer = false;
 	private HashMap<String, String> cutMap;
+	private boolean exportDecoy = false;
 
 	private int massAccu = 15;
 	private int ms1Accu = 15;
 	private int scanWin = 15;
 	private boolean mbr = true;
 	private int quanStrategyId = 0;
-	
+
 	private static String[] quanStrategies = { "", "--no-ifs-removal", "--peak-center",
 			"--peak-center --no-ifs-removal" };
 
@@ -86,6 +83,14 @@ public class DiannParameter {
 		return cut;
 	}
 
+	public boolean isExportDecoy() {
+		return exportDecoy;
+	}
+
+	public void setExportDecoy(boolean exportDecoy) {
+		this.exportDecoy = exportDecoy;
+	}
+
 	public String generateConvert(String[] files) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("--convert ");
@@ -98,7 +103,7 @@ public class DiannParameter {
 		sb.append("--verbose ").append(verbose);
 		return sb.toString();
 	}
-	
+
 	public String generateConvert() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("--convert ");
@@ -137,18 +142,9 @@ public class DiannParameter {
 
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearch(DiaLibSearchPar libSearchPar, String output, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		String[] files = libSearchPar.getDiaFiles();
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
 		sb.append("--threads ").append(libSearchPar.getThreadCount()).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(output).append("\" ");
@@ -164,6 +160,8 @@ public class DiannParameter {
 
 		if (this.matrices) {
 			sb.append("--matrices ");
+			sb.append("--matrix-qvalue ").append(libSearchPar.getqValue()).append(" ");
+			sb.append("--matrix-spec-q ").append(libSearchPar.getqValue()).append(" ");
 		}
 
 		if (this.relaxed_prot_inf) {
@@ -178,26 +176,20 @@ public class DiannParameter {
 			sb.append("--reanalyse ");
 		}
 
+		if (this.exportDecoy) {
+			sb.append("--report-decoys ");
+		}
+
 		if (libSearchPar.getQuanStrategyId() > 0 && libSearchPar.getQuanStrategyId() < quanStrategies.length) {
 			sb.append(quanStrategies[libSearchPar.getQuanStrategyId()]);
 		}
 
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearch(DiaLibSearchPar libSearchPar, String output, boolean fast, boolean genLib,
 			boolean qvalueCutoff, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		String[] files = libSearchPar.getDiaFiles();
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(libSearchPar.getThreadCount()).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(output).append("\" ");
@@ -227,6 +219,13 @@ public class DiannParameter {
 			if (libSearchPar.getQuanStrategyId() > 0 && libSearchPar.getQuanStrategyId() < quanStrategies.length) {
 				sb.append(quanStrategies[libSearchPar.getQuanStrategyId()]).append(" ");
 			}
+			if (qvalueCutoff) {
+				sb.append("--matrix-qvalue ").append(libSearchPar.getqValue()).append(" ");
+				sb.append("--matrix-spec-q ").append(libSearchPar.getqValue()).append(" ");
+			} else {
+				sb.append("--matrix-qvalue ").append(looseQValue).append(" ");
+				sb.append("--matrix-spec-q ").append(looseQValue).append(" ");
+			}
 		}
 
 		if (genLib) {
@@ -237,21 +236,15 @@ public class DiannParameter {
 		sb.append("--smart-profiling ");
 		sb.append("--reanalyse ");
 
+		if (this.exportDecoy) {
+			sb.append("--report-decoys ");
+		}
+
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearchFast(DiaLibSearchPar libSearchPar, String output, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		String[] files = libSearchPar.getDiaFiles();
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(libSearchPar.getThreadCount()).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(output).append("\" ");
@@ -274,22 +267,12 @@ public class DiannParameter {
 		if (libSearchPar.getQuanStrategyId() > 0 && libSearchPar.getQuanStrategyId() < quanStrategies.length) {
 			sb.append(quanStrategies[libSearchPar.getQuanStrategyId()]);
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearchFastLib(DiaLibSearchPar libSearchPar, String output, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		String[] files = libSearchPar.getDiaFiles();
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(libSearchPar.getThreadCount()).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(output).append("\" ");
@@ -321,26 +304,19 @@ public class DiannParameter {
 
 	public String generateLibSearch(String[] files, String out, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(threads).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(out).append("\" ");
-		sb.append("--qvalue ").append(qvalue).append(" ");
-		
+		sb.append("--qvalue ").append(looseQValue).append(" ");
+
 		sb.append("--window ").append(scanWin).append(" ");
 		sb.append("--mass-acc ").append(massAccu).append(" ");
 		sb.append("--mass-acc-ms1 ").append(ms1Accu).append(" ");
 
 		if (matrices) {
 			sb.append("--matrices ");
+			sb.append("--matrix-qvalue ").append(looseQValue).append(" ");
+			sb.append("--matrix-spec-q ").append(looseQValue).append(" ");
 		}
 		if (this.noProInfer) {
 			sb.append("--no-prot-inf ");
@@ -362,9 +338,13 @@ public class DiannParameter {
 			sb.append("--reanalyse");
 		}
 
+		if (this.exportDecoy) {
+			sb.append("--report-decoys ");
+		}
+
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearch(String[] files, String out, String lib, boolean genSpecLib) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < files.length; i++) {
@@ -382,7 +362,7 @@ public class DiannParameter {
 		if (this.noProInfer) {
 			sb.append("--no-prot-inf ");
 		}
-		
+
 		sb.append("--lib ").append("\"").append(lib).append("\" ");
 
 		if (relaxed_prot_inf) {
@@ -402,25 +382,20 @@ public class DiannParameter {
 			}
 		}
 
+		if (this.exportDecoy) {
+			sb.append("--report-decoys ");
+		}
+
 		return sb.toString();
 	}
-	
+
 	public String generateLibSearch(String[] files, String out, String lib, boolean genSpecLib, boolean autoInfer) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(threads).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(out).append("\" ");
 		sb.append("--qvalue ").append(qvalue).append(" ");
-		
+
 		if (matrices) {
 			sb.append("--matrices ");
 		} else {
@@ -445,7 +420,7 @@ public class DiannParameter {
 			sb.append("--mass-acc ").append(this.massAccu).append(" ");
 			sb.append("--mass-acc-ms1 ").append(this.ms1Accu).append(" ");
 		}
-		
+
 		if (smart_profiling) {
 			sb.append("--smart-profiling ");
 		}
@@ -453,10 +428,14 @@ public class DiannParameter {
 		if (reanalyse) {
 			sb.append("--reanalyse ");
 		}
-		
+
 		if (genSpecLib) {
 			sb.append("--out-lib ").append("\"").append(out + ".lib").append("\" ");
 			sb.append("--gen-spec-lib ");
+		}
+
+		if (this.exportDecoy) {
+			sb.append("--report-decoys ");
 		}
 
 		return sb.toString();
@@ -464,15 +443,6 @@ public class DiannParameter {
 
 	public String generateLibSearchFast(String[] files, String out, String... libs) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--threads ").append(threads).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
 		sb.append("--out ").append("\"").append(out).append("\" ");
@@ -498,15 +468,6 @@ public class DiannParameter {
 
 	public String generateFastaSearch(String[] files, String out, String fasta, String out_lib, boolean fast) {
 		StringBuilder sb = new StringBuilder();
-		/*
-		sb.append("--f \"%%f\" ");
-		
-		for (int i = 0; i < files.length; i++) {
-			sb.append("--f ");
-			sb.append("\"").append(files[i]).append("\" ");
-		}
-		*/
-		
 		sb.append("--lib \"\" ");
 		sb.append("--threads ").append(threads).append(" ");
 		sb.append("--verbose ").append(verbose).append(" ");
@@ -943,64 +904,5 @@ public class DiannParameter {
 
 		par.setProtease(name);
 		return par;
-	}
-
-	public static void main(String[] args) throws IOException {
-		
-		PrintWriter writer = new PrintWriter("Z:\\Kai\\Raw_files\\PXD036445\\cmd.bat");
-		DiannParameter par = new DiannParameter();
-		par.setNoProInfer(true);
-		
-		par.setQvalue(0.05);
-		par.setMassAccu(10);
-		par.setMs1Accu(5);
-		par.setScanWin(10);
-		par.setThreads(24);
-		
-		ArrayList<String> diaList = new ArrayList<String>();
-		File[] rawFiles = (new File("Z:\\Kai\\Raw_files\\PXD036445")).listFiles();
-		for (int i = 0; i < rawFiles.length; i++) {
-			if (rawFiles[i].getName().endsWith("dia")) {
-				diaList.add(rawFiles[i].getAbsolutePath());
-			}
-		}
-		String[] dias = diaList.toArray(new String[diaList.size()]);
-		
-		File[] files = (new File("Z:\\Kai\\Raw_files\\PXD036445\\hap_distinct")).listFiles();
-		for (int i = 0; i < files.length; i++) {
-			String genome = files[i].getName();
-			if (genome.startsWith("MGYG")) {
-				
-				File libFile = new File("Z:\\Kai\\Database\\human_gut\\rib_elon_distinct", genome + ".predicted.speclib");
-				File outputFolder = new File("Z:\\Kai\\Raw_files\\PXD036445\\hap_distinct", genome);
-//				outputFolder.mkdir();
-
-				File outputFile = new File(outputFolder, genome + ".tsv");
-				String cmd = par.generateLibSearchFast(dias, outputFile.getAbsolutePath(), libFile.getAbsolutePath());
-
-				writer.println("diann.exe " + cmd);
-					
-			}
-		
-/*			
-			if (genome.startsWith("MGYG") && genome.endsWith(".fasta")) {
-
-				File libFile = new File("Z:\\Kai\\Database\\human_gut\\distinct_hap",
-						genome.replace("fasta", "predicted.speclib"));
-				
-				if(!libFile.exists()) {
-					String cmd = par.generateFasta(files[i].getAbsolutePath(), libFile.getAbsolutePath(), false);
-					writer.println("diann.exe " + cmd);
-				}
-//				String cmd = par.generateFasta(files[i].getAbsolutePath(), libFile.getAbsolutePath(), false);
-//				writer.println("diann.exe " + cmd);
-				
-				if(!libFile.exists()) {
-					System.out.println(genome);
-				}
-			}
-*/			
-		}
-		writer.close();
 	}
 }

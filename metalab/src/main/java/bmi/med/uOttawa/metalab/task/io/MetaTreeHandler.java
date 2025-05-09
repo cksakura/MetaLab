@@ -28,7 +28,7 @@ import bmi.med.uOttawa.metalab.task.io.pep.MetaPeptide;
  *
  */
 public class MetaTreeHandler {
-	
+
 	private static DecimalFormat df2 = FormatTool.getDF2();
 
 	private static Logger LOGGER = LogManager.getLogger();
@@ -39,6 +39,7 @@ public class MetaTreeHandler {
 
 	/**
 	 * Export the result in plain txt format
+	 * 
 	 * @param peps
 	 * @param taxons
 	 * @param expNames
@@ -107,89 +108,89 @@ public class MetaTreeHandler {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+			StringBuilder title = new StringBuilder();
+			title.append("id").append(",").append("value").append(",");
+			for (String name : expNames) {
+				title.append(name).append(";");
+			}
+			title.deleteCharAt(title.length() - 1);
+			writer.println(title);
+
+			double totalCellularIntensity = 0;
+			for (int i = 0; i < cellularIntensity.length; i++) {
+				totalCellularIntensity += cellularIntensity[i];
+			}
+			StringBuilder cellularSb = new StringBuilder();
+
+			double logTotalCellularIntensity = 0;
+			if (totalCellularIntensity > 1) {
+				logTotalCellularIntensity = totalCellularIntensity;
+			}
+
+			cellularSb.append("cellular organisms").append(",").append(df2.format(logTotalCellularIntensity))
+					.append(",");
+
+			for (int i = 0; i < cellularIntensity.length; i++) {
+				double logCellularIntensity = 0;
+				if (cellularIntensity[i] > 1) {
+					logCellularIntensity = cellularIntensity[i];
+				}
+				cellularSb.append(df2.format(logCellularIntensity)).append(";");
+			}
+			cellularSb.deleteCharAt(cellularSb.length() - 1);
+			writer.println(cellularSb);
+
+			for (Integer id : taxonIntensityMap.keySet()) {
+
+				StringBuilder sb = new StringBuilder("cellular organisms@");
+
+				Taxon lca = taxonMap.get(id);
+				int[] mainParentIds = lca.getMainParentIds();
+				for (int i = 0; i < mainParentIds.length; i++) {
+
+					if (mainParentIds[i] == -1) {
+						if (i == 1) {
+							continue;
+						} else {
+							break;
+						}
+					}
+
+					String name = taxonMap.get(mainParentIds[i]).getName();
+					sb.append(name).append("@");
+				}
+
+				sb.deleteCharAt(sb.length() - 1);
+				sb.append(",");
+
+				double[] intensity = taxonIntensityMap.get(id);
+				double total = 0;
+				for (double inten : intensity) {
+					total += inten;
+				}
+
+				double logTotal = 0;
+				if (total > 1) {
+					logTotal = total;
+				}
+				sb.append(df2.format(logTotal)).append(",");
+
+				for (double inten : intensity) {
+					double logInten = 0;
+					if (inten > 1) {
+						logInten = inten;
+					}
+					sb.append(df2.format(logInten)).append(";");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+
+				writer.println(sb);
+			}
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing phylogenetic tree file to " + out.getName(), e);
 		}
-		StringBuilder title = new StringBuilder();
-		title.append("id").append(",").append("value").append(",");
-		for (String name : expNames) {
-			title.append(name).append(";");
-		}
-		title.deleteCharAt(title.length() - 1);
-		writer.println(title);
-
-		double totalCellularIntensity = 0;
-		for (int i = 0; i < cellularIntensity.length; i++) {
-			totalCellularIntensity += cellularIntensity[i];
-		}
-		StringBuilder cellularSb = new StringBuilder();
-
-		double logTotalCellularIntensity = 0;
-		if (totalCellularIntensity > 1) {
-			logTotalCellularIntensity = totalCellularIntensity;
-		}
-
-		cellularSb.append("cellular organisms").append(",").append(df2.format(logTotalCellularIntensity))
-				.append(",");
-
-		for (int i = 0; i < cellularIntensity.length; i++) {
-			double logCellularIntensity = 0;
-			if (cellularIntensity[i] > 1) {
-				logCellularIntensity = cellularIntensity[i];
-			}
-			cellularSb.append(df2.format(logCellularIntensity)).append(";");
-		}
-		cellularSb.deleteCharAt(cellularSb.length() - 1);
-		writer.println(cellularSb);
-
-		for (Integer id : taxonIntensityMap.keySet()) {
-
-			StringBuilder sb = new StringBuilder("cellular organisms@");
-
-			Taxon lca = taxonMap.get(id);
-			int[] mainParentIds = lca.getMainParentIds();
-			for (int i = 0; i < mainParentIds.length; i++) {
-
-				if (mainParentIds[i] == -1) {
-					if (i == 1) {
-						continue;
-					} else {
-						break;
-					}
-				}
-
-				String name = taxonMap.get(mainParentIds[i]).getName();
-				sb.append(name).append("@");
-			}
-
-			sb.deleteCharAt(sb.length() - 1);
-			sb.append(",");
-
-			double[] intensity = taxonIntensityMap.get(id);
-			double total = 0;
-			for (double inten : intensity) {
-				total += inten;
-			}
-
-			double logTotal = 0;
-			if (total > 1) {
-				logTotal = total;
-			}
-			sb.append(df2.format(logTotal)).append(",");
-
-			for (double inten : intensity) {
-				double logInten = 0;
-				if (inten > 1) {
-					logInten = inten;
-				}
-				sb.append(df2.format(logInten)).append(";");
-			}
-			sb.deleteCharAt(sb.length() - 1);
-
-			writer.println(sb);
-		}
-		writer.close();
 	}
 
 	public static void exportJS(MetaPeptide[] peps, Taxon[] taxons, String[] expNames, String out)
@@ -198,7 +199,8 @@ public class MetaTreeHandler {
 	}
 
 	/**
-	 * Export the result in json format 
+	 * Export the result in json format
+	 * 
 	 * @param peps
 	 * @param taxons
 	 * @param expNames
@@ -365,7 +367,7 @@ public class MetaTreeHandler {
 		}
 
 	}
-	
+
 	public static void exportJS(HashMap<String, double[]> taxIntensityMap, double[] cellularIntensity,
 			String[] expNames, File out) {
 
@@ -455,7 +457,7 @@ public class MetaTreeHandler {
 			LOGGER.error("Error in writing phylogenetic tree file to " + out.getName(), e);
 		}
 	}
-	
+
 	public static void exportJS(HashMap<String, String[]>[] taxRankMaps, HashMap<String, double[]>[] taxIntensityMaps,
 			double[] cellularIntensity, String[] expNames, File out) {
 
@@ -616,90 +618,90 @@ public class MetaTreeHandler {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			StringBuilder title = new StringBuilder();
+			title.append("id").append(",").append("value").append(",");
+			for (String name : expNames) {
+				title.append(name).append(";");
+			}
+			title.deleteCharAt(title.length() - 1);
+			writer.println(title);
+
+			double totalCellularIntensity = 0;
+			for (int i = 0; i < cellularIntensity.length; i++) {
+				totalCellularIntensity += cellularIntensity[i];
+			}
+			StringBuilder cellularSb = new StringBuilder();
+
+			double logTotalCellularIntensity = 0;
+			if (totalCellularIntensity > 1) {
+				logTotalCellularIntensity = 10.0 * Math.log10(totalCellularIntensity);
+			}
+
+			cellularSb.append("cellular organisms").append(",").append(df2.format(logTotalCellularIntensity))
+					.append(",");
+
+			for (int i = 0; i < cellularIntensity.length; i++) {
+				double logCellularIntensity = 0;
+				if (cellularIntensity[i] > 1) {
+					logCellularIntensity = 10.0 * Math.log10(cellularIntensity[i]);
+				}
+				cellularSb.append(df2.format(logCellularIntensity)).append(";");
+			}
+			cellularSb.deleteCharAt(cellularSb.length() - 1);
+			writer.println(cellularSb);
+
+			for (Integer id : taxonIntensityMap.keySet()) {
+
+				StringBuilder sb = new StringBuilder("cellular organisms@");
+
+				Taxon lca = taxonMap.get(id);
+				int[] mainParentIds = lca.getMainParentIds();
+				for (int i = 0; i < mainParentIds.length; i++) {
+
+					if (mainParentIds[i] == -1) {
+						if (i == 1) {
+							continue;
+						} else {
+							break;
+						}
+					}
+
+					String name = taxonMap.get(mainParentIds[i]).getName();
+					sb.append(name).append("@");
+				}
+
+				sb.deleteCharAt(sb.length() - 1);
+				sb.append(",");
+
+				double[] intensity = taxonIntensityMap.get(id);
+				double total = 0;
+				for (double inten : intensity) {
+					total += inten;
+				}
+
+				double logTotal = 0;
+				if (total > 1) {
+					logTotal = 10.0 * Math.log10(total);
+				}
+				sb.append(df2.format(logTotal)).append(",");
+
+				for (double inten : intensity) {
+					double logInten = 0;
+					if (inten > 1) {
+						logInten = 10.0 * Math.log10(inten);
+					}
+					sb.append(df2.format(logInten)).append(";");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+
+				writer.println(sb);
+			}
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing phylogenetic tree file to " + out, e);
 		}
-
-		StringBuilder title = new StringBuilder();
-		title.append("id").append(",").append("value").append(",");
-		for (String name : expNames) {
-			title.append(name).append(";");
-		}
-		title.deleteCharAt(title.length() - 1);
-		writer.println(title);
-
-		double totalCellularIntensity = 0;
-		for (int i = 0; i < cellularIntensity.length; i++) {
-			totalCellularIntensity += cellularIntensity[i];
-		}
-		StringBuilder cellularSb = new StringBuilder();
-
-		double logTotalCellularIntensity = 0;
-		if (totalCellularIntensity > 1) {
-			logTotalCellularIntensity = 10.0 * Math.log10(totalCellularIntensity);
-		}
-
-		cellularSb.append("cellular organisms").append(",").append(df2.format(logTotalCellularIntensity))
-				.append(",");
-
-		for (int i = 0; i < cellularIntensity.length; i++) {
-			double logCellularIntensity = 0;
-			if (cellularIntensity[i] > 1) {
-				logCellularIntensity = 10.0 * Math.log10(cellularIntensity[i]);
-			}
-			cellularSb.append(df2.format(logCellularIntensity)).append(";");
-		}
-		cellularSb.deleteCharAt(cellularSb.length() - 1);
-		writer.println(cellularSb);
-
-		for (Integer id : taxonIntensityMap.keySet()) {
-
-			StringBuilder sb = new StringBuilder("cellular organisms@");
-
-			Taxon lca = taxonMap.get(id);
-			int[] mainParentIds = lca.getMainParentIds();
-			for (int i = 0; i < mainParentIds.length; i++) {
-
-				if (mainParentIds[i] == -1) {
-					if (i == 1) {
-						continue;
-					} else {
-						break;
-					}
-				}
-
-				String name = taxonMap.get(mainParentIds[i]).getName();
-				sb.append(name).append("@");
-			}
-
-			sb.deleteCharAt(sb.length() - 1);
-			sb.append(",");
-
-			double[] intensity = taxonIntensityMap.get(id);
-			double total = 0;
-			for (double inten : intensity) {
-				total += inten;
-			}
-
-			double logTotal = 0;
-			if (total > 1) {
-				logTotal = 10.0 * Math.log10(total);
-			}
-			sb.append(df2.format(logTotal)).append(",");
-
-			for (double inten : intensity) {
-				double logInten = 0;
-				if (inten > 1) {
-					logInten = 10.0 * Math.log10(inten);
-				}
-				sb.append(df2.format(logInten)).append(";");
-			}
-			sb.deleteCharAt(sb.length() - 1);
-
-			writer.println(sb);
-		}
-		writer.close();
 	}
 
 	/**
@@ -823,7 +825,8 @@ public class MetaTreeHandler {
 			writer.close();
 		}
 	}
-	
+
+	@SuppressWarnings({ "unused", "unchecked" })
 	private static void exportJS(File in, File out) throws IOException {
 
 		BufferedReader reader = new BufferedReader(new FileReader(in));

@@ -126,14 +126,4 @@ public class HapExtractor {
 		}
 		writer.close();
 	}
-	
-	public static void main(String[] args) throws IOException {
-		HapExtractor hExtractor = new HapExtractor();
-		hExtractor.addHap(" ribosomal protein ");
-		hExtractor.addHap(" Elongation factor ");
-		hExtractor.extract("Z:\\Kai\\Database\\human_vaginal\\original_db",
-				"Z:\\Kai\\Database\\human_vaginal\\rib_elon.fasta");
-
-	}
-
 }

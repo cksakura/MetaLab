@@ -26,17 +26,9 @@ public class MetaSourcesIoDia {
 			exportBlank(json);
 		}
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(json));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading MetaLab parameter file " + json, e);
-		}
-
 		StringBuilder sb = new StringBuilder();
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(json))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
@@ -80,24 +72,23 @@ public class MetaSourcesIoDia {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIoDia.version);
+			jw.key("resource").value("Resources\\");
+			jw.key("DiaNN").value("Resources\\DIA-NN\\1.8\\DiaNN.exe");
+			jw.key("DeepDetect").value("Resources\\DeepDetect\\DeepDetect.exe");
+			jw.key("python").value("Resources\\tf\\python.exe");
+			jw.key("funcDef").value("Resources\\function\\func_def.db");
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIoDia.version);
-		jw.key("resource").value("Resources\\");
-		jw.key("DiaNN").value("Resources\\DIA-NN\\1.8\\DiaNN.exe");
-		jw.key("DeepDetect").value("Resources\\DeepDetect\\DeepDetect.exe");
-		jw.key("python").value("Resources\\tf\\python.exe");
-		jw.key("funcDef").value("Resources\\function\\func_def.db");
-
-		jw.endObject();
-
-		writer.close();
 	}
 
 	public static void export(MetaSourcesDia par, String out) {
@@ -109,23 +100,23 @@ public class MetaSourcesIoDia {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(out);
+
+			JSONWriter jw = new JSONWriter(writer);
+			jw.object();
+
+			jw.key("version").value(MetaParaIoDia.version);
+			jw.key("resource").value(par.getResource());
+			jw.key("DiaNN").value(par.getDiann());
+			jw.key("DeepDetect").value(par.getDeepDetect());
+			jw.key("python").value(par.getPython());
+			jw.key("funcDef").value(par.getFuncDef());
+
+			jw.endObject();
+
+			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in exporting MetaLab parameter to " + out, e);
 		}
-
-		JSONWriter jw = new JSONWriter(writer);
-		jw.object();
-
-		jw.key("version").value(MetaParaIoDia.version);
-		jw.key("resource").value(par.getResource());
-		jw.key("DiaNN").value(par.getDiann());
-		jw.key("DeepDetect").value(par.getDeepDetect());
-		jw.key("python").value(par.getPython());
-		jw.key("funcDef").value(par.getFuncDef());
-
-		jw.endObject();
-
-		writer.close();
 	}
 }

@@ -114,16 +114,4 @@ public class FileMonitor {
 		System.out.println("The file " + fileName + " is copied completely.");
 		// ...
 	}
-
-	public static void main(String[] args) throws IOException {
-		// The path of the folder to monitor
-		String folderPath = "C:\\Users\\User\\Documents\\Test";
-
-		// The name of the file to monitor
-		String fileName = "data.txt";
-
-		// Choose one of the methods to monitor the file
-		// monitorWithMarker(folderPath, fileName);
-		monitorWithWatchService(folderPath, fileName);
-	}
 }

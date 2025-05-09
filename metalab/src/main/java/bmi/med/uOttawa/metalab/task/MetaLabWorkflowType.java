@@ -24,7 +24,11 @@ public enum MetaLabWorkflowType {
 
 	AlphapeptIMMag(10, "Alphapept metagenome-assembled genomes (MAG) workflow"),
 	
-	DiaNNMAGRT(11, "DiaNN metagenome-assembled genomes (MAG) realtime workflow");
+	DiaNNMAGRT(11, "DiaNN metagenome-assembled genomes (MAG) realtime workflow"),
+	
+	DiaNNMAGTG(12, "DiaNN metagenome-assembled genomes (MAG) target workflow"),
+	
+	SageMAG(13, "Sage metagenome-assembled genomes (MAG) workflow");
 
 	int id;
 	String name;

@@ -39,65 +39,62 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+
+			String fileName = this.getFile().getName();
+			if (fileName.endsWith("tsv") || fileName.endsWith("TSV")) {
+				this.title = line.split("\t");
+				this.isCsv = false;
+			} else if (fileName.endsWith("csv") || fileName.endsWith("CSV")) {
+				this.title = line.split(",");
+				this.isCsv = true;
+			} else {
+
+			}
+
+			this.runIdMap = new HashMap<String, Integer>();
+
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Stripped.Sequence") || title[i].equals("StrippedSequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Modified.Sequence") || title[i].equals("ModifiedSequence")) {
+					modSeqId = i;
+				} else if (title[i].equals("Precursor.Charge") || title[i].equals("PrecursorCharge")) {
+					chargeId = i;
+				} else if (title[i].equals("Protein.Group")) {
+					proteinId = i;
+				} else if (title[i].endsWith(".d") || title[i].endsWith(".dia") || title[i].endsWith(".raw")) {
+					int id = title[i].lastIndexOf("\\");
+					if (id >= 0 && id < title[i].length() - 1) {
+						String fileNameI = null;
+						if (title[i].endsWith(".d")) {
+							fileNameI = title[i].substring(id + 1, title[i].length() - 2);
+						} else if (title[i].endsWith(".d.dia")) {
+							fileNameI = title[i].substring(id + 1, title[i].length() - 6);
+						} else if (title[i].endsWith(".raw")) {
+							fileNameI = title[i].substring(id + 1, title[i].length() - 4);
+						} else if (title[i].endsWith(".raw.dia")) {
+							fileNameI = title[i].substring(id + 1, title[i].length() - 8);
+						} else if (title[i].endsWith(".dia")) {
+							fileNameI = title[i].substring(id + 1, title[i].length() - 4);
+						} else {
+							fileNameI = title[i].substring(id + 1);
+						}
+
+						intensityTitleIdMap.put(fileNameI, i);
+						intensityTitleList.add(fileNameI);
+						runIdMap.put(fileNameI, runIdMap.size());
+					} else {
+						intensityTitleIdMap.put(title[i], i);
+						intensityTitleList.add(title[i]);
+					}
+				}
+			}
+
+			this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading FlashLFQ quantification result file " + super.getFile(), e);
 		}
-
-		String fileName = this.getFile().getName();
-		if (fileName.endsWith("tsv") || fileName.endsWith("TSV")) {
-			this.title = line.split("\t");
-			this.isCsv = false;
-		} else if (fileName.endsWith("csv") || fileName.endsWith("CSV")) {
-			this.title = line.split(",");
-			this.isCsv = true;
-		} else {
-
-		}
-		
-		this.runIdMap = new HashMap<String, Integer>();
-
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Stripped.Sequence") || title[i].equals("StrippedSequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Modified.Sequence") || title[i].equals("ModifiedSequence")) {
-				modSeqId = i;
-			} else if (title[i].equals("Precursor.Charge") || title[i].equals("PrecursorCharge")) {
-				chargeId = i;
-			} else if (title[i].equals("Protein.Group")) {
-				proteinId = i;
-			} else if (title[i].endsWith(".d") || title[i].endsWith(".dia") || title[i].endsWith(".raw")) {
-				int id = title[i].lastIndexOf("\\");
-				if (id >= 0 && id < title[i].length() - 1) {
-					String fileNameI = null;
-					if (title[i].endsWith(".d")) {
-						fileNameI = title[i].substring(id + 1, title[i].length() - 2);
-					} else if (title[i].endsWith(".d.dia")) {
-						fileNameI = title[i].substring(id + 1, title[i].length() - 6);
-					} else if (title[i].endsWith(".raw")) {
-						fileNameI = title[i].substring(id + 1, title[i].length() - 4);
-					} else if (title[i].endsWith(".raw.dia")) {
-						fileNameI = title[i].substring(id + 1, title[i].length() - 8);
-					} else if (title[i].endsWith(".dia")) {
-						fileNameI = title[i].substring(id + 1, title[i].length() - 4);
-					} else {
-						fileNameI = title[i].substring(id + 1);
-					}
-
-					intensityTitleIdMap.put(fileNameI, i);
-					intensityTitleList.add(fileNameI);
-					
-					String run = title[i].substring(id + 1, title[i].lastIndexOf("."));
-					runIdMap.put(run, runIdMap.size());
-					
-				} else {
-					intensityTitleIdMap.put(title[i], i);
-					intensityTitleList.add(title[i]);
-				}
-			}
-		}
-
-		this.intensityTitles = intensityTitleList.toArray(new String[intensityTitleList.size()]);
 	}
 
 	protected FlashLfqQuanPeptide parse() {
@@ -166,13 +163,30 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 
 						double[] intensity0 = pep0.getIntensity();
 						double[] intensity = pep.getIntensity();
+						int[] idenType = new int[intensity0.length];
 						for (int i = 0; i < intensity0.length; i++) {
 							intensity0[i] += intensity[i];
+							if (intensity0[i] > 0) {
+								idenType[i] = 0;
+							} else {
+								idenType[i] = 2;
+							}
 						}
+						pep0.setIdenType(idenType);
 
 					} else {
 						list.add(pep);
 						map.put(modSeq, pep);
+						double[] intensity = pep.getIntensity();
+						int[] idenType = new int[intensity.length];
+						for (int i = 0; i < intensity.length; i++) {
+							if (intensity[i] > 0) {
+								idenType[i] = 0;
+							} else {
+								idenType[i] = 2;
+							}
+						}
+						pep.setIdenType(idenType);
 					}
 				}
 			}
@@ -210,13 +224,29 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 
 							double[] intensity0 = pep0.getIntensity();
 							double[] intensity = pep.getIntensity();
+							int[] idenType = new int[intensity0.length];
 							for (int i = 0; i < intensity0.length; i++) {
 								intensity0[i] += intensity[i];
+								if (intensity0[i] > 0) {
+									idenType[i] = 0;
+								} else {
+									idenType[i] = 2;
+								}
 							}
-
+							pep0.setIdenType(idenType);
 						} else {
 							list.add(pep);
 							map.put(modSeq, pep);
+							double[] intensity = pep.getIntensity();
+							int[] idenType = new int[intensity.length];
+							for (int i = 0; i < intensity.length; i++) {
+								if (intensity[i] > 0) {
+									idenType[i] = 0;
+								} else {
+									idenType[i] = 2;
+								}
+							}
+							pep.setIdenType(idenType);
 						}
 					}
 				}
@@ -299,7 +329,7 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 							double[] intensity = peptide.getIntensity();
 
 							double PEP = 1;
-							double score = 0;
+							double qValue = 1;
 							int miss = 0;
 							double mass = 0;
 							for (DiaNNPrecursor pp : pplist) {
@@ -316,18 +346,21 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 									PEP = pp.getPEP();
 								}
 
-								if (pp.getCscore() > score) {
-									score = pp.getCscore();
+								if (pp.getGlobalQvalue() < qValue) {
+									qValue = pp.getGlobalQvalue();
 								}
 
 								miss = pp.getMissCleavage();
 								mass = pp.getMass();
+
+								peptide.setProteins(pp.getProGroups());
+								peptide.setRazorProtein(pp.getRazorProtein());
 							}
 
 							peptide.setMissCleave(miss);
 							peptide.setMass(mass);
 							peptide.setPEP(PEP);
-							peptide.setScore(score);
+							peptide.setScore(qValue);
 
 							peptide.setMs2Counts(spCount);
 							peptide.setIndividualPEP(indiPEP);
@@ -360,10 +393,7 @@ public class DiannPrMatrixReader extends FlashLfqQuanPepReader {
 	}
 	
 	public static void main(String[] args) {
-		DiannPrMatrixReader reader = new DiannPrMatrixReader("Z:\\Kai\\Raw_files\\single_strain_dia\\8482\\MetaLab_dia\\mag_result"
-				+ "\\combined.pr_matrix.tsv");
-		FlashLfqQuanPeptide[] peps = reader.getMetaPeptides();
-		System.out.println(peps.length);
+		DiannPrMatrixReader reader = new DiannPrMatrixReader("E:\\combined.pr_matrix.tsv");
+		System.out.println(reader.getMetaPeptides().length);
 	}
-
 }

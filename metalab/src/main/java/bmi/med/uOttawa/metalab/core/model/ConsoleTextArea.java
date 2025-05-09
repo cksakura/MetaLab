@@ -76,7 +76,8 @@ public class ConsoleTextArea extends JTextArea {
 			consoleTextArea = new ConsoleTextArea();
 		} catch (IOException e) {
 			System.err.println("Cannot construct LoopedStreams:" + e);
-//			System.exit(1);
+			System.exit(1);
+			return;
 		}
 
 		consoleTextArea.setFont(java.awt.Font.decode("monospaced"));

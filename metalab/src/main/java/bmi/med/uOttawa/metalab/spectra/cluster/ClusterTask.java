@@ -5,7 +5,6 @@ package bmi.med.uOttawa.metalab.spectra.cluster;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -34,7 +33,7 @@ import uk.ac.ebi.pride.spectracluster.util.function.spectrum.RemoveReporterIonPe
 
 /**
  * @author Kai Cheng
- *
+ * @version 2025.03.20
  */
 public class ClusterTask {
 
@@ -162,17 +161,11 @@ public class ClusterTask {
 			clusterCount = CGF2MGF.convert2Mgf(fileNames, cgfFile, resultMgf, false);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(
+					format.format(new Date()) + "\t" + taskName + ": error in converting the CGF file to MGF file.");
+			LOGGER.error(taskName + ": error in converting the CGF file to MGF file.", e);
 		}
-		
-		
-/*		
-		if (singleFile) {
-			clusterCount = CGF2MGF.convertSingleFile(cgfFile, resultMgf);
-		} else {
-			clusterCount = CGF2MGF.convertMultiFile(cgfFile, resultMgf);
-		}
-*/
+
 		System.out.println(
 				format.format(new Date()) + "\t" + taskName + ": clustered MS/MS spectra count: " + clusterCount);
 		LOGGER.info(taskName + ": clustered MS/MS spectra count: " + clusterCount);
@@ -201,16 +194,9 @@ public class ClusterTask {
 		for (int i = 0; i < fileNames.length; i++) {
 			File filei = new File(fileNames[i]);
 			int count = 0;
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new FileReader(filei));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading mgf file " + filei.getName(), e);
-			}
 
 			String line = null;
-			try {
+			try (BufferedReader reader = new BufferedReader(new FileReader(filei))) {
 				while ((line = reader.readLine()) != null) {
 					if (line.startsWith("BEGIN IONS")) {
 						count++;
@@ -304,7 +290,8 @@ public class ClusterTask {
 			combinedResultFile = File.createTempFile("combined_clustering_results", ".cgf", clusterDir);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			LOGGER.error("Error in creating temp file " + combinedResultFile.getName(), e);
+			LOGGER.error("Error in creating temp file", e);
+			return;
 		}
 		MergingCGFConverter mergingCGFConverter = new MergingCGFConverter(combinedResultFile, true);
 		mergingClusterer.addListener(mergingCGFConverter);
@@ -369,6 +356,7 @@ public class ClusterTask {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in clutering spectra", e);
 			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in clutering spectra");
+			return;
 		}
 
 		ClusteringSettings
@@ -455,36 +443,6 @@ public class ClusterTask {
 			clusterDir.mkdirs();
 		}
 
-		int totalCount = 0;
-		for (int i = 0; i < fileNames.length; i++) {
-			int count = 0;
-			File filei = new File(fileNames[i]);
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new FileReader(filei));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading mgf file " + filei.getName(), e);
-			}
-
-			String line = null;
-			try {
-				while ((line = reader.readLine()) != null) {
-					if (line.startsWith("BEGIN IONS")) {
-						count++;
-					}
-				}
-				reader.close();
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error("Error in reading mgf file " + filei.getName(), e);
-			}
-
-			totalCount += count;
-
-		}
-
 		BinningSpectrumConverter binningSpectrumConverter = new BinningSpectrumConverter(clusterDir, threadCount,
 				fastMode);
 
@@ -562,100 +520,6 @@ public class ClusterTask {
 
 		LOGGER.info(taskName + ": Clustered MS/MS spectra count: " + clusterCount);
 	}
-	/*
-	 * public void clusteringRebin(String[] fileNames, File clusterDir, File
-	 * resultMgf) {
-	 * 
-	 * if (!clusterDir.exists()) { clusterDir.mkdirs(); }
-	 * 
-	 * int totalCount = 0; for (int i = 0; i < fileNames.length; i++) { int count =
-	 * 0; File filei = new File(fileNames[i]); BufferedReader reader = null; try {
-	 * reader = new BufferedReader(new FileReader(filei)); } catch
-	 * (FileNotFoundException e) { // TODO Auto-generated catch block
-	 * LOGGER.error("Error in reading mgf file " + filei.getName(), e); }
-	 * 
-	 * String line = null; try { while ((line = reader.readLine()) != null) { if
-	 * (line.startsWith("BEGIN IONS")) { count++; } } reader.close();
-	 * 
-	 * } catch (IOException e) { // TODO Auto-generated catch block
-	 * LOGGER.error("Error in reading mgf file " + filei.getName(), e); }
-	 * 
-	 * totalCount += count;
-	 * 
-	 * }
-	 * 
-	 * BinningSpectrumConverter binningSpectrumConverter = new
-	 * BinningSpectrumConverter(clusterDir, threadCount, fastMode);
-	 * 
-	 * try { binningSpectrumConverter.processPeaklistFiles(fileNames); } catch
-	 * (Exception e) { // TODO Auto-generated catch block
-	 * LOGGER.error("Error in clutering spectra", e); }
-	 * List<BinaryClusterFileReference> binaryFiles =
-	 * binningSpectrumConverter.getWrittenFiles();
-	 * 
-	 * File clusteringResultDirectory =
-	 * createTemporaryDirectory("clustering_results", clusterDir); File
-	 * tmpClusteringResultDirectory = createTemporaryDirectory("clustering_results",
-	 * clusterDir); List<Float> thresholds = generateThreshold(1.00f, 0.99f, 5);
-	 * 
-	 * BinaryFileClusterer binaryFileClusterer = new
-	 * BinaryFileClusterer(threadCount, clusteringResultDirectory, thresholds,
-	 * fastMode, tmpClusteringResultDirectory, rtRestrict, null);
-	 * 
-	 * try { binaryFileClusterer.clusterFiles(binaryFiles); } catch (Exception e) {
-	 * // TODO Auto-generated catch block LOGGER.error("Error in clutering spectra",
-	 * e); }
-	 * 
-	 * List<BinaryClusterFileReference> clusteredFiles =
-	 * binaryFileClusterer.getResultFiles(); clusteredFiles = new
-	 * ArrayList<BinaryClusterFileReference>(clusteredFiles);
-	 * Collections.sort(clusteredFiles);
-	 * 
-	 * List<BinaryClusterFileReference> rebinnedFiles = null; File
-	 * rebinnedFilesDirectory = createTemporaryDirectory("rebinned_files",
-	 * clusterDir); try { rebinnedFiles =
-	 * BinaryFileRebinner.rebinBinaryFiles(clusteredFiles, rebinnedFilesDirectory,
-	 * Defaults.getDefaultPrecursorIonTolerance()); } catch (Exception e) { // TODO
-	 * Auto-generated catch block LOGGER.error("Error in clutering spectra", e); }
-	 * 
-	 * if(rebinnedFiles==null) { rebinnedFiles = clusteredFiles; }
-	 * 
-	 * File mergedResultsDirectory = createTemporaryDirectory("merged_results",
-	 * clusterDir); BinaryFileMergingClusterer mergingClusterer = new
-	 * BinaryFileMergingClusterer(threadCount, mergedResultsDirectory, thresholds,
-	 * fastMode, Defaults.getDefaultPrecursorIonTolerance() * 2, true,
-	 * mergedResultsDirectory);
-	 * 
-	 * File combinedResultFile = null; try { combinedResultFile =
-	 * File.createTempFile("combined_clustering_results", ".cgf", clusterDir); }
-	 * catch (IOException e) { // TODO Auto-generated catch block
-	 * LOGGER.error("Error in creating temp file", e); } MergingCGFConverter
-	 * mergingCGFConverter = new MergingCGFConverter(combinedResultFile, true);
-	 * mergingClusterer.addListener(mergingCGFConverter);
-	 * 
-	 * try { mergingClusterer.clusterFiles(rebinnedFiles); } catch (Exception e) {
-	 * // TODO Auto-generated catch block LOGGER.error("Error in clutering spectra",
-	 * e); }
-	 * 
-	 * System.gc();
-	 * 
-	 * File[] generatedFiles = clusterDir.listFiles(); File cgfFile = null; for (int
-	 * i = 0; i < generatedFiles.length; i++) { if (generatedFiles[i].isDirectory())
-	 * { File[] subFiles = generatedFiles[i].listFiles(); for (int j = 0; j <
-	 * subFiles.length; j++) { // FileUtils.deleteQuietly(subFiles[j]); } //
-	 * FileUtils.deleteQuietly(generatedFiles[i]);
-	 * 
-	 * } else if (generatedFiles[i].isFile()) { if
-	 * (generatedFiles[i].getName().endsWith("cgf")) { cgfFile = new
-	 * File(clusterDir, "cluster.cgf"); generatedFiles[i].renameTo(cgfFile); } else
-	 * { // FileUtils.deleteQuietly(generatedFiles[i]); } } }
-	 * 
-	 * int clusterCount = CGF2MGF.convertSingleCharge(cgfFile, resultMgf);
-	 * 
-	 * LOGGER.info(taskName + ": Clustered MS/MS spectra count: " + clusterCount);
-	 * 
-	 * }
-	 */
 
 	private File createTemporaryDirectory(String prefix, File tmpDirectory) {
 		File tmpFile = null;
@@ -665,24 +529,29 @@ public class ClusterTask {
 				tmpFile = File.createTempFile(prefix, "", tmpDirectory);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error("Error in creating temp file", e);
+
+				System.err.println(format.format(new Date()) + "\t" + taskName + ": error in creating temp file.");
+				LOGGER.error(taskName + ": error in creating temp file.", e);
 			}
 		} else {
 			try {
 				tmpFile = File.createTempFile(prefix, "");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error("Error in creating temp file", e);
+				System.err.println(format.format(new Date()) + "\t" + taskName + ": error in creating temp file.");
+				LOGGER.error(taskName + ": error in creating temp file.", e);
 			}
 		}
 
-		if (!tmpFile.delete()) {
-			LOGGER.error("Error in deleting temporary file");
+		if (tmpFile != null && !tmpFile.delete()) {
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in deleting temp file.");
+			LOGGER.error(taskName + ": error in deleting temp file.");
 			return tmpFile;
 		}
 
-		if (!tmpFile.mkdir()) {
-			LOGGER.error("Error in creating temporary file");
+		if (tmpFile != null && !tmpFile.mkdir()) {
+			System.err.println(format.format(new Date()) + "\t" + taskName + ": error in creating temp file.");
+			LOGGER.error(taskName + ": error in creating temp file.");
 			return tmpFile;
 		}
 

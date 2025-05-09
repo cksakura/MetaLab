@@ -24,12 +24,12 @@ public class AlphapeptTask {
 
 	private File alphapeptExe;
 	private ArrayList<String> parList;
-	
+
 	public AlphapeptTask(String alphapeptExe) {
 		this.alphapeptExe = new File(alphapeptExe);
 		this.parList = new ArrayList<String>();
 	}
-	
+
 	public void addTask(File workflowFile) {
 		this.parList.add(workflowFile.getAbsolutePath());
 	}
@@ -102,7 +102,7 @@ public class AlphapeptTask {
 
 		return true;
 	}
-	
+
 	public void run(int waitHours) {
 		run(1, waitHours);
 	}
@@ -157,7 +157,7 @@ public class AlphapeptTask {
 
 						String[] args = { "cmd.exe", "/c", "start", "/min", batFile.getAbsolutePath() };
 //						String[] args = { "cmd.exe", "call", "/min", batFile.getAbsolutePath() };
-						
+
 						ProcessBuilder pb = new ProcessBuilder(args);
 						Process p = pb.start();
 
@@ -283,43 +283,5 @@ public class AlphapeptTask {
 			LOGGER.error(taskName + ": failed", e);
 			System.out.println(format.format(new Date()) + "\t" + taskName + ": failed");
 		}
-	}
-
-	public static void main(String[] args) {
-
-		try {
-			ProcessBuilder pb = new ProcessBuilder(new String[] { "cmd.exe", "/c", "call",
-					"Z:\\Kai\\Raw_files\\single_species\\101114\\MetaLab_alphapept\\mag_result\\Zhibin_20221021_singleStrain_E6\\hap\\hap.yaml.bat" });
-
-			Process p = pb.start();
-			BufferedReader inBr = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String line1 = "";
-			while ((line1 = inBr.readLine()) != null) {
-				System.out.println(line1);
-				if (line1.startsWith("An exception occured")) {
-					break;
-				}
-			}
-			inBr.close();
-			// ...
-
-			// Destroy the process
-			p.destroy();
-			System.out.println("432");
-			/*
-			 * // Wait for the process to finish int exitCode = p.waitFor();
-			 * 
-			 * // Check if the process terminated successfully if (exitCode == 0) {
-			 * System.out.println("Process terminated successfully."); } else {
-			 * System.out.println("Process did not terminate successfully. Exit code: " +
-			 * exitCode); }
-			 */
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			// Ensure to destroy the process in case of an exception
-			System.out.println("finallly 447");
-		}
-
 	}
 }

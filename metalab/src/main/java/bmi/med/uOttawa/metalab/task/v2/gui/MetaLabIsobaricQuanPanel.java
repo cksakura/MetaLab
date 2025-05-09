@@ -187,7 +187,7 @@ public class MetaLabIsobaricQuanPanel extends JPanel {
 			@Override
 			public void tableChanged(TableModelEvent event) {
 				// TODO Auto-generated method stub
-				
+
 				int row = event.getFirstRow();
 
 				boolean select = false;
@@ -446,7 +446,7 @@ public class MetaLabIsobaricQuanPanel extends JPanel {
 			@Override
 			public void tableChanged(TableModelEvent event) {
 				// TODO Auto-generated method stub
-				
+
 				int row = event.getFirstRow();
 
 				boolean select = false;
@@ -685,7 +685,7 @@ public class MetaLabIsobaricQuanPanel extends JPanel {
 			@Override
 			public void tableChanged(TableModelEvent event) {
 				// TODO Auto-generated method stub
-				
+
 				int row = event.getFirstRow();
 
 				boolean select = false;
@@ -904,6 +904,5 @@ public class MetaLabIsobaricQuanPanel extends JPanel {
 	public DefaultTableModel getIsobaricModel1() {
 		return isobaricModel1;
 	}
-	
-	
+
 }

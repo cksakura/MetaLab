@@ -19,6 +19,9 @@ public class MetaParameterMag extends MetaParameterHGM {
 	protected String magDb;
 	protected String magDbVersion;
 
+	protected MaxquantModification[] fixMods;
+	protected MaxquantModification[] variMods;
+
 	public MetaParameterMag(MetaParameter metaPar) {
 		super(metaPar);
 	}
@@ -131,4 +134,21 @@ public class MetaParameterMag extends MetaParameterHGM {
 		MagDbItem[] items = list.toArray(new MagDbItem[list.size()]);
 		return items;
 	}
+
+	public MaxquantModification[] getFullFixMods() {
+		return fixMods;
+	}
+
+	public void setFullFixMods(MaxquantModification[] fixMods) {
+		this.fixMods = fixMods;
+	}
+
+	public MaxquantModification[] getFullVariMods() {
+		return variMods;
+	}
+
+	public void setFullVariMods(MaxquantModification[] variMods) {
+		this.variMods = variMods;
+	}
+
 }

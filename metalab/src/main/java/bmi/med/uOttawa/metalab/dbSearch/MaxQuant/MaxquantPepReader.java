@@ -233,49 +233,49 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Charges")) {
+					chargeId = i;
+				} else if (title[i].equals("Length")) {
+					lengthId = i;
+				} else if (title[i].equals("Missed cleavages")) {
+					if (parameter.getDigestMode() == MaxquantEnzyme.specific) {
+						missCleaveId = i;
+					}
+				} else if (title[i].equals("Mass")) {
+					massId = i;
+				} else if (title[i].equals("Proteins")) {
+					proteinId = i;
+				} else if (title[i].equals("PEP")) {
+					pepId = i;
+				} else if (title[i].equals("Score")) {
+					scoreId = i;
+				} else if (title[i].equals("MS/MS Count")) {
+					ms2CountId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else if (title[i].equals("T: Sequence")) {
+					if (sequenceId == -1) {
+						sequenceId = i;
+					}
+				} else {
+					if (intensityTitleIdMap.containsKey(title[i])) {
+						intensityTitleIdMap.put(title[i], i);
+					}
+					if (lfqIntensityMap.containsKey(title[i])) {
+						hasLFQ = true;
+						lfqIntensityMap.put(title[i], i);
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant search result file " + super.getFile(), e);
-		}
-		title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Charges")) {
-				chargeId = i;
-			} else if (title[i].equals("Length")) {
-				lengthId = i;
-			} else if (title[i].equals("Missed cleavages")) {
-				if (parameter.getDigestMode() == MaxquantEnzyme.specific) {
-					missCleaveId = i;
-				}
-			} else if (title[i].equals("Mass")) {
-				massId = i;
-			} else if (title[i].equals("Proteins")) {
-				proteinId = i;
-			} else if (title[i].equals("PEP")) {
-				pepId = i;
-			} else if (title[i].equals("Score")) {
-				scoreId = i;
-			} else if (title[i].equals("MS/MS Count")) {
-				ms2CountId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else if (title[i].equals("T: Sequence")) {
-				if (sequenceId == -1) {
-					sequenceId = i;
-				}
-			} else {
-				if (intensityTitleIdMap.containsKey(title[i])) {
-					intensityTitleIdMap.put(title[i], i);
-				}
-				if (lfqIntensityMap.containsKey(title[i])) {
-					hasLFQ = true;
-					lfqIntensityMap.put(title[i], i);
-				}
-			}
 		}
 
 		if (quanMode.equals(MetaConstants.labelFree) && hasLFQ) {
@@ -409,49 +409,49 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Charges")) {
+					chargeId = i;
+				} else if (title[i].equals("Length")) {
+					lengthId = i;
+				} else if (title[i].equals("Missed cleavages")) {
+					if (parameter.getDigestMode() == MaxquantEnzyme.specific) {
+						missCleaveId = i;
+					}
+				} else if (title[i].equals("Mass")) {
+					massId = i;
+				} else if (title[i].equals("Proteins")) {
+					proteinId = i;
+				} else if (title[i].equals("PEP")) {
+					pepId = i;
+				} else if (title[i].equals("Score")) {
+					scoreId = i;
+				} else if (title[i].equals("MS/MS Count")) {
+					ms2CountId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else if (title[i].equals("T: Sequence")) {
+					if (sequenceId == -1) {
+						sequenceId = i;
+					}
+				} else {
+					if (intensityTitleIdMap.containsKey(title[i])) {
+						intensityTitleIdMap.put(title[i], i);
+					}
+					if (lfqIntensityMap.containsKey(title[i])) {
+						hasLFQ = true;
+						lfqIntensityMap.put(title[i], i);
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant search result file " + super.getFile(), e);
-		}
-		title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Charges")) {
-				chargeId = i;
-			} else if (title[i].equals("Length")) {
-				lengthId = i;
-			} else if (title[i].equals("Missed cleavages")) {
-				if (parameter.getDigestMode() == MaxquantEnzyme.specific) {
-					missCleaveId = i;
-				}
-			} else if (title[i].equals("Mass")) {
-				massId = i;
-			} else if (title[i].equals("Proteins")) {
-				proteinId = i;
-			} else if (title[i].equals("PEP")) {
-				pepId = i;
-			} else if (title[i].equals("Score")) {
-				scoreId = i;
-			} else if (title[i].equals("MS/MS Count")) {
-				ms2CountId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else if (title[i].equals("T: Sequence")) {
-				if (sequenceId == -1) {
-					sequenceId = i;
-				}
-			} else {
-				if (intensityTitleIdMap.containsKey(title[i])) {
-					intensityTitleIdMap.put(title[i], i);
-				}
-				if (lfqIntensityMap.containsKey(title[i])) {
-					hasLFQ = true;
-					lfqIntensityMap.put(title[i], i);
-				}
-			}
 		}
 
 		if (quanMode.equals(MetaConstants.labelFree) && hasLFQ) {
@@ -516,51 +516,50 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 		String line = null;
 		try {
 			line = reader.readLine();
+			this.title = line.split("\t");
+			for (int i = 0; i < title.length; i++) {
+				if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
+					sequenceId = i;
+				} else if (title[i].equals("Charges")) {
+					chargeId = i;
+				} else if (title[i].equals("Length")) {
+					lengthId = i;
+				} else if (title[i].equals("Missed cleavages")) {
+					missCleaveId = i;
+				} else if (title[i].equals("Mass")) {
+					massId = i;
+				} else if (title[i].equals("Proteins")) {
+					proteinId = i;
+				} else if (title[i].equals("PEP")) {
+					pepId = i;
+				} else if (title[i].equals("Score")) {
+					scoreId = i;
+				} else if (title[i].equals("MS/MS Count")) {
+					ms2CountId = i;
+				} else if (title[i].equals("Reverse")) {
+					revId = i;
+				} else if (title[i].equals("Potential contaminant")) {
+					contamId = i;
+				} else if (title[i].startsWith("LFQ intensity ")) {
+					quanMode = MetaConstants.labelFree;
+				} else if (title[i].startsWith("Reporter intensity corrected ")) {
+					quanMode = MetaConstants.isobaricLabel;
+				} else if (title[i].startsWith("Experiment ")) {
+					int loc = title[i].indexOf(" ");
+					if (loc < title[i].length()) {
+						explist.add(title[i].substring(loc + 1, title[i].length()));
+					} else {
+						explist.add("");
+					}
+				} else if (title[i].equals("T: Sequence")) {
+					if (sequenceId == -1) {
+						sequenceId = i;
+					}
+				}
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading MaxQuant search result file " + super.getFile(), e);
-		}
-
-		this.title = line.split("\t");
-		for (int i = 0; i < title.length; i++) {
-			if (title[i].equals("Sequence") || title[i].substring(1).equals("Sequence")) {
-				sequenceId = i;
-			} else if (title[i].equals("Charges")) {
-				chargeId = i;
-			} else if (title[i].equals("Length")) {
-				lengthId = i;
-			} else if (title[i].equals("Missed cleavages")) {
-				missCleaveId = i;
-			} else if (title[i].equals("Mass")) {
-				massId = i;
-			} else if (title[i].equals("Proteins")) {
-				proteinId = i;
-			} else if (title[i].equals("PEP")) {
-				pepId = i;
-			} else if (title[i].equals("Score")) {
-				scoreId = i;
-			} else if (title[i].equals("MS/MS Count")) {
-				ms2CountId = i;
-			} else if (title[i].equals("Reverse")) {
-				revId = i;
-			} else if (title[i].equals("Potential contaminant")) {
-				contamId = i;
-			} else if (title[i].startsWith("LFQ intensity ")) {
-				quanMode = MetaConstants.labelFree;
-			} else if (title[i].startsWith("Reporter intensity corrected ")) {
-				quanMode = MetaConstants.isobaricLabel;
-			} else if (title[i].startsWith("Experiment ")) {
-				int loc = title[i].indexOf(" ");
-				if (loc < title[i].length()) {
-					explist.add(title[i].substring(loc + 1, title[i].length()));
-				} else {
-					explist.add("");
-				}
-			} else if (title[i].equals("T: Sequence")) {
-				if (sequenceId == -1) {
-					sequenceId = i;
-				}
-			}
 		}
 
 		if (quanMode.equals(MetaConstants.labelFree)) {
@@ -747,10 +746,11 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 			titleObjs[i + 9] = intensityTitles[i];
 		}
 		titleObjs[intensityTitles.length + 9] = this.title[this.ms2CountId];
-		
+
 		return titleObjs;
 	}
 
+	@SuppressWarnings("unused")
 	private static void convertPep2Report(File peptides, File peptideReport, MetaParameterMQ metaPar)
 			throws IOException {
 		MaxquantPepReader pepReader = new MaxquantPepReader(peptides, metaPar);
@@ -819,7 +819,6 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 		writer.close();
 	}
 
-
 	public void filter() {
 
 		HashMap<String, HashSet<String>> totalPepProMap = new HashMap<String, HashSet<String>>();
@@ -856,7 +855,7 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 		System.out.println(proSet.size() + "\t" + totalPepProMap.size());
 
 		HashMap<String, ProteinGroup> proGroupMap = this.getProteinGroups(totalPepProMap, proSet);
-		
+
 		System.out.println(proGroupMap.size());
 	}
 
@@ -956,7 +955,6 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 
 		return uniquePgMap;
 	}
-	
 
 	private void combineProteinGroups(HashMap<String, ProteinGroup> pgMap,
 			HashMap<String, HashSet<String>> tempProPepMap, HashMap<String, HashSet<String>> tempPepProMap,
@@ -1204,7 +1202,7 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 			}
 		}
 	}
-	
+
 	private class ProteinGroup {
 		@SuppressWarnings("unused")
 		String proName;
@@ -1219,33 +1217,4 @@ public class MaxquantPepReader extends AbstractMetaPeptideReader {
 			this.sameSet.add(pro);
 		}
 	}
-
-	
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		
-		MaxquantPepReader pepReader = new MaxquantPepReader("Z:\\Kai\\20231114\\peptides.txt");
-		String[] title = pepReader.getIntensityTitle();
-		System.out.println(title.length);
-		for(int i=0;i<title.length;i++) {
-			System.out.println(title[i]);
-		}
-		Object[] titleObjs = pepReader.getTitleObjs();
-		MetaPeptide[]peps = pepReader.getMetaPeptides();
-		
-//		BufferedReader reader = new BufferedReader(new FileReader("Z:\\Kai\\peps\\peptides.txt"));
-//		System.out.println(reader.readLine());
-//		reader.close();
-
-//		MetaParameterV2 par = MetaParaIOV2
-//				.parse("D:\\Exported\\exe\\parameters_2_3_0.json");
-		
-		//		reader.filter();
-		
-//		System.out.println(Arrays.toString(reader.intensityTitles));
-//		MaxquantPepReader.convertPep2Report(
-//				new File("Z:\\Kai\\tmt\\MetaLab\\closed_search\\combined\\txt\\peptides.txt"),
-//				new File("Z:\\Kai\\tmt\\MetaLab\\closed_search\\combined\\txt\\peptides_report.txt"), par);
-	}
-
 }

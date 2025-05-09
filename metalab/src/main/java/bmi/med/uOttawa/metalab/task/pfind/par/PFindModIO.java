@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import bmi.med.uOttawa.metalab.dbSearch.MaxQuant.MaxquantModification;
+
 /**
  * @author Kai Cheng
  *
@@ -60,4 +62,59 @@ public class PFindModIO {
 
 		return mods;
 	}
+
+	public static MaxquantModification[] getMaxQuantMods(String in) {
+		return getMaxQuantMods(new File(in));
+	}
+
+	public static MaxquantModification[] getMaxQuantMods(File in) {
+		MaxquantModification[] mods = new MaxquantModification[0];
+		if (in.exists()) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(in));
+				String line = null;
+				int count = 0;
+				while ((line = reader.readLine()) != null) {
+					if (line.startsWith("@NUMBER_MODIFICATION")) {
+						int number = Integer.parseInt(line.substring(line.indexOf("=") + 1));
+						mods = new MaxquantModification[number];
+					} else if (line.startsWith("name")) {
+						int id = line.indexOf("=");
+						if (id > 0) {
+							String mod = line.substring(id + 1);
+							line = reader.readLine();
+							id = line.indexOf("=");
+							if (id > 0) {
+								String[] cs = line.substring(id + 1).split(" ");
+
+								String[] sites = new String[cs[0].length()];
+								for (int i = 0; i < sites.length; i++) {
+									sites[i] = String.valueOf(cs[0].charAt(i));
+								}
+								MaxquantModification modification = new MaxquantModification(mod, mod, cs[1],
+										cs[cs.length - 1], sites, Double.parseDouble(cs[2]));
+								if (count < mods.length) {
+									mods[count] = modification;
+									count++;
+								} else {
+									MaxquantModification[] newMods = new MaxquantModification[mods.length + 1];
+									System.arraycopy(mods, 0, newMods, 0, mods.length);
+									newMods[count] = modification;
+									count++;
+								}
+
+							}
+						}
+					}
+				}
+				reader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return mods;
+	}
+
 }

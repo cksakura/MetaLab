@@ -54,6 +54,7 @@ public class SequestHTPepxmlReader {
 		this.initial(xmls[0]);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initial(File xml) {
 		SAXReader reader = new SAXReader();
 		Document document = null;
@@ -62,6 +63,7 @@ public class SequestHTPepxmlReader {
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in reading PSMs from " + xml, e);
+			return;
 		}
 		Element root = document.getRootElement();
 
@@ -135,6 +137,7 @@ public class SequestHTPepxmlReader {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public SequestHTPSM next() {
 
 		int scan = Integer.parseInt(query.attributeValue("start_scan"));
@@ -176,6 +179,7 @@ public class SequestHTPepxmlReader {
 		return null;
 	}
 
+	@SuppressWarnings("unused")
 	private static void batchRead(String dir) throws IOException, DocumentException {
 		File[] pepxmlFiles = (new File(dir)).listFiles(new FilenameFilter() {
 			@Override

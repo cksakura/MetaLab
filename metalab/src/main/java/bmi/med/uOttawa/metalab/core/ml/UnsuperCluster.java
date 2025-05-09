@@ -182,6 +182,7 @@ public class UnsuperCluster {
 		return this.scores;
 	}
 	
+	@SuppressWarnings("unused")
 	private void iterate(Instances instances, ArrayList<Boolean> blist, int[] maxDistribute,
 			HashSet<Integer> set) throws Exception {
 
@@ -252,6 +253,7 @@ public class UnsuperCluster {
 		iterate(instances, blist, newMaxDistribute, newset);
 	}
 
+	@SuppressWarnings("unused")
 	private static void test(String feature) throws Exception {
 
 		ArrayList<Attribute> attributeList = new ArrayList<Attribute>();

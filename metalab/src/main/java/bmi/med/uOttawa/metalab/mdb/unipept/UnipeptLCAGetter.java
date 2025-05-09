@@ -46,6 +46,7 @@ public class UnipeptLCAGetter {
 	private String taskName = "Unipept LCA calculation task";
 	private static Logger LOGGER = LogManager.getLogger(UnipeptLCAGetter.class);
 
+	@SuppressWarnings("unused")
 	private UnipeptLCAGetter(String input, String output, String type, Appendable log) {
 
 		this.log = log;
@@ -73,6 +74,7 @@ public class UnipeptLCAGetter {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private UnipeptLCAGetter(File input, File output, String type, Appendable log) {
 
 		this.log = log;

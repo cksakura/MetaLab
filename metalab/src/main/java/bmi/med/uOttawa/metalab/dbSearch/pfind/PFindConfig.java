@@ -35,16 +35,32 @@ public class PFindConfig {
 	private File pParseCfg;
 	private File pQuantCfg;
 
+	private boolean pParse2Plus = false;
+	
 	public PFindConfig(File pFindBin) {
 		this.pFindBin = pFindBin;
 		if (pFindBin.isDirectory()) {
 			File searcher = new File(pFindBin, "Searcher.exe");
 			parse(searcher);
+			
+			File pParse2PlusFile = new File(pFindBin, "pParse2Plus");
+			if(pParse2PlusFile.exists()) {
+				File pParse2PlusExe = new File(pParse2PlusFile, "pParse2Plus.exe");
+				File pParse2PlusYaml = new File(pParse2PlusFile, "pParse2Plus_cfg_default.yaml");
+				if(pParse2PlusExe.exists() && pParse2PlusYaml.exists()) {
+					pParse2Plus = true;
+				}
+			}
+			
 		} else if (pFindBin.getName().endsWith("cfg")) {
 			parse(pFindBin);
 		}
 	}
 	
+	public boolean ispParse2Plus() {
+		return pParse2Plus;
+	}
+
 	protected void parse(File searcher) {
 		Runtime runtime = Runtime.getRuntime();
 		try {

@@ -8,7 +8,6 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 
 import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;

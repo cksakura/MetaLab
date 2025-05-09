@@ -1481,14 +1481,6 @@ public class PFindResultReader {
 		}
 
 		OpenPsmTsvWriter writer = new OpenPsmTsvWriter(msms, OpenPsmTsvWriter.pFindFormat);
-		PrintWriter idWriter = null;
-		try {
-			idWriter = new PrintWriter(new File(resultFolder, "id.tsv"));
-			idWriter.println("Raw file\tUnique peptide count\tPSM count");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		HashMap<String, HashSet<Integer>> filePsmCountMap = new HashMap<String, HashSet<Integer>>();
 		HashMap<String, HashSet<String>> fileUnipepMap = new HashMap<String, HashSet<String>>();
@@ -1523,12 +1515,20 @@ public class PFindResultReader {
 		String[] rawNames = filePsmCountMap.keySet().toArray(new String[filePsmCountMap.size()]);
 		Arrays.sort(rawNames);
 
-		for (String rawNameString : rawNames) {
-			idWriter.println(rawNameString + "\t" + fileUnipepMap.get(rawNameString).size() + "\t"
-					+ filePsmCountMap.get(rawNameString).size());
-		}
+		PrintWriter idWriter = null;
+		try {
+			idWriter = new PrintWriter(new File(resultFolder, "id.tsv"));
+			idWriter.println("Raw file\tUnique peptide count\tPSM count");
+			for (String rawNameString : rawNames) {
+				idWriter.println(rawNameString + "\t" + fileUnipepMap.get(rawNameString).size() + "\t"
+						+ filePsmCountMap.get(rawNameString).size());
+			}
 
-		idWriter.close();
+			idWriter.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return msms;
 	}

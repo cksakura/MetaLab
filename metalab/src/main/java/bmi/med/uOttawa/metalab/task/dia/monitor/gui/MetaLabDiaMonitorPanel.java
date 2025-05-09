@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,24 +17,15 @@ import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import bmi.med.uOttawa.metalab.core.model.ConsoleTextArea;
-import bmi.med.uOttawa.metalab.license.LicenseVerifier;
-import bmi.med.uOttawa.metalab.task.dia.gui.MetaLabMainPanelDia;
-import bmi.med.uOttawa.metalab.task.dia.monitor.MetaDiaMonitorTask;
-import bmi.med.uOttawa.metalab.task.dia.monitor.par.MetaParIODiaRT;
 import bmi.med.uOttawa.metalab.task.dia.monitor.par.MetaParameterDiaRT;
-import bmi.med.uOttawa.metalab.task.dia.par.MetaParaIoDia;
 import bmi.med.uOttawa.metalab.task.dia.par.MetaSourcesDia;
 
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JProgressBar;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
 
 public class MetaLabDiaMonitorPanel extends JPanel {
 
@@ -44,14 +34,12 @@ public class MetaLabDiaMonitorPanel extends JPanel {
 	private JTextField textFieldResFolder;
 	private JTable resultTable;
 
-	private MetaParameterDiaRT par;
-
 	/**
 	 * Create the panel.
 	 */
 	public MetaLabDiaMonitorPanel(MetaParameterDiaRT par, MetaSourcesDia msv) {
-		setLayout(new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][200:300:400,grow][200:300:400,grow][100]"));
-		this.par = par;
+		setLayout(
+				new MigLayout("", "[100][300:680:920,grow][50]", "[30][30][200:300:400,grow][200:300:400,grow][100]"));
 		JLabel lblMonFolder = new JLabel("Monitor folder");
 		add(lblMonFolder, "cell 0 0,alignx left");
 
@@ -101,20 +89,21 @@ public class MetaLabDiaMonitorPanel extends JPanel {
 		JList<String> monitorList = new JList<String>();
 		scrollPaneMonitor.setViewportView(monitorList);
 
-		Object[] columnName = new Object[] {"File","Round 1", "Model", "Round 2", "Round 3", "Round 4"};
+		Object[] columnName = new Object[] { "File", "Round 1", "Model", "Round 2", "Round 3", "Round 4" };
 		DefaultTableModel resultTableModel = new DefaultTableModel(columnName, 0);
 		resultTable = new JTable(resultTableModel);
-		
+
 		JScrollPane scrollPane = new JScrollPane(resultTable);
 //		scrollPane.setViewportBorder(
 //				new TitledBorder(null, "Result folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
+
 		JPanel titledPanel = new JPanel(new BorderLayout());
-		titledPanel.setBorder(new TitledBorder(null, "Result folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		titledPanel
+				.setBorder(new TitledBorder(null, "Result folder", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		titledPanel.add(scrollPane, BorderLayout.CENTER);
 		add(titledPanel, "cell 0 3 3 1,grow");
 //		add(scrollPane, "cell 0 3 3 1,grow");
-		
+
 		resultTable.setTableHeader(resultTable.getTableHeader());
 		scrollPane.setColumnHeaderView(resultTable.getTableHeader());
 

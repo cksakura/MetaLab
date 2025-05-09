@@ -28,7 +28,7 @@ public class SemiSuperClassifier {
 
 	private int[] totalPepCount;
 	private int[] totalProCount;
-	
+
 	/**
 	 * no iteration
 	 */
@@ -44,7 +44,7 @@ public class SemiSuperClassifier {
 
 	public double[] classify(Instances instances, int scoreId, double scoreThreshold, int[] modIds, String[] peps,
 			String[] pros, int[] totalPepCount, int[] totalProCount) {
-		
+
 		this.totalPepCount = totalPepCount;
 		this.totalProCount = totalProCount;
 
@@ -98,12 +98,13 @@ public class SemiSuperClassifier {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					LOGGER.error("Error in classifying PTM", e);
+					break;
 				}
 				disScore += distribution[1];
 			}
 			scores[i] = disScore / (double) partialCount;
 		}
-		
+
 		for (int i = 0; i < partialCount; i++) {
 			String evaluation = this.evaluation(classifiers[i], instances);
 			LOGGER.info(evaluation);
@@ -112,10 +113,10 @@ public class SemiSuperClassifier {
 		double[] sortScores = new double[scores.length];
 		System.arraycopy(scores, 0, sortScores, 0, scores.length);
 		Arrays.sort(sortScores);
-		
+
 		double scoreThres1 = sortScores[(int) (sortScores.length * 0.1)];
 		double scoreThres2 = sortScores[(int) (sortScores.length * 0.9)];
-		
+
 		if (scoreThres1 < 0.05) {
 			scoreThres1 = 0.05;
 		} else if (scoreThres1 > 0.1) {
@@ -123,9 +124,9 @@ public class SemiSuperClassifier {
 		}
 
 		scoreThres2 = 0.5;
-		
+
 		LOGGER.info("Iterative " + iterativeCount + " finished");
-		
+
 		double[] finalScores = null;
 		try {
 			finalScores = iterate(instances, scores, scoreThres1, scoreThres2, modIds, peps, pros);
@@ -244,24 +245,25 @@ public class SemiSuperClassifier {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					LOGGER.error("Error in classifying PSMs", e);
+					break;
 				}
 				disScore += distribution[1];
 			}
 			newscores[i] = disScore / (double) partialCount;
 		}
-		
+
 		for (int i = 0; i < partialCount; i++) {
 			String evaluation = this.evaluation(classifiers[i], instances);
 			LOGGER.info(evaluation);
 		}
-		
+
 		double[] sortScores = new double[newscores.length];
 		System.arraycopy(newscores, 0, sortScores, 0, newscores.length);
 		Arrays.sort(sortScores);
-		
+
 		double scoreThres1 = sortScores[(int) (sortScores.length * 0.1)];
 		double scoreThres2 = sortScores[(int) (sortScores.length * 0.9)];
-		
+
 		if (scoreThres1 < 0.05) {
 			scoreThres1 = 0.05;
 		} else if (scoreThres1 > 0.1) {
@@ -269,14 +271,14 @@ public class SemiSuperClassifier {
 		}
 
 		scoreThres2 = 0.5;
-		
+
 		iterativeCount++;
 
 		LOGGER.info("Iterative " + iterativeCount + " finished");
 
 		return iterate(instances, newscores, scoreThres1, scoreThres2, modIds, peps, pros);
 	}
-	
+
 	public double[] classify(Instances instances, int scoreId, double scoreThreshold) {
 
 		this.iterativeCount = 1;
@@ -329,6 +331,7 @@ public class SemiSuperClassifier {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					LOGGER.error("Error in classifying PTM", e);
+					break;
 				}
 				disScore += distribution[1];
 			}
@@ -418,6 +421,7 @@ public class SemiSuperClassifier {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					LOGGER.error("Error in classifying PSMs", e);
+					break;
 				}
 				disScore += distribution[1];
 			}
@@ -450,7 +454,7 @@ public class SemiSuperClassifier {
 
 		return iterate(instances, newscores, scoreThres1, scoreThres2);
 	}
-	
+
 	private String evaluation(Classifier classifier, Instances instances) {
 		Evaluation eva = null;
 		try {
@@ -460,9 +464,10 @@ public class SemiSuperClassifier {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in evaluting the instances", e);
+			return null;
 		}
 
 		return eva.toSummaryString();
 	}
-	
+
 }

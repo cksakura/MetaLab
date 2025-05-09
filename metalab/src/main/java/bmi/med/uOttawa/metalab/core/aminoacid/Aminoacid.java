@@ -227,6 +227,7 @@ public class Aminoacid implements Cloneable, Serializable {
 			copy = (Aminoacid) super.clone();
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
+			return null;
 		}
 
 		copy.setPka(Arrays.copyOf(this.pka, this.pka.length));

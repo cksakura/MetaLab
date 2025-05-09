@@ -12,7 +12,6 @@ import java.text.DecimalFormat;
 public class Spectrum {
 	
 	private DecimalFormat df2 = new DecimalFormat("#.##");
-	private DecimalFormat df4 = new DecimalFormat("#.####");
 	
 	private String title;
 	private int scannum;

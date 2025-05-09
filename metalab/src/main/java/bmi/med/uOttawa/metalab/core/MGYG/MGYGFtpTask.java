@@ -26,7 +26,6 @@ import org.apache.logging.log4j.Logger;
 
 import bmi.med.uOttawa.metalab.core.tools.ResumableDownloadTask;
 import bmi.med.uOttawa.metalab.task.mag.MagDbItem;
-import bmi.med.uOttawa.metalab.task.mag.MagSqliteTask;
 
 public class MGYGFtpTask extends SwingWorker<Boolean, Object> {
 
@@ -439,6 +438,7 @@ public class MGYGFtpTask extends SwingWorker<Boolean, Object> {
 		return finish;
 	}
 	
+	@SuppressWarnings("unused")
 	private void downloadFTP() {
 
 		FTPClient ftpClient = new FTPClient();
@@ -681,6 +681,7 @@ public class MGYGFtpTask extends SwingWorker<Boolean, Object> {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void downloadMultiThreads(File dbFile, String catalogueName, String catalogueVersion) {
 
 		FTPClient ftpClient = new FTPClient();

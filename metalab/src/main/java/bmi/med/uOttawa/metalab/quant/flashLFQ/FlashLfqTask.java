@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -17,8 +18,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import bmi.med.uOttawa.metalab.task.par.MetaData;
-import cern.colt.Arrays;
 
+/**
+ * Before using FlashLFQ, please make sure to modify the file
+ * LicenceAgreements.toml with HasAcceptedThermoLicence = true
+ * 
+ * @author Kai Cheng
+ *
+ */
 public class FlashLfqTask {
 
 	private String flashLFQ;
@@ -33,9 +40,24 @@ public class FlashLfqTask {
 	protected String taskName = "Label free quantification";
 	protected SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy_HH_mm_ss");
 
+	private static final String DOTNET_STRING = "https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime?cid=getdotnetcore&os=windows&arch=x64";
+
 	public FlashLfqTask(String flashLFQ, int thr) {
 		this.flashLFQ = flashLFQ;
 		this.thr = thr;
+		this.thermoLicence();
+	}
+
+	private void thermoLicence() {
+		File flashLFQFile = new File(flashLFQ);
+		File rawLicenceFile = new File(flashLFQFile.getParent(), "LicenceAgreements.toml");
+		try (PrintWriter writer = new PrintWriter(rawLicenceFile)) {
+			writer.println("HasAcceptedThermoLicence = true");
+			writer.close();
+		} catch (IOException e) {
+			LOGGER.error(taskName + ": error in creating the license file", e);
+			System.out.println(format.format(new Date()) + "\t" + taskName + ": error in creating the license file");
+		}
 	}
 
 	public boolean run(MetaData metadata, String idt, String rep, boolean mbr, boolean nor) {
@@ -45,7 +67,7 @@ public class FlashLfqTask {
 		this.rep = rep;
 		this.mbr = mbr;
 		this.nor = nor;
-		
+
 		if (!this.exportExpDesign()) {
 			return false;
 		}
@@ -56,7 +78,7 @@ public class FlashLfqTask {
 
 		return true;
 	}
-	
+
 	/**
 	 * FlashLFQ CMD version has a bug that if the raw file folder contains other raw
 	 * files which are not shown in the ExperimentalDesign.tsv, an Exception will
@@ -93,14 +115,9 @@ public class FlashLfqTask {
 		int[] replicates = metadata.getReplicates();
 
 		HashSet<String> rawSet = new HashSet<String>();
-
-		ArrayList<String> suffixList = new ArrayList<String>();
 		for (int i = 0; i < raws.length; i++) {
 			StringBuilder sb = new StringBuilder();
 			String name = raws[i].substring(raws[i].lastIndexOf("\\") + 1, raws[i].lastIndexOf("."));
-			String suffix = raws[i].substring(raws[i].lastIndexOf(".") + 1);
-			suffixList.add(suffix);
-
 			sb.append(name).append("\t");
 			sb.append(expNames[i]).append("\t");
 
@@ -124,10 +141,9 @@ public class FlashLfqTask {
 			public boolean accept(File dir, String name) {
 				// TODO Auto-generated method stub
 
-				for (int i = 0; i < suffixList.size(); i++) {
-					if (name.endsWith(suffixList.get(i)))
-						return true;
-				}
+				if (name.endsWith(".raw") || name.endsWith(".RAW") || name.endsWith(".mzML") || name.endsWith(".MZML")
+						|| name.endsWith(".mzml"))
+					return true;
 
 				return false;
 			}
@@ -163,7 +179,7 @@ public class FlashLfqTask {
 
 		return true;
 	}
-	
+
 	private boolean flashLFQ() {
 		File outFile = (new File(idt)).getParentFile();
 
@@ -197,7 +213,9 @@ public class FlashLfqTask {
 			LOGGER.info(cmd);
 
 		} catch (FileNotFoundException e) { // TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error(taskName + ": error in writing the command file " + batFile, e);
+			System.out.println(
+					format.format(new Date()) + "\t" + taskName + ": error in writing the command file " + batFile);
 		}
 
 		try {
@@ -243,8 +261,14 @@ public class FlashLfqTask {
 			}
 
 			if (p.waitFor() != 0) {
-				if (p.exitValue() == 1)
-					LOGGER.error("false");
+				if (p.exitValue() == 1) {
+					LOGGER.info(taskName
+							+ ": try to fix this problem by install the dotNET framework, please download from "
+							+ FlashLfqTask.DOTNET_STRING);
+					System.out.println(format.format(new Date()) + "\t" + taskName
+							+ ": try to fix this problem by install the dotNET framework, please download from "
+							+ FlashLfqTask.DOTNET_STRING);
+				}
 			}
 			inBr.close();
 			in.close();

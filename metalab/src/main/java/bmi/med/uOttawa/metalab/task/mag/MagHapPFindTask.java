@@ -41,6 +41,7 @@ import bmi.med.uOttawa.metalab.core.function.v2.EnzymeCommission;
 import bmi.med.uOttawa.metalab.core.function.v2.GoObo;
 import bmi.med.uOttawa.metalab.core.math.MathTool;
 import bmi.med.uOttawa.metalab.core.mod.IsobaricTag;
+import bmi.med.uOttawa.metalab.core.prodb.FastaManager;
 import bmi.med.uOttawa.metalab.core.taxonomy.TaxonomyRanks;
 import bmi.med.uOttawa.metalab.core.tools.FormatTool;
 import bmi.med.uOttawa.metalab.dbSearch.dbReducer.DBReducerTask;
@@ -68,7 +69,6 @@ import bmi.med.uOttawa.metalab.task.io.pro.pfind.MetaProteinXMLReader2;
 import bmi.med.uOttawa.metalab.task.io.pro.pfind.MetaProteinXMLWriter2;
 import bmi.med.uOttawa.metalab.task.mag.par.MetaParaIOMag;
 import bmi.med.uOttawa.metalab.task.mag.par.MetaParameterMag;
-import bmi.med.uOttawa.metalab.task.mag.par.MetaSourcesIoMag;
 import bmi.med.uOttawa.metalab.task.mag.par.MetaSourcesMag;
 import bmi.med.uOttawa.metalab.task.par.MetaConstants;
 import bmi.med.uOttawa.metalab.task.par.MetaParameter;
@@ -248,27 +248,41 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 								((MetaParameterMag) this.metaPar).getIsobaricTag());
 					} else {
 
-						File mgFile = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
-						if (!mgFile.exists()) {
-							mgFile = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
-						}
-
-						if (mgFile.exists()) {
-							pFindTask.searchMgf(new String[] { mgFile.getAbsolutePath() }, hapFile.getAbsolutePath(),
+						File pfb = new File(spectraDirFile, separateResultFolders[i].getName() + ".pfb");
+						if (pfb.exists()) {
+							pFindTask.searchPF2(new String[] { pfb.getAbsolutePath() }, hapFile.getAbsolutePath(),
 									this.magDb.getHapFastaFile().getAbsolutePath(), ms2Type, isOpenSearch, true,
 									mosp.getOpenPsmFDR(), ((MetaParameterMag) this.metaPar).getFixMods(),
 									((MetaParameterMag) this.metaPar).getVariMods(),
 									((MetaParameterMag) this.metaPar).getEnzyme(),
 									((MetaParameterMag) this.metaPar).getMissCleavages(),
 									((MetaParameterMag) this.metaPar).getDigestMode(),
-									((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+									((MetaParameterMag) this.metaPar).getIsobaricTag());
 						} else {
-							System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file " + pf2
-									+ " or " + mgFile + " was not found");
+							File mgFile = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
+							if (!mgFile.exists()) {
+								mgFile = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
+							}
 
-							LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + mgFile + " was not found");
+							if (mgFile.exists()) {
+								pFindTask.searchMgf(new String[] { mgFile.getAbsolutePath() },
+										hapFile.getAbsolutePath(), this.magDb.getHapFastaFile().getAbsolutePath(),
+										ms2Type, isOpenSearch, true, mosp.getOpenPsmFDR(),
+										((MetaParameterMag) this.metaPar).getFixMods(),
+										((MetaParameterMag) this.metaPar).getVariMods(),
+										((MetaParameterMag) this.metaPar).getEnzyme(),
+										((MetaParameterMag) this.metaPar).getMissCleavages(),
+										((MetaParameterMag) this.metaPar).getDigestMode(),
+										((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+							} else {
+								System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file "
+										+ pf2 + " or " + mgFile + " was not found");
 
-							return false;
+								LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + pfb + " or " + mgFile
+										+ " was not found");
+
+								return false;
+							}
 						}
 					}
 				}
@@ -472,44 +486,45 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 				String mgfsuffix = suffix.replace("pf2", "mgf");
 
 				for (int i = 0; i < this.separateResultFolders.length; i++) {
-
-					File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
-
-					if (!mgf.exists()) {
-						mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
-					}
-
 					File dbReducerFile = new File(separateResultFolders[i], "DBReducer");
 					if (!dbReducerFile.exists()) {
 						dbReducerFile.mkdir();
 					}
+					File reducedDb = new File(dbReducerFile, "DBReducer.fasta");
+					if (!reducedDb.exists()) {
+						File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
 
-					if (mgf.exists()) {
-						File hapFile = new File(separateResultFolders[i], "hap");
-						File db = new File(hapFile, separateResultFolders[i].getName() + ".fasta");
-						if (db.length() > 0) {
-							dbReducerTask.searchMgf(new String[] { mgf.getAbsolutePath() },
-									dbReducerFile.getAbsolutePath(), db.getAbsolutePath(), ms2Type,
-									mosp.getOpenPsmFDR(), ((MetaParameterMag) this.metaPar).getFixMods(),
-									((MetaParameterMag) this.metaPar).getVariMods());
-						} else {
-							System.out.println(
-									format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in " + db
-											+ ", which means no peptides/proteins can be identifed from "
-											+ separateResultFolders[i].getName());
-
-							LOGGER.error(getTaskName() + ": no protein sequences were in " + db
-									+ ", which means no peptides/proteins can be identifed from "
-									+ separateResultFolders[i].getName());
+						if (!mgf.exists()) {
+							mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
 						}
-					} else {
 
-						System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file " + mgf
-								+ " was not found");
+						if (mgf.exists()) {
+							File hapFile = new File(separateResultFolders[i], "hap");
+							File db = new File(hapFile, separateResultFolders[i].getName() + ".fasta");
+							if (db.length() > 0) {
+								dbReducerTask.searchMgf(new String[] { mgf.getAbsolutePath() },
+										dbReducerFile.getAbsolutePath(), db.getAbsolutePath(), ms2Type,
+										mosp.getOpenPsmFDR(), ((MetaParameterMag) this.metaPar).getFixMods(),
+										((MetaParameterMag) this.metaPar).getVariMods());
+							} else {
+								System.out.println(format.format(new Date()) + "\t" + getTaskName()
+										+ ": no protein sequences were in " + db
+										+ ", which means no peptides/proteins can be identifed from "
+										+ separateResultFolders[i].getName());
 
-						LOGGER.error(getTaskName() + ": spectra file " + mgf + " was not found");
+								LOGGER.error(getTaskName() + ": no protein sequences were in " + db
+										+ ", which means no peptides/proteins can be identifed from "
+										+ separateResultFolders[i].getName());
+							}
+						} else {
 
-						return false;
+							System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file "
+									+ mgf + " was not found");
+
+							LOGGER.error(getTaskName() + ": spectra file " + mgf + " was not found");
+
+							return false;
+						}
 					}
 				}
 				dbReducerTask.run(threadPoolCount, separateResultFolders.length * 3);
@@ -537,8 +552,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 						} else {
 
 							System.out.println(
-									format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in " + db
-											+ ", which means no peptides/proteins can be identifed from "
+									format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in "
+											+ db + ", which means no peptides/proteins can be identifed from "
 											+ separateResultFolders[i].getName());
 
 							LOGGER.error(getTaskName() + ": no protein sequences were in " + db
@@ -548,16 +563,10 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 					} else {
 
-						File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
-
-						if (!mgf.exists()) {
-							mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
-						}
-
-						if (mgf.exists() && db.exists() && db.length() > 0) {
-
+						File pfb = new File(spectraDirFile, separateResultFolders[i].getName() + ".pfb");
+						if (pfb.exists()) {
 							if (db.exists() && db.length() > 0) {
-								pFindTask.searchMgf(new String[] { mgf.getAbsolutePath() },
+								pFindTask.searchPF2(new String[] { pfb.getAbsolutePath() },
 										separateResultFolders[i].getAbsolutePath(), db.getAbsolutePath(), ms2Type,
 										isOpenSearch, true, mosp.getOpenPsmFDR(),
 										((MetaParameterMag) this.metaPar).getFixMods(),
@@ -565,26 +574,59 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 										((MetaParameterMag) this.metaPar).getEnzyme(),
 										((MetaParameterMag) this.metaPar).getMissCleavages(),
 										((MetaParameterMag) this.metaPar).getDigestMode(),
-										((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+										((MetaParameterMag) this.metaPar).getIsobaricTag());
+
 							} else {
 
-								System.out.println(
-										format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in "
-												+ db + ", which means no peptides/proteins can be identifed from "
-												+ separateResultFolders[i].getName());
+								System.out.println(format.format(new Date()) + "\t" + getTaskName()
+										+ ": no protein sequences were in " + db
+										+ ", which means no peptides/proteins can be identifed from "
+										+ separateResultFolders[i].getName());
 
 								LOGGER.error(getTaskName() + ": no protein sequences were in " + db
 										+ ", which means no peptides/proteins can be identifed from "
 										+ separateResultFolders[i].getName());
 							}
-
 						} else {
-							System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file " + pf2
-									+ " or " + mgf + " was not found");
+							File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
 
-							LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + mgf + " was not found");
+							if (!mgf.exists()) {
+								mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
+							}
 
-							return false;
+							if (mgf.exists() && db.exists() && db.length() > 0) {
+
+								if (db.exists() && db.length() > 0) {
+									pFindTask.searchMgf(new String[] { mgf.getAbsolutePath() },
+											separateResultFolders[i].getAbsolutePath(), db.getAbsolutePath(), ms2Type,
+											isOpenSearch, true, mosp.getOpenPsmFDR(),
+											((MetaParameterMag) this.metaPar).getFixMods(),
+											((MetaParameterMag) this.metaPar).getVariMods(),
+											((MetaParameterMag) this.metaPar).getEnzyme(),
+											((MetaParameterMag) this.metaPar).getMissCleavages(),
+											((MetaParameterMag) this.metaPar).getDigestMode(),
+											((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+								} else {
+
+									System.out.println(format.format(new Date()) + "\t" + getTaskName()
+											+ ": no protein sequences were in " + db
+											+ ", which means no peptides/proteins can be identifed from "
+											+ separateResultFolders[i].getName());
+
+									LOGGER.error(getTaskName() + ": no protein sequences were in " + db
+											+ ", which means no peptides/proteins can be identifed from "
+											+ separateResultFolders[i].getName());
+								}
+
+							} else {
+								System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file "
+										+ pf2 + " or " + mgf + " was not found");
+
+								LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + pfb + " or " + mgf
+										+ " was not found");
+
+								return false;
+							}
 						}
 					}
 				}
@@ -601,7 +643,6 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 					File hapFile = new File(separateResultFolders[i], "hap");
 					File db = new File(hapFile, separateResultFolders[i].getName() + ".fasta");
 					if (pf2.exists()) {
-
 						if (db.exists() && db.length() > 0) {
 							pFindTask.searchPF2(new String[] { pf2.getAbsolutePath() },
 									separateResultFolders[i].getAbsolutePath(), db.getAbsolutePath(), ms2Type,
@@ -615,8 +656,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 						} else {
 
 							System.out.println(
-									format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in " + db
-											+ ", which means no peptides/proteins can be identifed from "
+									format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in "
+											+ db + ", which means no peptides/proteins can be identifed from "
 											+ separateResultFolders[i].getName());
 
 							LOGGER.error(getTaskName() + ": no protein sequences were in " + db
@@ -625,17 +666,10 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 						}
 
 					} else {
-
-						File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
-
-						if (!mgf.exists()) {
-							mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
-						}
-
-						if (mgf.exists() && db.exists() && db.length() > 0) {
-
+						File pfb = new File(spectraDirFile, separateResultFolders[i].getName() + ".pfb");
+						if (pfb.exists()) {
 							if (db.exists() && db.length() > 0) {
-								pFindTask.searchMgf(new String[] { mgf.getAbsolutePath() },
+								pFindTask.searchPF2(new String[] { pfb.getAbsolutePath() },
 										separateResultFolders[i].getAbsolutePath(), db.getAbsolutePath(), ms2Type,
 										isOpenSearch, true, mosp.getOpenPsmFDR(),
 										((MetaParameterMag) this.metaPar).getFixMods(),
@@ -643,13 +677,13 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 										((MetaParameterMag) this.metaPar).getEnzyme(),
 										((MetaParameterMag) this.metaPar).getMissCleavages(),
 										((MetaParameterMag) this.metaPar).getDigestMode(),
-										((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+										((MetaParameterMag) this.metaPar).getIsobaricTag());
 							} else {
 
-								System.out.println(
-										format.format(new Date()) + "\t" + getTaskName() + ": no protein sequences were in "
-												+ db + ", which means no peptides/proteins can be identifed from "
-												+ separateResultFolders[i].getName());
+								System.out.println(format.format(new Date()) + "\t" + getTaskName()
+										+ ": no protein sequences were in " + db
+										+ ", which means no peptides/proteins can be identifed from "
+										+ separateResultFolders[i].getName());
 
 								LOGGER.error(getTaskName() + ": no protein sequences were in " + db
 										+ ", which means no peptides/proteins can be identifed from "
@@ -657,12 +691,45 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 							}
 
 						} else {
-							System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file " + pf2
-									+ " or " + mgf + " was not found");
+							File mgf = new File(spectraDirFile, separateResultFolders[i].getName() + mgfsuffix);
 
-							LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + mgf + " was not found");
+							if (!mgf.exists()) {
+								mgf = new File(spectraDirFile, separateResultFolders[i].getName() + ".mgf");
+							}
 
-							return false;
+							if (mgf.exists() && db.exists() && db.length() > 0) {
+
+								if (db.exists() && db.length() > 0) {
+									pFindTask.searchMgf(new String[] { mgf.getAbsolutePath() },
+											separateResultFolders[i].getAbsolutePath(), db.getAbsolutePath(), ms2Type,
+											isOpenSearch, true, mosp.getOpenPsmFDR(),
+											((MetaParameterMag) this.metaPar).getFixMods(),
+											((MetaParameterMag) this.metaPar).getVariMods(),
+											((MetaParameterMag) this.metaPar).getEnzyme(),
+											((MetaParameterMag) this.metaPar).getMissCleavages(),
+											((MetaParameterMag) this.metaPar).getDigestMode(),
+											((MetaParameterMag) this.metaPar).getIsobaricTag(), false);
+								} else {
+
+									System.out.println(format.format(new Date()) + "\t" + getTaskName()
+											+ ": no protein sequences were in " + db
+											+ ", which means no peptides/proteins can be identifed from "
+											+ separateResultFolders[i].getName());
+
+									LOGGER.error(getTaskName() + ": no protein sequences were in " + db
+											+ ", which means no peptides/proteins can be identifed from "
+											+ separateResultFolders[i].getName());
+								}
+
+							} else {
+								System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": spectra file "
+										+ pf2 + " or " + mgf + " was not found");
+
+								LOGGER.error(getTaskName() + ": spectra file " + pf2 + " or " + pfb + " or " + mgf
+										+ " was not found");
+
+								return false;
+							}
 						}
 					}
 				}
@@ -1207,7 +1274,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 			}
 		}
 
-		if (magPepSet.size() == 0) {
+		if (magPepSet.size() == 0 || psms == null) {
 			System.out.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": no peptide from microbiome was identified from this dataset, "
 					+ "the task will be terminated, please try another dataset");
@@ -1890,47 +1957,39 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 				continue;
 			}
 
-//			double logIntensity = Math.log10(totalIntensity) * (double) idenCount / (double) idenType.length;
-//			peptideIntensity[i] = Math.pow(10.0, logIntensity);
-			
 			double[] indiPEP = quanPeps[i].getIndividualPEP();
-//			peptideIntensity[i] = 1.0;
 			for (int j = 0; j < pepIntensity.length; j++) {
 				if (idenType[j] == 0) {
 					if (indiPEP[j] == 0) {
-//						peptideIntensity[i] = peptideIntensity[i] * 1.0E7;
 						peptideIntensity[i] += pepIntensity[j] * 1.0E7;
 					} else {
-//						peptideIntensity[i] = peptideIntensity[i] / indiPEP[j];
 						peptideIntensity[i] += pepIntensity[j] / indiPEP[j];
 					}
-				} 
+				}
 			}
 
 			String[] proteins = quanPeps[i].getProteins();
-			double intensity = peptideIntensity[i] / (double) proteins.length;
-
 			for (int j = 0; j < proteins.length; j++) {
 				if (proteins[j].startsWith(this.magDb.getIdentifier())) {
 					String genome = proteins[j].split("_")[0];
 					if (genomeIntensityMap.containsKey(genome)) {
-						genomeIntensityMap.put(genome, genomeIntensityMap.get(genome) + intensity);
+						genomeIntensityMap.put(genome, genomeIntensityMap.get(genome) + peptideIntensity[i]);
 					} else {
-						genomeIntensityMap.put(genome, intensity);
+						genomeIntensityMap.put(genome, peptideIntensity[i]);
 					}
 				} else if (proteins[j].startsWith(revIdentifier)) {
 					String pro = this.magDb.getIdentifier() + proteins[j].substring(revIdentifier.length());
 					String genome = decoySymble + pro.split("_")[0];
 
 					if (genomeIntensityMap.containsKey(genome)) {
-						genomeIntensityMap.put(genome, genomeIntensityMap.get(genome) + intensity);
+						genomeIntensityMap.put(genome, genomeIntensityMap.get(genome) + peptideIntensity[i]);
 					} else {
-						genomeIntensityMap.put(genome, intensity);
+						genomeIntensityMap.put(genome, peptideIntensity[i]);
 					}
 				}
 			}
 		}
-
+		
 		LOGGER.info(getTaskName() + ": genome before filtering: " + genomeIntensityMap.size());
 
 		HashMap<String, Double> razorGenomeIntenMap = new HashMap<String, Double>();
@@ -1992,19 +2051,17 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 				}
 
 				if (count > 0) {
-					double pepIntensity = peptideIntensity[i] / (double) count;
 					for (int j = 0; j < proteins.length; j++) {
-
 						if (proteins[j].startsWith(this.magDb.getIdentifier())) {
 							String genome = proteins[j].split("_")[0];
 							if (razorGenomeIntenMap.containsKey(genome)) {
-								razorGenomeIntenMap.put(genome, razorGenomeIntenMap.get(genome) + pepIntensity);
+								razorGenomeIntenMap.put(genome, razorGenomeIntenMap.get(genome) + peptideIntensity[i]);
 							}
 						} else if (proteins[j].startsWith(revIdentifier)) {
 							String pro = this.magDb.getIdentifier() + proteins[j].substring(revIdentifier.length());
 							String genome = decoySymble + pro.split("_")[0];
 							if (razorGenomeIntenMap.containsKey(genome)) {
-								razorGenomeIntenMap.put(genome, razorGenomeIntenMap.get(genome) + pepIntensity);
+								razorGenomeIntenMap.put(genome, razorGenomeIntenMap.get(genome) + peptideIntensity[i]);
 							}
 						}
 					}
@@ -2055,6 +2112,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 					break;
 				}
 			}
+			LOGGER.info(getTaskName() + ": refined decoy genome:" + revLogIntensities.length);
+			LOGGER.info(Arrays.toString(revLogIntensities));
 
 			if (revLogIntensities.length == 0) {
 				LOGGER.info(getTaskName() + ": the number of decoy genome was not sufficient for the t-test, "
@@ -2607,13 +2666,6 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 				System.out.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in peptide and protein label-free quantification");
 
-				LOGGER.info(getTaskName()
-						+ ": try to fix this problem by install the dotNET framework, please download from "
-						+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
-				System.out.println(format.format(new Date()) + "\t" + getTaskName()
-						+ ": try to fix this problem by install the dotNET framework, please download from "
-						+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
-
 				return false;
 
 			} else {
@@ -2622,13 +2674,6 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 					LOGGER.info(getTaskName() + ": error in peptide and protein label-free quantification");
 					System.out.println(format.format(new Date()) + "\t" + getTaskName()
 							+ ": error in peptide and protein label-free quantification");
-
-					LOGGER.info(getTaskName()
-							+ ": try to fix this problem by install the dotNET framework, please download from "
-							+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
-					System.out.println(format.format(new Date()) + "\t" + getTaskName()
-							+ ": try to fix this problem by install the dotNET framework, please download from "
-							+ "https://aka.ms/dotnet-core-applaunch?missing_runtime=true&arch=x64&rid=win10-x64&apphost_version=5.0.14");
 
 					return false;
 
@@ -2717,7 +2762,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		LOGGER.info(getTaskName() + ": exporting report started");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": exporting report started");
 
-		File reportDir = new File(this.resultFolderFile, "report");
+		File reportDir = new File(this.metaPar.getResult(), "report");
 		if (!reportDir.exists()) {
 			reportDir.mkdirs();
 		}
@@ -2734,7 +2779,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 		MetaReportTask task = new MetaReportTask(metaPar.getThreadCount());
 		
-		this.summaryMetaFile = new File(this.resultFolderFile, "metainfo.tsv");
+		this.summaryMetaFile = new File(this.metaPar.getResult(), "metainfo.tsv");
 		try {
 			metadata.exportMetadata(summaryMetaFile);
 		} catch (FileNotFoundException e) {
@@ -2746,7 +2791,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		
 		setProgress(82);
 		
-		this.final_pep_txt = new File(this.resultFolderFile, "final_peptides.tsv");
+		this.final_pep_txt = new File(this.metaPar.getResult(), "final_peptides.tsv");
 
 		if (!final_pep_txt.exists() || final_pep_txt.length() == 0) {
 			this.exportPeptideTxt();
@@ -2771,7 +2816,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 		setProgress(84);
 		
-		this.final_pro_txt = new File(this.resultFolderFile, "final_proteins.tsv");
+		this.final_pro_txt = new File(this.metaPar.getResult(), "final_proteins.tsv");
 
 		if (!final_pro_txt.exists() || final_pro_txt.length() == 0) {
 			this.exportProteinsTxt();
@@ -2828,6 +2873,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		return false;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected boolean exportReport() {
 
 		LOGGER.info(getTaskName() + ": exporting peptide report started");
@@ -3136,7 +3182,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 			proteinIdMap.put(proteins[i], i);
 		}
 
-		try (PrintWriter idWriter = new PrintWriter(new File(resultFolderFile, "id.tsv"))) {
+		try (PrintWriter idWriter = new PrintWriter(new File(this.metaPar.getResult(), "id.tsv"))) {
 			idWriter.println("Raw file\tUnique peptide count\tPSM count");
 
 			String[] rawNames = fileIdMap.keySet().toArray(new String[fileIdMap.size()]);
@@ -3155,9 +3201,10 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 			idWriter.close();
 		} catch (IOException e) {
 			System.out.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": error in writing identification information to " + new File(resultFolderFile, "id.tsv"));
+					+ ": error in writing identification information to "
+					+ new File(this.metaPar.getResult(), "id.tsv"));
 			LOGGER.error(getTaskName() + ": error in writing identification information to "
-					+ new File(resultFolderFile, "id.tsv"), e);
+					+ new File(this.metaPar.getResult(), "id.tsv"), e);
 		}
 
 		setProgress(85);
@@ -3166,7 +3213,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		HashMap<String, ArrayList<Integer>> proPepRazorIdMap = new HashMap<String, ArrayList<Integer>>();
 		HashMap<String, Double> proScoreMap = new HashMap<String, Double>();
 		try {
-			this.final_pep_txt = new File(this.resultFolderFile, "final_peptides.tsv");
+			this.final_pep_txt = new File(this.metaPar.getResult(), "final_peptides.tsv");
 
 			PrintWriter writer = new PrintWriter(this.final_pep_txt);
 
@@ -3363,7 +3410,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		ArrayList<MetaProtein> proteinList = new ArrayList<MetaProtein>();
 		try {
 
-			this.final_pro_txt = new File(this.resultFolderFile, "final_proteins.tsv");
+			this.final_pro_txt = new File(this.metaPar.getResult(), "final_proteins.tsv");
 
 			PrintWriter writer = new PrintWriter(this.final_pro_txt);
 
@@ -3461,7 +3508,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		LOGGER.info(getTaskName() + ": functional annotation started");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": functional annotation started");
 
-		File funcFile = new File(metaPar.getDbSearchResultFile(), "functional_annotation");
+		File funcFile = new File(metaPar.getResult(), "functional_annotation");
 		if (!funcFile.exists()) {
 			funcFile.mkdir();
 		}
@@ -3509,6 +3556,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 					+ this.final_pro_xml_file.getName(), e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in reading protein function information from " + this.quan_pro_file.getName());
+			return false;
 		}
 
 		if (!funTsv.exists() || !funReportTsv.exists()) {
@@ -3550,7 +3598,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		LOGGER.info(getTaskName() + ": taxonomy analysis started");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": taxonomy analysis started");
 
-		File taxFile = new File(metaPar.getDbSearchResultFile(), "taxonomy_analysis");
+		File taxFile = new File(metaPar.getResult(), "taxonomy_analysis");
 		if (!taxFile.exists()) {
 			taxFile.mkdir();
 		}
@@ -3832,7 +3880,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		LOGGER.info(getTaskName() + ": exporting report started");
 		System.out.println(format.format(new Date()) + "\t" + getTaskName() + ": exporting report started");
 
-		File reportDir = new File(this.resultFolderFile, "report");
+		File reportDir = new File(this.metaPar.getResult(), "report");
 		if (!reportDir.exists()) {
 			reportDir.mkdirs();
 		}
@@ -3858,7 +3906,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 		MetaReportTask task = new MetaReportTask(metaPar.getThreadCount());
 
-		this.summaryMetaFile = new File(this.resultFolderFile, "metainfo.tsv");
+		this.summaryMetaFile = new File(this.metaPar.getResult(), "metainfo.tsv");
 		try {
 			metadata.exportMetadata(summaryMetaFile);
 		} catch (FileNotFoundException e) {
@@ -3994,18 +4042,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 			}
 		}
 
-		BufferedReader quanPepReader = null;
-		try {
-			quanPepReader = new BufferedReader(new FileReader(this.final_pep_txt));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error(getTaskName() + ": error in reading quantified peptides from " + this.quan_pep_file.getName(), e);
-			System.err.println(format.format(new Date()) + "\t" + getTaskName()
-					+ ": error in reading quantified peptides from " + this.quan_pep_file.getName());
-		}
-
 		HashMap<String, ArrayList<Double>> genomeQValueMap = new HashMap<String, ArrayList<Double>>();
-		try {
+		try (BufferedReader quanPepReader = new BufferedReader(new FileReader(this.final_pep_txt))) {
 
 			String line = quanPepReader.readLine();
 			String[] title = line.split("\t");
@@ -4065,19 +4103,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		HashMap<String, double[]> genomeIntensityMap = new HashMap<String, double[]>();
 
 		if (final_pro_xml_file.exists() && final_pro_xml_file.length() > 0) {
-
-			BufferedReader quanProReader = null;
-			try {
-				quanProReader = new BufferedReader(new FileReader(this.final_pro_txt));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
-						e);
-				System.err.println(format.format(new Date()) + "\t" + getTaskName()
-						+ ": error in reading quantified proteins from " + this.final_pro_txt.getName());
-			}
-
-			try {
+			try (BufferedReader quanProReader = new BufferedReader(new FileReader(this.final_pro_txt))) {
 
 				String line = quanProReader.readLine();
 				String[] title = line.split("\t");
@@ -4135,7 +4161,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
+				LOGGER.error(
+						getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
 						e);
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in reading quantified proteins from " + this.final_pro_txt.getName());
@@ -4154,20 +4181,9 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 				promap.put(pro, proteins[i]);
 			}
 
-			BufferedReader quanProReader = null;
-			try {
-				quanProReader = new BufferedReader(new FileReader(this.final_pro_txt));
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
-						e);
-				System.err.println(format.format(new Date()) + "\t" + getTaskName()
-						+ ": error in reading quantified proteins from " + this.final_pro_txt.getName());
-			}
-
 			ArrayList<MetaProtein> list = new ArrayList<MetaProtein>();
 			String[] fileNames = null;
-			try {
+			try (BufferedReader quanProReader = new BufferedReader(new FileReader(this.final_pro_txt))) {
 				String line = quanProReader.readLine();
 				String[] title = line.split("\t");
 				int id = -1;
@@ -4237,7 +4253,8 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				LOGGER.error(getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
+				LOGGER.error(
+						getTaskName() + ": error in reading quantified proteins from " + this.final_pro_txt.getName(),
 						e);
 				System.err.println(format.format(new Date()) + "\t" + getTaskName()
 						+ ": error in reading quantified proteins from " + this.final_pro_txt.getName());
@@ -4270,6 +4287,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 					+ this.final_pro_xml_file.getName(), e);
 			System.err.println(format.format(new Date()) + "\t" + getTaskName()
 					+ ": error in reading protein function information from " + this.quan_pro_file.getName());
+			return false;
 		}
 
 		if (proTaxIdMap.size() == 0) {
@@ -4627,6 +4645,7 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 			// TODO Auto-generated catch block
 			LOGGER.error("Error in writing taxa information to " + taxaFile, e);
 			System.err.println(format.format(new Date()) + "\t" + "Error in writing taxa information to " + taxaFile);
+			return false;
 		}
 
 		StringBuilder taxaTitlesb = new StringBuilder();
@@ -4938,38 +4957,113 @@ public class MagHapPFindTask extends MetaIdenPFindTask {
 		
 		System.out.println(genomeSet.size());
 	}
+	
+	@SuppressWarnings("unused")
+	private static void genomeTest(String hapFile) {
+		File spectraFile = new File(hapFile, "pFind-Filtered.spectra");
+		HashMap<String, HashSet<String>> genomeMap = new HashMap<String, HashSet<String>>();
+		HashSet<String> pepSet = new HashSet<String>();
 
-	public static void main(String[] args) {
+		try (BufferedReader hapReader = new BufferedReader(new FileReader(spectraFile))) {
+			String line = hapReader.readLine();
+			while ((line = hapReader.readLine()) != null) {
+				String[] cs = line.split("\t");
+				String[] pros = cs[12].split("/");
+				for (int j = 0; j < pros.length; j++) {
+					if (pros[j].startsWith("MGYG")) {
+						String genome = pros[j].split("_")[0];
+						if (genomeMap.containsKey(genome)) {
+							genomeMap.get(genome).add(cs[0]);
+						} else {
+							HashSet<String> set = new HashSet<String>();
+							set.add(cs[0]);
+							genomeMap.put(genome, set);
+						}
+					}
+				}
+				pepSet.add(cs[0]);
+			}
+			hapReader.close();
+		} catch (IOException e) {
 
-		MetaParameterMag parameterMag = MetaParaIOMag
-				.parse("Z:\\Kai\\Raw_files\\PXD008738\\12mix\\MetaLab_dda\\parameter.json");
-		MetaSourcesMag metaSourcesMag = MetaSourcesIoMag
-				.parse("C:\\Users\\kchen2\\metalab\\metalab\\target\\classes\\resources_MAG_1_1.json");
-		MagDbItem[][] magDbItems = MagDbConfigIO
-				.parse("C:\\Users\\kchen2\\metalab\\metalab\\target\\classes\\MAGDB_1_1.json");
+		}
 
-		for (int i = 0; i < magDbItems[0].length; i++) {
-			if (magDbItems[0][i].getCatalogueID().equals("human-gut")) {
-				parameterMag.setUsedMagDbItem(magDbItems[0][i]);
+		File hapGenomeFile = new File(hapFile, "hap_genomes.tsv");
+
+		String[] genomes = genomeMap.keySet().toArray(new String[genomeMap.size()]);
+		Arrays.sort(genomes, (g1, g2) -> {
+			int s1 = genomeMap.get(g1).size();
+			int s2 = genomeMap.get(g2).size();
+			return s2 - s1;
+		});
+
+		for (int iteratorCount = 0; iteratorCount < 5; iteratorCount++) {
+			HashSet<String> totalSet = new HashSet<String>();
+			HashMap<String, Integer> orderMap = new HashMap<String, Integer>();
+			for (int i = 0; i < genomes.length; i++) {
+				int currentSize = totalSet.size();
+				totalSet.addAll(genomeMap.get(genomes[i]));
+				int increaseSize = totalSet.size() - currentSize;
+				orderMap.put(genomes[i], increaseSize);
+			}
+
+			Arrays.sort(genomes, (g1, g2) -> {
+				return orderMap.get(g2) - orderMap.get(g1);
+			});
+		}
+
+		double[] percentage = new double[genomes.length];
+		HashSet<String> genomeSet = new HashSet<String>();
+		HashSet<String> totalSet = new HashSet<String>();
+		int breakPoint1 = -1;
+		int breakPoint2 = -1;
+
+		try (PrintWriter writer = new PrintWriter(hapGenomeFile)) {
+			writer.println("Rank\tGenome\tPeptide_count\tTotal_covered_peptide_count\tPercentage\tIncrement\tIncrement ratio");
+			for (int i = 0; i < genomes.length; i++) {
+
+				int currentSize = totalSet.size();
+				totalSet.addAll(genomeMap.get(genomes[i]));
+				int add = totalSet.size() - currentSize;
+				double additional = ((double) add / (double) pepSet.size());
+
+				percentage[i] = ((double) totalSet.size() / (double) pepSet.size());
+
+				writer.println(i + "\t" + genomes[i] + "\t" + genomeMap.get(genomes[i]).size() + "\t"
+						+ totalSet.size() + "\t" + percentage[i] + "\t" + add + "\t" + additional);
+
+				if (add > 1) {
+					breakPoint1 = i;
+				}
+				if (additional > 0.9) {
+					breakPoint2 = i;
+				}
+			}
+			writer.close();
+		} catch (IOException e) {
+
+		}
+
+		int decoyCount = 0;
+		for (int i = 0; i < genomes.length; i++) {
+			genomeSet.add(genomes[i]);
+			if (genomes[i].startsWith(FastaManager.shuffle)) {
+				decoyCount++;
+			}
+			System.out.println(decoyCount+"\t"+genomeSet.size());
+			if (decoyCount >= 3) {
+				if (percentage[i] >= 0.001) {
+					break;
+				}
+				if (i == breakPoint1 || i == breakPoint2) {
+					break;
+				}
+				if (genomeSet.size() > 200) {
+					break;
+				}
 			}
 		}
 
-		MagHapPFindTask task = new MagHapPFindTask(parameterMag, metaSourcesMag, new JProgressBar(), new JProgressBar(),
-				null);
-
-		ArrayList<String> fileList = new ArrayList<String>();
-		fileList.add("170412_12mix_DDA_library_stock_2_2");
-		fileList.add("170412_12mix_DDA_library_stock_2_3");
-		fileList.add("170412_12mix_DDA_library_stock_2_4");
-		
-		FlashLfqQuanPepReader quanPepReader = new FlashLfqQuanPepReader(
-				"Z:\\Kai\\Raw_files\\PXD008738\\12mix\\MetaLab_dda\\mag_result\\QuantifiedPeptides.tsv", fileList);
-
-		FlashLfqQuanPeptide[] quanPeps = quanPepReader.getMetaPeptides();
-
-		HashMap<String, Double> genomeScoreMap = task.refineGenomes(quanPeps);
-		
-		task.refineProteins(quanPeps, genomeScoreMap);
+		System.out.println("genomeSet\t"+genomeSet.size());
 	}
-
 }

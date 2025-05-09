@@ -32,6 +32,7 @@ public class ResourceLoader {
 		return inputStream;
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean isRunningFromJar() {
 		return ResourceLoader.class.getResource(RESOURCE_PREFIX) != null;
 	}

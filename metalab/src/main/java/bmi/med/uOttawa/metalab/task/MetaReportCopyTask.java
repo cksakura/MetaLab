@@ -166,6 +166,7 @@ public class MetaReportCopyTask {
 		jarFile.close();
 	}
 
+	@SuppressWarnings("unused")
 	private void copyFromFile(String fromPath, File toPath) throws IOException {
 
 		int index = fromPath.lastIndexOf('/');

@@ -112,7 +112,7 @@ public class FastaManager {
 		while ((line = reader.readLine()) != null) {
 			if (line.startsWith(">")) {
 
-				if (rev != null) {
+				if (rev != null && sb != null) {
 					writer.println(rev);
 					writer.println(sb.reverse());
 				}
@@ -122,12 +122,14 @@ public class FastaManager {
 				writer.println(line);
 
 			} else {
-				sb.append(line);
+				if (sb != null) {
+					sb.append(line);
+				}
 				writer.println(line);
 			}
 		}
 
-		if (rev != null) {
+		if (rev != null && sb != null) {
 			writer.println(rev);
 			writer.println(sb.reverse());
 		}
@@ -145,7 +147,7 @@ public class FastaManager {
 		while ((line = reader.readLine()) != null) {
 			if (line.startsWith(">")) {
 
-				if (rev != null) {
+				if (rev != null && sb != null) {
 					writer.println(rev);
 					writer.println(sb.reverse());
 				}
@@ -154,11 +156,13 @@ public class FastaManager {
 				rev = ">REV_" + line.substring(1);
 
 			} else {
-				sb.append(line);
+				if (sb != null) {
+					sb.append(line);
+				}
 			}
 		}
 
-		if (rev != null) {
+		if (rev != null && sb != null) {
 			writer.println(rev);
 			writer.println(sb.reverse());
 		}
@@ -176,7 +180,7 @@ public class FastaManager {
 		while ((line = reader.readLine()) != null) {
 			if (line.startsWith(">")) {
 
-				if (shuf != null) {
+				if (shuf != null && sb != null) {
 					writer.println(shuf);
 					writer.println(generateTrypticShuffledSequence(sb.toString()));
 				}
@@ -186,12 +190,14 @@ public class FastaManager {
 				writer.println(line);
 
 			} else {
-				sb.append(line);
+				if (sb != null) {
+					sb.append(line);
+				}
 				writer.println(line);
 			}
 		}
 
-		if (shuf != null) {
+		if (shuf != null && sb != null) {
 			writer.println(shuf);
 			writer.println(generateTrypticShuffledSequence(sb.toString()));
 		}
@@ -200,6 +206,7 @@ public class FastaManager {
 		writer.close();
 	}
 	
+	@SuppressWarnings({ "unused", "unchecked" })
 	private static void digest(String in, String out) throws IOException {
 
 		File[] files = new File[26];

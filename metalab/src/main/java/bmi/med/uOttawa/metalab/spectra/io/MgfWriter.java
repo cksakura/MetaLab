@@ -117,6 +117,7 @@ public class MgfWriter {
 		this.writer.println(sb);
 	}
 
+	@SuppressWarnings("unused")
 	private Peak findIsotope(Peak precursorPeak, int charge, Peak[] ms1Peaks) {
 
 		double mzThresPPM = 1E-5;
@@ -148,6 +149,7 @@ public class MgfWriter {
 		return peak;
 	}
 
+	@SuppressWarnings("unused")
 	private int findCharge(Peak precursorPeak, Peak[] ms1Peaks) {
 
 		double dm = 1.00286864;
@@ -188,15 +190,8 @@ public class MgfWriter {
 
 	public void plusTen(String in) {
 
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(in));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading spectra from " + in, e);
-		}
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("PEPMASS")) {
 					double mass = Double.parseDouble(line.substring(line.indexOf("=") + 1));
@@ -216,15 +211,8 @@ public class MgfWriter {
 	}
 
 	public void correction(String in, double ppm) {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(in));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			LOGGER.error("Error in reading spectra from " + in, e);
-		}
-		String line = null;
-		try {
+		try (BufferedReader reader = new BufferedReader(new FileReader(in))) {
+			String line = null;
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith("PEPMASS")) {
 					double mass = Double.parseDouble(line.substring(line.indexOf("=") + 1));

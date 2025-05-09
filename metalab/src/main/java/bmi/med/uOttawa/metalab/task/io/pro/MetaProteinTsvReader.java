@@ -25,6 +25,7 @@ public class MetaProteinTsvReader extends AbstractMetaProteinReader {
 		read();
 	}
 
+	@SuppressWarnings("unused")
 	private void read() {
 		ArrayList<MetaProtein> list = new ArrayList<MetaProtein>();
 		try (BufferedReader reader = new BufferedReader(new FileReader(getFile()))) {
@@ -111,11 +112,4 @@ public class MetaProteinTsvReader extends AbstractMetaProteinReader {
 		// TODO Auto-generated method stub
 		return intensityTitle;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		MetaProteinTsvReader reader = new MetaProteinTsvReader("");
-		System.out.println(reader.getMetaProteins().length);
-	}
-
 }

@@ -11,8 +11,6 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.awt.event.ActionEvent;
 
 public class MetaLabTestFrame extends JFrame {

@@ -424,7 +424,7 @@ public class MetaLabSourceDialogDia extends MetaLabSourceDialogMag {
 							if (f.isDirectory()) {
 								return true;
 							} else {
-								if (f.getName().equals("DiaNN.exe"))
+								if (f.getName().equals("DiaNN.exe") || f.getName().equals("diann.exe"))
 									return true;
 								return false;
 							}
@@ -443,7 +443,7 @@ public class MetaLabSourceDialogDia extends MetaLabSourceDialogMag {
 							if (f.isDirectory()) {
 								return true;
 							} else {
-								if (f.getName().equals("DeepDetect.exe"))
+								if (f.getName().equals("DeepDetect.exe") || f.getName().equals("deepdetect.exe"))
 									return true;
 								return false;
 							}

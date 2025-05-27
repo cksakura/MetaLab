@@ -32,10 +32,6 @@ If you use MetaLab in your research, please cite the following publications:
 MetaLab is distributed under an open source license. See the LICENSE file or refer to the original publication for details.
 
 ## Contact
-For questions, bug reports, or contributions, please open an issue on GitHub or contact the authors as listed in the publications.
+For questions, bug reports, or contributions, please open an issue on GitHub or contact Kai Cheng (ckkazuma@gmail.com) directly.
 
 ---
-
-**References:**
-- [MetaLab: an automated pipeline for metaproteomic data analysis (Microbiome, 2017)](https://doi.org/10.1186/s40168-017-0375-2)
-- [MetaLab 2.0 and related updates (add ACS J. Proteome Res. 2022 link here)] 

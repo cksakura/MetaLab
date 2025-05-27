@@ -1,4 +1,5 @@
 # MetaLab: Automated Pipeline for Metaproteomic Data Analysis
+![Splash](https://github.com/user-attachments/assets/3d88a124-4b4d-4161-bdf8-00809bf2459f)
 
 MetaLab is an integrated, user-friendly software platform for fast and automated metaproteomic data analysis. It provides a complete pipeline for microbial protein identification, quantification, and taxonomic profiling directly from mass spectrometry raw data. MetaLab is designed to simplify and accelerate metaproteomics research for microbiome studies.
 
@@ -19,25 +20,9 @@ If you use MetaLab in your research, please cite the following publications:
    *Microbiome* **5**, 157 (2017).  
    [https://doi.org/10.1186/s40168-017-0375-2](https://doi.org/10.1186/s40168-017-0375-2)
 
-2. **(Add your ACS J. Proteome Res. 2022 citation here)**
-
-## Installation
-MetaLab is a Java-based application. To build from source:
-
-1. Ensure you have [Java 8+](https://adoptopenjdk.net/) and [Maven](https://maven.apache.org/) installed.
-2. Clone this repository:
-   ```sh
-   git clone https://github.com/cksakura/MetaLab.git
-   cd MetaLab
-   ```
-3. Build the project:
-   ```sh
-   mvn clean package
-   ```
-4. Run the application (example):
-   ```sh
-   java -jar target/metalab-*.jar
-   ```
+2. **MetaLab-MAG: A Metaproteomic Data Analysis Platform for Genome-Level Characterization of Microbiomes from the Metagenome-Assembled Genomes Database**
+   Kai Cheng, Zhibin Ning, Leyuan Li, Xu Zhang, Joeselle M. Serrana, Janice Mayne, Daniel Figeys
+   [https://pubs.acs.org/doi/full/10.1021/acs.jproteome.2c00554](https://pubs.acs.org/doi/full/10.1021/acs.jproteome.2c00554)
 
 ## Usage
 - Launch the GUI and follow the workflow to import raw data, set parameters, and run analysis.
